@@ -195,22 +195,30 @@ export default function ProductForm({
 
   // Sincronizar aiConfig con los datos del formulario base
   useEffect(() => {
-    const cat = categorias.find(c => c.id === formData.id_categoria)?.nombre || "";
+    const cat =
+      categorias.find(c => c.id === formData.id_categoria)?.nombre || "";
     const mats = localMateriales
       .filter(m => materialesSeleccionados.includes(m.id))
       .map(m => m.nombre)
       .join(", ");
-    
+
     setAiConfig(prev => ({
       ...prev,
       tipo: cat,
       material: mats,
     }));
-  }, [formData.id_categoria, materialesSeleccionados, categorias, localMateriales]);
+  }, [
+    formData.id_categoria,
+    materialesSeleccionados,
+    categorias,
+    localMateriales,
+  ]);
 
   const handleGenerateAI = async () => {
     if (galeria.length === 0) {
-      toast.error("Debes subir al menos una imagen en la galería para que la IA la analice.");
+      toast.error(
+        "Debes subir al menos una imagen en la galería para que la IA la analice."
+      );
       return;
     }
 
@@ -267,13 +275,16 @@ export default function ProductForm({
           color: colorStr,
           dimensiones: tallaStr,
           estilo: aiConfig.estilo,
-          detallesAdicionales: aiConfig.detalles || formData.descripcion || "Ninguno",
+          detallesAdicionales:
+            aiConfig.detalles || formData.descripcion || "Ninguno",
         }),
       });
 
       if (!res.ok) {
         const errData = await res.json();
-        throw new Error(errData.details || errData.error || "Error en el servidor de IA");
+        throw new Error(
+          errData.details || errData.error || "Error en el servidor de IA"
+        );
       }
 
       const data = await res.json();
@@ -288,7 +299,9 @@ export default function ProductForm({
     } catch (err) {
       console.error(err);
       toast.error(
-        err instanceof Error ? err.message : "Error al conectar con el servidor de IA."
+        err instanceof Error
+          ? err.message
+          : "Error al conectar con el servidor de IA."
       );
     } finally {
       setIsGeneratingAI(false);
@@ -1037,25 +1050,27 @@ export default function ProductForm({
                 {galeria.length} Fotos
               </span>
             </div>
-            
+
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               <AnimatePresence mode="popLayout">
                 {galeria.map((img, idx) => (
-                  <motion.div 
-                    key={img.idUnico} 
+                  <motion.div
+                    key={img.idUnico}
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.5 }}
                     className={`group relative aspect-square rounded-[20px] overflow-hidden border-2 transition-all shadow-sm ${
-                      idx === 0 ? 'border-[#b76e79] ring-2 ring-[#b76e79]/10' : 'border-transparent bg-white'
+                      idx === 0
+                        ? "border-[#b76e79] ring-2 ring-[#b76e79]/10"
+                        : "border-transparent bg-white"
                     }`}
                   >
-                    <img 
-                      src={img.url} 
-                      alt={`Imagen ${idx + 1}`} 
+                    <img
+                      src={img.url}
+                      alt={`Imagen ${idx + 1}`}
                       className="w-full h-full object-cover"
                     />
-                    
+
                     {/* ACCIONES FLOTANTES */}
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center justify-center gap-2">
                       <button
@@ -1099,7 +1114,9 @@ export default function ProductForm({
                 <div className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-[#b76e79] group-hover/add:scale-110 transition-transform">
                   <Plus size={20} strokeWidth={3} />
                 </div>
-                <span className="text-[0.6rem] font-bold text-[#708090] uppercase tracking-wider">Añadir</span>
+                <span className="text-[0.6rem] font-bold text-[#708090] uppercase tracking-wider">
+                  Añadir
+                </span>
               </label>
             </div>
           </div>
@@ -2100,7 +2117,7 @@ export default function ProductForm({
                   value={formData.stock_actual}
                   onChange={handleChange}
                   readOnly={formData.es_personalizable}
-                  className={`w-32 bg-white border-2 border-transparent ${formData.es_personalizable ? "opacity-70 cursor-not-allowed border-[#b76e79]/20 shadow-inner" : "focus:border-[#b76e79]"} rounded-xl py-2 px-4 text-xl font-black text-[#4a5568] outline-none transition-all text-right shadow-sm`}
+                  className={`w-full bg-white border-2 border-transparent ${formData.es_personalizable ? "opacity-70 cursor-not-allowed border-[#b76e79]/20 shadow-inner" : "focus:border-[#b76e79]"} rounded-xl py-2 px-4 text-xl font-black text-[#4a5568] outline-none transition-all text-right shadow-sm`}
                   style={{
                     fontFamily: "var(--font-display, Manrope, sans-serif)",
                     color: formData.es_personalizable ? "#b76e79" : "#4a5568",
@@ -2117,7 +2134,7 @@ export default function ProductForm({
                   name="stock_min"
                   value={formData.stock_min}
                   onChange={handleChange}
-                  className="w-32 bg-white border-2 border-transparent focus:border-[#b76e79] rounded-xl py-2 px-4 text-xl font-black text-[#4a5568] outline-none transition-all text-right shadow-sm"
+                  className="w-full bg-white border-2 border-transparent focus:border-[#b76e79] rounded-xl py-2 px-4 text-xl font-black text-[#4a5568] outline-none transition-all text-right shadow-sm"
                   style={{
                     fontFamily: "var(--font-display, Manrope, sans-serif)",
                   }}
@@ -2139,7 +2156,9 @@ export default function ProductForm({
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Sparkles size={16} className="text-[#b76e79]" />
-                    <span className="text-[0.7rem] font-black text-[#4a5568] uppercase tracking-widest">Configuración para la IA</span>
+                    <span className="text-[0.7rem] font-black text-[#4a5568] uppercase tracking-widest">
+                      Configuración para la IA
+                    </span>
                   </div>
                   <button
                     type="button"
@@ -2156,7 +2175,10 @@ export default function ProductForm({
                           exit={{ y: -20, opacity: 0 }}
                           className="flex items-center gap-2"
                         >
-                          <Loader2 size={12} className="animate-spin text-[#b76e79]" />
+                          <Loader2
+                            size={12}
+                            className="animate-spin text-[#b76e79]"
+                          />
                           <span>Analizando...</span>
                         </motion.div>
                       ) : (
@@ -2175,7 +2197,11 @@ export default function ProductForm({
                       <motion.div
                         className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent w-full h-full"
                         animate={{ x: ["-100%", "100%"] }}
-                        transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                        transition={{
+                          duration: 1.5,
+                          repeat: Infinity,
+                          ease: "linear",
+                        }}
                       />
                     )}
                   </button>
@@ -2183,47 +2209,72 @@ export default function ProductForm({
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="flex flex-col gap-1">
-                    <label className="text-[0.6rem] font-bold text-[#708090] uppercase px-1">Tipo de Producto</label>
-                    <input 
-                      type="text" 
+                    <label className="text-[0.6rem] font-bold text-[#708090] uppercase px-1">
+                      Tipo de Producto
+                    </label>
+                    <input
+                      type="text"
                       value={aiConfig.tipo}
-                      onChange={(e) => setAiConfig(prev => ({ ...prev, tipo: e.target.value }))}
+                      onChange={e =>
+                        setAiConfig(prev => ({ ...prev, tipo: e.target.value }))
+                      }
                       placeholder="Ej: Anillo de Compromiso"
                       className="bg-white border-2 border-transparent focus:border-[#b76e79] rounded-xl px-4 py-2 text-xs font-bold text-[#4a5568] outline-none"
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-[0.6rem] font-bold text-[#708090] uppercase px-1">Material</label>
-                    <input 
-                      type="text" 
+                    <label className="text-[0.6rem] font-bold text-[#708090] uppercase px-1">
+                      Material
+                    </label>
+                    <input
+                      type="text"
                       value={aiConfig.material}
-                      onChange={(e) => setAiConfig(prev => ({ ...prev, material: e.target.value }))}
+                      onChange={e =>
+                        setAiConfig(prev => ({
+                          ...prev,
+                          material: e.target.value,
+                        }))
+                      }
                       placeholder="Ej: Oro Blanco 14k"
                       className="bg-white border-2 border-transparent focus:border-[#b76e79] rounded-xl px-4 py-2 text-xs font-bold text-[#4a5568] outline-none"
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-[0.6rem] font-bold text-[#708090] uppercase px-1">Estilo</label>
-                    <input 
-                      type="text" 
+                    <label className="text-[0.6rem] font-bold text-[#708090] uppercase px-1">
+                      Estilo
+                    </label>
+                    <input
+                      type="text"
                       value={aiConfig.estilo}
-                      onChange={(e) => setAiConfig(prev => ({ ...prev, estilo: e.target.value }))}
+                      onChange={e =>
+                        setAiConfig(prev => ({
+                          ...prev,
+                          estilo: e.target.value,
+                        }))
+                      }
                       placeholder="Ej: Minimalista y Sofisticado"
                       className="bg-white border-2 border-transparent focus:border-[#b76e79] rounded-xl px-4 py-2 text-xs font-bold text-[#4a5568] outline-none"
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-[0.6rem] font-bold text-[#708090] uppercase px-1">Detalles Extra</label>
-                    <input 
-                      type="text" 
+                    <label className="text-[0.6rem] font-bold text-[#708090] uppercase px-1">
+                      Detalles Extra
+                    </label>
+                    <input
+                      type="text"
                       value={aiConfig.detalles}
-                      onChange={(e) => setAiConfig(prev => ({ ...prev, detalles: e.target.value }))}
+                      onChange={e =>
+                        setAiConfig(prev => ({
+                          ...prev,
+                          detalles: e.target.value,
+                        }))
+                      }
                       placeholder="Ej: Piedra central de 1ct"
                       className="bg-white border-2 border-transparent focus:border-[#b76e79] rounded-xl px-4 py-2 text-xs font-bold text-[#4a5568] outline-none"
                     />
                   </div>
                 </div>
-                
+
                 {galeria.length === 0 && (
                   <p className="text-[0.6rem] text-rose-500 font-bold animate-pulse italic">
                     ⚠️ Sube una imagen primero para habilitar la IA.
@@ -2232,44 +2283,73 @@ export default function ProductForm({
               </div>
 
               <div className="flex flex-col gap-2">
-                <p className="text-[0.75rem] font-bold text-[#708090] uppercase tracking-widest px-1">Resultado Final</p>
-              
-              <div className="relative">
-                <textarea
-                  name="descripcion"
-                  value={formData.descripcion}
-                  onChange={handleChange}
-                  rows={8}
-                  placeholder="Describe los detalles de la pieza, inspiración, medidas..."
-                  className={`w-full bg-[#f6f4ef]/30 border-2 rounded-[20px] p-6 text-sm text-[#4a5568] outline-none transition-all resize-none shadow-inner ${
-                    isGeneratingAI 
-                      ? "border-[#b76e79] animate-pulse cursor-wait" 
-                      : "border-[rgba(112,128,144,0.1)] focus:border-[#b76e79] focus:bg-white"
-                  }`}
-                  style={{ fontFamily: "var(--font-sans, Inter, sans-serif)" }}
-                />
-                
-                {isGeneratingAI && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-white/40 rounded-[20px] backdrop-blur-[1px]">
-                    <motion.div 
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      className="bg-white px-4 py-2 rounded-full shadow-md flex items-center gap-3 border border-[#b76e79]/20"
-                    >
-                      <div className="flex gap-1">
-                        <motion.span animate={{ opacity: [0, 1, 0] }} transition={{ repeat: Infinity, duration: 1, delay: 0 }} className="w-1.5 h-1.5 bg-[#b76e79] rounded-full" />
-                        <motion.span animate={{ opacity: [0, 1, 0] }} transition={{ repeat: Infinity, duration: 1, delay: 0.2 }} className="w-1.5 h-1.5 bg-[#b76e79] rounded-full" />
-                        <motion.span animate={{ opacity: [0, 1, 0] }} transition={{ repeat: Infinity, duration: 1, delay: 0.4 }} className="w-1.5 h-1.5 bg-[#b76e79] rounded-full" />
-                      </div>
-                      <span className="text-[0.65rem] font-bold text-[#708090] uppercase tracking-tighter">Escribiendo descripción mágica...</span>
-                    </motion.div>
-                  </div>
-                )}
+                <p className="text-[0.75rem] font-bold text-[#708090] uppercase tracking-widest px-1">
+                  Resultado Final
+                </p>
+
+                <div className="relative">
+                  <textarea
+                    name="descripcion"
+                    value={formData.descripcion}
+                    onChange={handleChange}
+                    rows={8}
+                    placeholder="Describe los detalles de la pieza, inspiración, medidas..."
+                    className={`w-full bg-[#f6f4ef]/30 border-2 rounded-[20px] p-6 text-sm text-[#4a5568] outline-none transition-all resize-none shadow-inner ${
+                      isGeneratingAI
+                        ? "border-[#b76e79] animate-pulse cursor-wait"
+                        : "border-[rgba(112,128,144,0.1)] focus:border-[#b76e79] focus:bg-white"
+                    }`}
+                    style={{
+                      fontFamily: "var(--font-sans, Inter, sans-serif)",
+                    }}
+                  />
+
+                  {isGeneratingAI && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-white/40 rounded-[20px] backdrop-blur-[1px]">
+                      <motion.div
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className="bg-white px-4 py-2 rounded-full shadow-md flex items-center gap-3 border border-[#b76e79]/20"
+                      >
+                        <div className="flex gap-1">
+                          <motion.span
+                            animate={{ opacity: [0, 1, 0] }}
+                            transition={{
+                              repeat: Infinity,
+                              duration: 1,
+                              delay: 0,
+                            }}
+                            className="w-1.5 h-1.5 bg-[#b76e79] rounded-full"
+                          />
+                          <motion.span
+                            animate={{ opacity: [0, 1, 0] }}
+                            transition={{
+                              repeat: Infinity,
+                              duration: 1,
+                              delay: 0.2,
+                            }}
+                            className="w-1.5 h-1.5 bg-[#b76e79] rounded-full"
+                          />
+                          <motion.span
+                            animate={{ opacity: [0, 1, 0] }}
+                            transition={{
+                              repeat: Infinity,
+                              duration: 1,
+                              delay: 0.4,
+                            }}
+                            className="w-1.5 h-1.5 bg-[#b76e79] rounded-full"
+                          />
+                        </div>
+                        <span className="text-[0.65rem] font-bold text-[#708090] uppercase tracking-tighter">
+                          Escribiendo descripción mágica...
+                        </span>
+                      </motion.div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-
         </div>
 
         {/* FOOTER */}
