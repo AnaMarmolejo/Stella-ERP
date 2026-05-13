@@ -147,7 +147,8 @@ function Divider() {
 }
 
 function NotificationBell({ router, id_rol }: { router: any; id_rol: number }) {
-  const { notificaciones, noLeidas, marcarLeida, loading } = useNotificaciones();
+  const { notificaciones, noLeidas, marcarLeida, loading } =
+    useNotificaciones();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
@@ -169,7 +170,7 @@ function NotificationBell({ router, id_rol }: { router: any; id_rol: number }) {
 
   const filteredNotificaciones = notificaciones.filter(n => {
     if (id_rol === 2 || id_rol === 3) {
-      return n.tipo === 'stock_resurtido' || n.tipo === 'pedido_estado';
+      return n.tipo === "stock_resurtido" || n.tipo === "pedido_estado";
     }
     return true;
   });
@@ -223,9 +224,14 @@ function NotificationBell({ router, id_rol }: { router: any; id_rol: number }) {
           >
             <div
               className="flex items-center justify-between p-4"
-              style={{ borderBottom: `1px solid ${BORDER}`, background: "#FAFAF8" }}
+              style={{
+                borderBottom: `1px solid ${BORDER}`,
+                background: "#FAFAF8",
+              }}
             >
-              <h3 className="m-0 font-bold text-sm" style={{ color: DARK }}>Notificaciones</h3>
+              <h3 className="m-0 font-bold text-sm" style={{ color: DARK }}>
+                Notificaciones
+              </h3>
               <button
                 className="text-xs bg-transparent border-none cursor-pointer hover:underline p-0 m-0"
                 style={{ color: ROSE }}
@@ -237,18 +243,31 @@ function NotificationBell({ router, id_rol }: { router: any; id_rol: number }) {
                 Ver todas
               </button>
             </div>
-            
+
             <div className="max-h-[300px] overflow-y-auto">
               {loading ? (
-                 <div className="p-4 text-center text-sm" style={{ color: MUTED }}>Cargando...</div>
+                <div
+                  className="p-4 text-center text-sm"
+                  style={{ color: MUTED }}
+                >
+                  Cargando...
+                </div>
               ) : filteredNotificaciones.length === 0 ? (
-                 <div className="p-4 text-center text-sm" style={{ color: MUTED }}>No tienes notificaciones.</div>
+                <div
+                  className="p-4 text-center text-sm"
+                  style={{ color: MUTED }}
+                >
+                  No tienes notificaciones.
+                </div>
               ) : (
-                filteredNotificaciones.slice(0, 5).map((n) => (
+                filteredNotificaciones.slice(0, 5).map(n => (
                   <div
                     key={n.id}
                     className="p-3 flex gap-3 hover:bg-slate-50 transition-colors cursor-pointer"
-                    style={{ borderBottom: `1px solid ${BORDER}`, background: n.leida ? "transparent" : ROSE_BG }}
+                    style={{
+                      borderBottom: `1px solid ${BORDER}`,
+                      background: n.leida ? "transparent" : ROSE_BG,
+                    }}
                     onClick={() => {
                       if (!n.leida) marcarLeida(n.id);
                       setIsOpen(false);
@@ -260,14 +279,29 @@ function NotificationBell({ router, id_rol }: { router: any; id_rol: number }) {
                     }}
                   >
                     <div className="flex-1">
-                      <p className="m-0 text-sm font-semibold" style={{ color: DARK }}>{n.titulo}</p>
-                      <p className="m-0 text-xs mt-1" style={{ color: SLATE }}>{n.mensaje}</p>
-                      <p className="m-0 text-[10px] mt-2" style={{ color: MUTED }}>
-                         {n.created_at ? new Date(n.created_at).toLocaleDateString() : ''}
+                      <p
+                        className="m-0 text-sm font-semibold"
+                        style={{ color: DARK }}
+                      >
+                        {n.titulo}
+                      </p>
+                      <p className="m-0 text-xs mt-1" style={{ color: SLATE }}>
+                        {n.mensaje}
+                      </p>
+                      <p
+                        className="m-0 text-[10px] mt-2"
+                        style={{ color: MUTED }}
+                      >
+                        {n.created_at
+                          ? new Date(n.created_at).toLocaleDateString()
+                          : ""}
                       </p>
                     </div>
                     {!n.leida && (
-                      <div className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0" style={{ background: ROSE }}></div>
+                      <div
+                        className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0"
+                        style={{ background: ROSE }}
+                      ></div>
                     )}
                   </div>
                 ))
@@ -317,15 +351,21 @@ export default function HeaderClient({ user: userProp }: HeaderClientProps) {
 
   const navItems = useMemo(() => {
     const base = [
-      { label: "Inicio", href: "/dashboard/cliente" },
+      { label: "Inicio", href: "/dashboard/cliente", icon: <Home size={18} /> },
       {
         label: "Personalizados",
         href: "/dashboard/cliente/catalogo?categoria=personalizada",
+        icon: <Sparkles size={18} />,
       },
-      { label: "Nuevos", href: "/dashboard/cliente/catalogo?categoria=nuevos" },
+      {
+        label: "Nuevos",
+        href: "/dashboard/cliente/catalogo?categoria=nuevos",
+        icon: <Star size={18} />,
+      },
       {
         label: "Accesorios",
         href: "/dashboard/cliente/catalogo?categoria=accesorios",
+        icon: <Heart size={18} />,
       },
     ];
 
@@ -333,13 +373,26 @@ export default function HeaderClient({ user: userProp }: HeaderClientProps) {
       base.push({
         label: id_rol === 3 ? "Panel Mayorista" : "Mayoreo",
         href: "/dashboard/cliente/mayoreo",
+        icon: <ShoppingBag size={18} />,
       });
     }
 
     base.push(
-      { label: "Preguntas frecuentes", href: "/dashboard/cliente/faq" },
-      { label: "Nosotros", href: "/dashboard/cliente/nosotros" },
-      { label: "Contacto", href: "/dashboard/cliente/contacto" }
+      {
+        label: "Preguntas frecuentes",
+        href: "/dashboard/cliente/faq",
+        icon: <HelpCircle size={18} />,
+      },
+      {
+        label: "Nosotros",
+        href: "/dashboard/cliente/nosotros",
+        icon: <MessageCircle size={18} />,
+      },
+      {
+        label: "Contacto",
+        href: "/dashboard/cliente/contacto",
+        icon: <MessageSquare size={18} />,
+      }
     );
 
     return base;
@@ -794,7 +847,7 @@ export default function HeaderClient({ user: userProp }: HeaderClientProps) {
                     return (
                       <NavBtn
                         key={item.label}
-                        icon={getNavIcon(item.href)}
+                        icon={item.icon}
                         label={item.label}
                         active={active}
                         onClick={() => {
@@ -840,7 +893,10 @@ export default function HeaderClient({ user: userProp }: HeaderClientProps) {
                               setMobileMenu(false);
                             }}
                           />
-                          <NavBtn icon={<Heart size={18} />} label="Favoritos" />
+                          <NavBtn
+                            icon={<Heart size={18} />}
+                            label="Favoritos"
+                          />
                         </>
                       )}
 
@@ -923,33 +979,35 @@ export default function HeaderClient({ user: userProp }: HeaderClientProps) {
                     <div className="w-full py-3 rounded-xl bg-gray-200 animate-pulse h-11" />
                     <div className="w-full py-3 rounded-xl bg-gray-200 animate-pulse h-11" />
                   </div>
-                ) : !isUserLoaded && (
-                  <div className="p-4 bg-white space-y-2 border-t border-[#8C9796]/10">
-                    <button
-                      className="w-full py-3 rounded-xl font-bold text-sm transition-all"
-                      style={{
-                        background: ROSE_BG,
-                        color: ROSE,
-                        border: `1px solid ${ROSE}30`,
-                      }}
-                      onClick={() => {
-                        router.push("/login");
-                        setMobileMenu(false);
-                      }}
-                    >
-                      Inicia Sesión
-                    </button>
-                    <button
-                      className="w-full py-3 rounded-xl font-bold text-sm text-white shadow-sm transition-all"
-                      style={{ background: ROSE, border: "none" }}
-                      onClick={() => {
-                        router.push("/register");
-                        setMobileMenu(false);
-                      }}
-                    >
-                      Registrarse
-                    </button>
-                  </div>
+                ) : (
+                  !isUserLoaded && (
+                    <div className="p-4 bg-white space-y-2 border-t border-[#8C9796]/10">
+                      <button
+                        className="w-full py-3 rounded-xl font-bold text-sm transition-all"
+                        style={{
+                          background: ROSE_BG,
+                          color: ROSE,
+                          border: `1px solid ${ROSE}30`,
+                        }}
+                        onClick={() => {
+                          router.push("/login");
+                          setMobileMenu(false);
+                        }}
+                      >
+                        Inicia Sesión
+                      </button>
+                      <button
+                        className="w-full py-3 rounded-xl font-bold text-sm text-white shadow-sm transition-all"
+                        style={{ background: ROSE, border: "none" }}
+                        onClick={() => {
+                          router.push("/register");
+                          setMobileMenu(false);
+                        }}
+                      >
+                        Registrarse
+                      </button>
+                    </div>
+                  )
                 )}
               </motion.div>
             </>
