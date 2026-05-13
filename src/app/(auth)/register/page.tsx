@@ -17,6 +17,24 @@ export default async function RegisterPage({
           </p>
         )}
 
+        {error === "weak_password" && (
+          <div className="text-[#B76E79] text-center space-y-2">
+            <span className="font-bold block mb-1">
+              La contraseña es muy débil.
+            </span>
+            <ul className="text-xs text-left inline-block list-disc list-inside opacity-80">
+              <li>Mínimo 8 caracteres</li>
+              <li>Mayúsculas y minúsculas</li>
+              <li>Números</li>
+              <li>Símbolos especiales</li>
+            </ul>
+          </div>
+        )}
+
+        {error === "user_already_exists" && (
+          <p className="text-[#B76E79] text-center">El usuario ya existe</p>
+        )}
+
         <RegisterForm />
       </div>
     </ResetLayout>

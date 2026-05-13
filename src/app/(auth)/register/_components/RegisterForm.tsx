@@ -1,14 +1,40 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { register } from "@auth/actions";
 import { Eye, EyeOff } from "lucide-react";
 
 export default function RegisterForm() {
-  const [showPass,    setShowPass]    = useState(false);
+  const [showPass, setShowPass] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [accepted,    setAccepted]    = useState(false);
+  const [accepted, setAccepted] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const passwordStrength = useMemo(() => {
+    let score = 0;
+    if (!password) return 0;
+
+    if (password.length >= 8) score += 20;
+    if (/[A-Z]/.test(password)) score += 20;
+    if (/[a-z]/.test(password)) score += 20;
+    if (/[0-9]/.test(password)) score += 20;
+    if (/[^A-Za-z0-9]/.test(password)) score += 20;
+
+    return score;
+  }, [password]);
+
+  const passwordsMatch = useMemo(() => {
+    if (!confirmPassword) return null;
+    return password === confirmPassword;
+  }, [password, confirmPassword]);
+
+  const getStrengthColor = (score: number) => {
+    if (score <= 40) return "bg-red-500";
+    if (score <= 80) return "bg-yellow-500";
+    return "bg-green-500";
+  };
 
   return (
     <form
@@ -50,7 +76,9 @@ export default function RegisterForm() {
 
       {/* EMAIL */}
       <div className="space-y-1">
-        <label className="text-xs sm:text-sm text-[#708090]">Correo electrónico</label>
+        <label className="text-xs sm:text-sm text-[#708090]">
+          Correo electrónico
+        </label>
         <input
           name="email"
           type="email"
@@ -73,6 +101,8 @@ export default function RegisterForm() {
           <input
             name="password"
             type={showPass ? "text" : "password"}
+            value={password}
+            onChange={e => setPassword(e.target.value)}
             required
             placeholder="••••••••"
             className="
@@ -90,15 +120,32 @@ export default function RegisterForm() {
             {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
         </div>
+
+        {/* Password Strength Bar */}
+        <div className="mt-2 space-y-1">
+          <div className="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
+            <div
+              className={`h-full transition-all duration-300 ${getStrengthColor(passwordStrength)}`}
+              style={{ width: `${passwordStrength}%` }}
+            />
+          </div>
+          <p className="text-[10px] text-right text-[#708090] font-medium">
+            Seguridad: {passwordStrength}%
+          </p>
+        </div>
       </div>
 
       {/* CONFIRM PASSWORD */}
       <div className="space-y-1">
-        <label className="text-xs sm:text-sm text-[#708090]">Confirmar contraseña</label>
+        <label className="text-xs sm:text-sm text-[#708090]">
+          Confirmar contraseña
+        </label>
         <div className="relative">
           <input
             name="confirmPassword"
             type={showConfirm ? "text" : "password"}
+            value={confirmPassword}
+            onChange={e => setConfirmPassword(e.target.value)}
             required
             placeholder="••••••••"
             className="
@@ -117,6 +164,17 @@ export default function RegisterForm() {
             {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
         </div>
+        {passwordsMatch !== null && (
+          <p
+            className={`text-[10px] text-right font-medium ${
+              passwordsMatch ? "text-green-600" : "text-red-500"
+            }`}
+          >
+            {passwordsMatch
+              ? "Las contraseñas coinciden"
+              : "Las contraseñas no coinciden"}
+          </p>
+        )}
       </div>
 
       {/* TÉRMINOS Y CONDICIONES */}
@@ -140,7 +198,8 @@ export default function RegisterForm() {
         >
           {accepted && (
             <svg
-              width="11" height="9"
+              width="11"
+              height="9"
               viewBox="0 0 11 9"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
