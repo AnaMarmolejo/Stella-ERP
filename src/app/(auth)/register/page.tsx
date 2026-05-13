@@ -1,5 +1,7 @@
 import RegisterForm from "./_components/RegisterForm";
 import ResetLayout from "@/app/resetPass/_components/ResetLayout";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 export default async function RegisterPage({
   searchParams,
@@ -10,6 +12,15 @@ export default async function RegisterPage({
 
   return (
     <ResetLayout>
+      <div className="w-full max-w-md mb-4">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-[#708090] hover:text-[#B76E79] transition-colors text-sm font-medium"
+        >
+          <ArrowLeft size={18} />
+          Volver al inicio
+        </Link>
+      </div>
       <div className="w-full max-w-md space-y-4">
         {error === "password_mismatch" && (
           <p className="text-[#B76E79] text-center">
