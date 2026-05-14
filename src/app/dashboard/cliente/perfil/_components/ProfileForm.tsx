@@ -17,16 +17,36 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
     nombre: profile.nombre,
     correo: profile.correo,
   });
+  const [errors, setErrors] = useState({
+    nombre: "",
+    correo: "",
+  });
 
   const handleSave = async () => {
+    const newErrors = {
+      nombre: formData.nombre.trim() === "" ? "El nombre es obligatorio" : "",
+      correo:
+        formData.correo.trim() === ""
+          ? "El correo es obligatorio"
+          : !/^\S+@\S+\.\S+$/.test(formData.correo)
+            ? "Correo inválido"
+            : "",
+    };
+
+    setErrors(newErrors);
+
+    if (newErrors.nombre || newErrors.correo) return;
+
     setIsLoading(true);
     try {
       const supabase = createClient();
       const clienteSvc = new ClienteService(supabase);
-      
+
       // Actualizar tabla cliente
       if (profile.clienteId) {
-        await clienteSvc.actualizar(profile.clienteId, { nombre: formData.nombre });
+        await clienteSvc.actualizar(profile.clienteId, {
+          nombre: formData.nombre,
+        });
       }
 
       // Actualizar tabla usuario
@@ -36,10 +56,12 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
         .eq("id", profile.id);
 
       setIsEditing(false);
-      window.location.reload(); 
+      window.location.reload();
     } catch (error) {
       console.error(error);
-      alert("Hubo un error al intentar guardar tu información. Por favor, inténtalo de nuevo.");
+      alert(
+        "Hubo un error al intentar guardar tu información. Por favor, inténtalo de nuevo."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -66,7 +88,11 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
                 disabled={isLoading}
                 className="flex-1 sm:flex-none px-4 py-2 bg-[#b76e79] border border-[#b76e79] rounded-xl text-white text-sm font-semibold flex items-center justify-center gap-2 transition-all hover:bg-[#a45f69] shadow-md hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Check size={16} />} 
+                {isLoading ? (
+                  <Loader2 size={16} className="animate-spin" />
+                ) : (
+                  <Check size={16} />
+                )}
                 {isLoading ? "Guardando..." : "Guardar"}
               </button>
             </>
@@ -94,15 +120,28 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
               </div>
               <input
                 value={formData.nombre}
-                onChange={e => setFormData({ ...formData, nombre: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, nombre: e.target.value })
+                }
                 disabled={isLoading}
-                className="w-full py-3 pr-4 pl-12 bg-white rounded-xl text-[#2d3748] border-2 border-[#b76e79]/40 focus:border-[#b76e79] focus:ring-2 focus:ring-[#b76e79]/20 outline-none text-[0.95rem] transition-all disabled:opacity-60"
+                className={`w-full py-3 pr-4 pl-12 bg-white rounded-xl text-[#2d3748] border-2 outline-none text-[0.95rem] transition-all disabled:opacity-60 ${
+                  errors.nombre
+                    ? "border-red-400 focus:border-red-500"
+                    : "border-[#b76e79]/40 focus:border-[#b76e79] focus:ring-2 focus:ring-[#b76e79]/20"
+                }`}
               />
+              {errors.nombre && (
+                <span className="text-[10px] text-red-500 font-bold mt-1 ml-1 uppercase tracking-tight">
+                  {errors.nombre}
+                </span>
+              )}
             </div>
           ) : (
             <div className="px-4 py-3 bg-[#f6f4ef] rounded-xl text-[#2d3748] flex items-center gap-3 border border-gray-200">
               <User size={18} className="text-[#b76e79]" />
-              <span className="text-[0.95rem] font-medium">{profile.nombre}</span>
+              <span className="text-[0.95rem] font-medium">
+                {profile.nombre}
+              </span>
             </div>
           )}
         </div>
@@ -119,15 +158,28 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
               </div>
               <input
                 value={formData.correo}
-                onChange={e => setFormData({ ...formData, correo: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, correo: e.target.value })
+                }
                 disabled={isLoading}
-                className="w-full py-3 pr-4 pl-12 bg-white rounded-xl text-[#2d3748] border-2 border-[#b76e79]/40 focus:border-[#b76e79] focus:ring-2 focus:ring-[#b76e79]/20 outline-none text-[0.95rem] transition-all disabled:opacity-60"
+                className={`w-full py-3 pr-4 pl-12 bg-white rounded-xl text-[#2d3748] border-2 outline-none text-[0.95rem] transition-all disabled:opacity-60 ${
+                  errors.correo
+                    ? "border-red-400 focus:border-red-500"
+                    : "border-[#b76e79]/40 focus:border-[#b76e79] focus:ring-2 focus:ring-[#b76e79]/20"
+                }`}
               />
+              {errors.correo && (
+                <span className="text-[10px] text-red-500 font-bold mt-1 ml-1 uppercase tracking-tight">
+                  {errors.correo}
+                </span>
+              )}
             </div>
           ) : (
             <div className="px-4 py-3 bg-[#f6f4ef] rounded-xl text-[#2d3748] flex items-center gap-3 border border-gray-200">
               <Mail size={18} className="text-[#b76e79]" />
-              <span className="text-[0.95rem] font-medium">{profile.correo}</span>
+              <span className="text-[0.95rem] font-medium">
+                {profile.correo}
+              </span>
             </div>
           )}
         </div>
@@ -142,8 +194,12 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
               <Shield size={20} className="text-[#8c9768]" />
             </div>
             <div className="flex flex-col">
-              <span className="text-[0.95rem] font-bold text-[#4a5568]">{profile.rol}</span>
-              <span className="text-xs text-[#708090] font-medium">Activo desde {profile.fechaRegistro}</span>
+              <span className="text-[0.95rem] font-bold text-[#4a5568]">
+                {profile.rol}
+              </span>
+              <span className="text-xs text-[#708090] font-medium">
+                Activo desde {profile.fechaRegistro}
+              </span>
             </div>
           </div>
         </div>
