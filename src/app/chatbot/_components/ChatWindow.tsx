@@ -68,6 +68,20 @@ export default function ChatWindow({ onClose }: Props) {
     })
       .then(res => res.json())
       .then(data => {
+        if (data.error) {
+          setMessages(prev => [
+            ...prev,
+            {
+              id: Date.now() + 1,
+              sender: "bot",
+              text: data.error,
+              type: "text",
+            },
+          ]);
+          setTyping(false);
+          return;
+        }
+
         const botText = data.choices[0].message.content;
         const botMsg: Message = {
           id: Date.now() + 1,
