@@ -316,15 +316,15 @@ export default function ProductPageContainer({
   return (
     <div className="w-full max-w-[1200px] mx-auto pb-12">
       {/* HEADER DE LA PÁGINA */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <button
           onClick={() => router.push("/dashboard/inicio/inventarios")}
-          className="flex items-center gap-2 px-4 py-2 text-sm font-bold text-[#708090] bg-white border border-[rgba(112,128,144,0.15)] rounded-xl hover:bg-[#f6f4ef] hover:border-[#708090]/30 transition-all shadow-sm"
+          className="flex items-center justify-center sm:justify-start gap-2 px-4 py-3 sm:py-2 text-sm font-bold text-[#708090] bg-white border border-[rgba(112,128,144,0.15)] rounded-xl hover:bg-[#f6f4ef] hover:border-[#708090]/30 transition-all shadow-sm w-full sm:w-auto"
         >
           <ArrowLeft size={16} /> Regresar al inventario
         </button>
 
-        <div className="text-right">
+        <div className="text-center sm:text-right">
           <p
             className="text-[0.7rem] text-[#8c9768] font-bold uppercase tracking-widest"
             style={{ fontFamily: "var(--font-sans)" }}
@@ -350,7 +350,7 @@ export default function ProductPageContainer({
       )}
 
       {/* CONTENEDOR DEL FORMULARIO */}
-      <div className="bg-white rounded-3xl p-6 md:p-10 shadow-lg border border-[rgba(112,128,144,0.1)] relative">
+      <div className="bg-white rounded-3xl p-4 sm:p-6 md:p-10 shadow-lg border border-[rgba(112,128,144,0.1)] relative">
         <div
           className="absolute inset-x-0 top-0 h-1 rounded-t-3xl"
           style={{ background: "var(--rose-gold)" }}

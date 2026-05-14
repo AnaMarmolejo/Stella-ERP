@@ -39,6 +39,19 @@ export default function ChatMessages({ messages, typing, onSend }: Props){
           )
         }
 
+        if (msg.type === "image") {
+          return (
+            <div
+              key={msg.id}
+              className={`flex flex-col ${msg.sender === "bot" ? "items-start" : "items-end"} chat-msg-enter`}
+            >
+              <div className="max-w-[85%] sm:max-w-[80%] rounded-2xl overflow-hidden border border-[#708090]/15 shadow-md">
+                <img src={msg.imageUrl} alt="Chat image" className="w-full h-auto object-cover" />
+              </div>
+            </div>
+          )
+        }
+
         return(
           <div
             key={msg.id}

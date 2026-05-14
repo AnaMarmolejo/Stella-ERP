@@ -44,12 +44,28 @@ const C = {
   roseBorder:   "rgba(183,110,121,0.22)",
   roseMid:      "rgba(183,110,121,0.32)",
 
-  // ── sage (sombras) ──
+  // ── sage (sombras premium multicapa) ──
   sage:         "#8c9768",
-  sageSm:       "rgba(140,151,104,0.08)",
-  sageMd:       "rgba(140,151,104,0.15)",
-  sageLg:       "rgba(140,151,104,0.22)",
+  sageSm:       "0 2px 10px rgba(140,151,104,0.05), 0 1px 3px rgba(0,0,0,0.02)",
+  sageMd:       "0 10px 30px rgba(140,151,104,0.12), 0 4px 8px rgba(0,0,0,0.04)",
+  sageLg:       "0 30px 60px rgba(140,151,104,0.18), 0 10px 20px rgba(0,0,0,0.03), inset 0 0 0 1px rgba(255,255,255,0.5)",
 };
+
+// ─── Componentes de Ambiente ──────────────────────────────────────────────────
+function AmbientLights() {
+  return (
+    <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0, overflow: "hidden" }}>
+      {/* Esquina superior izquierda */}
+      <div style={{ position: "absolute", top: "-10%", left: "-10%", width: "40%", height: "40%", background: `radial-gradient(circle, ${C.rose} 0%, transparent 70%)`, opacity: 0.04, filter: "blur(100px)" }} />
+      {/* Esquina superior derecha */}
+      <div style={{ position: "absolute", top: "-5%", right: "-5%", width: "35%", height: "35%", background: `radial-gradient(circle, ${C.slate} 0%, transparent 70%)`, opacity: 0.03, filter: "blur(80px)" }} />
+      {/* Esquina inferior izquierda */}
+      <div style={{ position: "absolute", bottom: "-10%", left: "-5%", width: "30%", height: "30%", background: `radial-gradient(circle, ${C.rose} 0%, transparent 70%)`, opacity: 0.03, filter: "blur(90px)" }} />
+      {/* Esquina inferior derecha */}
+      <div style={{ position: "absolute", bottom: "-8%", right: "-10%", width: "45%", height: "45%", background: `radial-gradient(circle, ${C.slateDeep} 0%, transparent 70%)`, opacity: 0.04, filter: "blur(120px)" }} />
+    </div>
+  );
+}
 
 // ─── Variants ─────────────────────────────────────────────────────────────────
 const itemV: Variants = {
@@ -87,7 +103,7 @@ function d(delay: number): Variants {
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface FeatureCardProps { icon: React.ReactNode; title: string; text: string; }
-interface RoleCardProps    { badge: string; title: string; desc: string; perks: string[]; }
+interface RoleCardProps    { badge: string; title: string; desc: string; perks: string[]; image?: string; }
 interface ModuleCardProps  { num: string; icon: React.ReactNode; name: string; desc: string; }
 interface ReviewCardProps  { text: string; initials: string; name: string; role: string; }
 
@@ -96,14 +112,15 @@ function FeatureCard({ icon, title, text }: FeatureCardProps) {
   return (
     <motion.div
       variants={itemV}
-      whileHover={{ y: -6, boxShadow: `0 18px 40px ${C.sageLg}` }}
-      transition={{ duration: 0.22 }}
+      whileHover={{ y: -8, boxShadow: C.sageLg, scale: 1.01 }}
+      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       style={{
         background: C.white, borderRadius: 14,
         border: `1px solid ${C.slateBorder}`,
-        padding: "clamp(18px,2.2vw,26px)",
-        boxShadow: `0 2px 12px ${C.sageSm}`,
+        padding: "clamp(24px,2.8vw,34px)",
+        boxShadow: C.sageMd,
         textAlign: "center",
+        position: "relative",
       }}
     >
       <div style={{ width: 48, height: 48, borderRadius: 12, margin: "0 auto 16px", background: C.slateIcon, border: `1px solid ${C.slateBorder}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -124,13 +141,18 @@ function RoleCard({ badge, title, desc, perks }: RoleCardProps) {
   return (
     <motion.div
       variants={itemV}
-      whileHover={{ y: -6, boxShadow: `0 20px 44px ${C.sageLg}` }}
-      transition={{ duration: 0.22 }}
-      style={{
-        background: C.white, borderRadius: 14,
-        border: `1px solid ${C.slateBorder}`,
-        padding: "clamp(20px,2.5vw,28px)",
-        boxShadow: `0 2px 12px ${C.sageSm}`,
+      whileHover={{ y: -6, boxShadow: C.sageLg }}
+      transition={{ duration: 0.3 }}
+      style={{ 
+        position: "relative", 
+        background: C.white, 
+        borderRadius: 16, 
+        border: `1px solid ${C.slateBorder}`, 
+        boxShadow: C.sageMd,
+        padding: "32px",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <div style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "0.64rem", letterSpacing: "0.14em", textTransform: "uppercase", color: C.rose, marginBottom: 12, fontWeight: 500 }}>
@@ -161,14 +183,15 @@ function ModuleCard({ num, icon, name, desc }: ModuleCardProps) {
   return (
     <motion.div
       variants={itemV}
-      whileHover={{ y: -5, boxShadow: `0 16px 36px ${C.sageMd}` }}
-      transition={{ duration: 0.20 }}
+      whileHover={{ y: -6, boxShadow: C.sageLg, background: C.white }}
+      transition={{ duration: 0.3 }}
       style={{
-        background: C.white, borderRadius: 12,
+        background: "rgba(255,255,255,0.7)", borderRadius: 12,
         border: `1px solid ${C.slateBorder}`,
-        padding: "clamp(16px,1.8vw,22px)",
-        boxShadow: `0 2px 8px ${C.sageSm}`,
+        padding: "clamp(18px,2vw,24px)",
+        boxShadow: C.sageSm,
         position: "relative", overflow: "hidden",
+        backdropFilter: "blur(10px)",
       }}
     >
       {/* number watermark */}
@@ -253,11 +276,117 @@ function SectionHeader({
 }
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
+const showcaseImages = [
+  { src: "/video/capturas/01_dashboard_desktop.png", type: "desktop", label: "Dashboard Central" },
+  { src: "/video/capturas/04_bom_desktop.png", type: "desktop", label: "Ingeniería BOM" },
+  { src: "/video/capturas/03_consignaciones_tablet.png", type: "tablet", label: "Consignaciones" },
+  { src: "/video/capturas/02_campanas_desktop.png", type: "desktop", label: "Marketing" },
+  { src: "/video/capturas/05_rol_admin_mobile.png", type: "mobile", label: "Admin Móvil" },
+  { src: "/video/capturas/05_rol_cliente_mobile.png", type: "mobile", label: "Filtros Probadores AR" },
+  { src: "/video/capturas/05_rol_mayorista_mobile.png", type: "mobile", label: "Portal Mayorista" },
+];
+
+function PresentationDeck() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % showcaseImages.length);
+    }, 4800);
+    return () => clearInterval(timer);
+  }, []);
+
+  const current = showcaseImages[index];
+
+  return (
+    <div style={{ 
+      position: "relative", 
+      width: "100%", 
+      maxWidth: "min(90vw, 850px)", 
+      height: "clamp(300px, 50vh, 520px)", 
+      display: "flex", 
+      alignItems: "center", 
+      justifyContent: "center",
+      margin: "0 auto"
+    }}>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, scale: 0.95, y: 10 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 1.05, y: -10 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          style={{ position: "absolute", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}
+        >
+          {/* Mockup based on type - Optimized for 1920x1080 look */}
+          <div style={{ 
+            position: "relative", 
+            width: current.type === "mobile" ? "min(280px, 45%)" : current.type === "tablet" ? "min(580px, 90%)" : "100%",
+            aspectRatio: current.type === "mobile" ? "9/19" : current.type === "tablet" ? "4/3" : "16/9",
+            background: "#fff",
+            borderRadius: current.type === "mobile" ? 40 : 12,
+            border: current.type === "mobile" ? `10px solid ${C.slateDeep}` : `1px solid ${C.slateBorder}`,
+            boxShadow: `0 40px 100px ${C.sageLg}, 0 10px 30px rgba(0,0,0,0.05)`,
+            overflow: "hidden",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: current.type === "desktop" ? 0 : 8,
+            transition: "all 0.5s cubic-bezier(0.22, 1, 0.36, 1)"
+          }}>
+             <Image src={current.src} alt={current.label} fill style={{ objectFit: "contain" }} />
+             
+             {/* Glass Reflection Effect */}
+             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(120deg, rgba(255,255,255,0.08) 0%, transparent 50%, rgba(255,255,255,0.03) 100%)", pointerEvents: "none", zIndex: 5 }} />
+             
+             {/* Notch for mobile */}
+             {current.type === "mobile" && (
+               <div style={{ position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)", width: 90, height: 28, background: C.slateDeep, borderRadius: "0 0 18px 18px", zIndex: 10 }} />
+             )}
+          </div>
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Navigation Indicators */}
+      <div style={{ position: "absolute", bottom: -60, display: "flex", gap: 10, padding: "10px", background: "rgba(255,255,255,0.4)", backdropFilter: "blur(8px)", borderRadius: 100 }}>
+        {showcaseImages.map((_, i) => (
+          <div 
+            key={i} 
+            onClick={() => setIndex(i)}
+            style={{ 
+              width: i === index ? 28 : 8, 
+              height: 8, 
+              borderRadius: 4, 
+              background: i === index ? C.rose : C.slateMid,
+              cursor: "pointer",
+              transition: "0.4s cubic-bezier(0.22, 1, 0.36, 1)",
+              boxShadow: i === index ? `0 0 12px ${C.rose}` : "none"
+            }} 
+          />
+        ))}
+      </div>
+      
+      {/* Dynamic Label */}
+      <div style={{ 
+        position: "absolute", top: -45, left: "50%", transform: "translateX(-50%)",
+        background: C.white, padding: "6px 16px", borderRadius: 100, border: `1px solid ${C.slateBorder}`,
+        boxShadow: `0 4px 15px ${C.sageSm}`, display: "flex", alignItems: "center", gap: 8,
+        whiteSpace: "nowrap"
+      }}>
+        <div style={{ width: 6, height: 6, borderRadius: "50%", background: C.rose }} />
+        <span style={{ fontSize: "0.68rem", color: C.slateDeep, letterSpacing: "0.12em", fontWeight: 700, textTransform: "uppercase" }}>
+          {current.label}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 const features: FeatureCardProps[] = [
   { icon: <ShieldCheck size={20} color={C.slate} />, title: "Pagos Seguros",             text: "Stripe y SPEI con cifrado AES y cumplimiento PCI-DSS en cada transacción." },
   { icon: <Package     size={20} color={C.slate} />, title: "Inventario en Tiempo Real", text: "Control FIFO/LIFO con alertas automáticas y notificaciones push al detectar stock bajo." },
-  { icon: <Sparkles    size={20} color={C.slate} />, title: "Visualización 3D",          text: "Catálogo interactivo con modelos 3D para decisiones de compra seguras y confiables." },
-  { icon: <Bot         size={20} color={C.slate} />, title: "IA Integrada",              text: "Predicción de demanda, precios dinámicos y recomendaciones con TensorFlow y Gemini." },
+  { icon: <Sparkles    size={20} color={C.slate} />, title: "Filtros Probadores en Tiempo Real", text: "Experiencia de realidad aumentada para que tus clientes prueben cada joya virtualmente antes de comprar." },
+  { icon: <Bot         size={20} color={C.slate} />, title: "IA Generativa",              text: "Análisis inteligente de información y generación automática de nombres y descripciones premium con Gemini API." },
 ];
 
 const roles: RoleCardProps[] = [
@@ -266,23 +395,26 @@ const roles: RoleCardProps[] = [
     title: "Control Total del Negocio",
     desc: "Panel centralizado con inventarios, precios, reportes estratégicos y gestión de usuarios.",
     perks: ["Dashboard con KPIs en tiempo real", "Gestión de catálogo y precios", "Reportes y analítica predictiva", "Configuración de módulos y permisos"],
+    image: "/video/capturas/05_rol_admin_mobile.png",
   },
   {
     badge: "Mayorista B2B",
     title: "Portal de Distribuidores",
     desc: "Consignaciones, créditos personalizados y facturación electrónica automática.",
     perks: ["Consignaciones trazables", "Precios y descuentos por volumen", "Reportes PDF/Excel individuales", "Facturación electrónica integrada"],
+    image: "/video/capturas/05_rol_mayorista_mobile.png",
   },
   {
     badge: "Cliente Minorista B2C",
     title: "Experiencia de Compra Premium",
-    desc: "Catálogo 3D, carrito inteligente y programa de fidelización con gamificación.",
-    perks: ["Catálogo 3D responsivo", "Reseñas y sistema de rating", "Seguimiento en tiempo real", "Programa de recompensas"],
+    desc: "Probadores virtuales en tiempo real, carrito inteligente y programa de fidelización.",
+    perks: ["Filtros Probadores en Tiempo Real", "Reseñas y sistema de rating", "Seguimiento en tiempo real", "Programa de recompensas"],
+    image: "/video/capturas/05_rol_cliente_mobile.png",
   },
 ];
 
 const modules: ModuleCardProps[] = [
-  { num: "01", icon: <LayoutGrid      size={18} color={C.slate} />, name: "Catálogo de Productos",  desc: "Artículos con imágenes optimizadas y categorías jerárquicas." },
+  { num: "01", icon: <LayoutGrid      size={18} color={C.slate} />, name: "Catálogo con Probadores",  desc: "Artículos con filtros de realidad aumentada para prueba inmediata." },
   { num: "02", icon: <Database        size={18} color={C.slate} />, name: "Inventario Inteligente",  desc: "WebSockets + triggers SQL para actualización automática." },
   { num: "03", icon: <CircleDollarSign size={18} color={C.slate} />, name: "Gestión de Precios",      desc: "Márgenes, descuentos por volumen y políticas de fidelización." },
   { num: "04", icon: <ShoppingCart    size={18} color={C.slate} />, name: "Pedidos y Ventas",        desc: "Trazabilidad ACID, devoluciones y panel interactivo." },
@@ -292,14 +424,14 @@ const modules: ModuleCardProps[] = [
 
 const techStack = [
   "Next.js","React","Tailwind CSS","Supabase","PostgreSQL",
-  "Node.js / Express","Gemini API",
+  "Node.js / Express","Gemini AI",
   "Stripe", "JWT / OAuth 2.0", "Vercel", "CI/CD Pipeline",
 ];
 
 const reviews: ReviewCardProps[] = [
   { text: "La trazabilidad de consignaciones es exactamente lo que necesitábamos. Antes perdíamos piezas; ahora tenemos control total.", initials: "MR", name: "María R.",  role: "Distribuidora Mayorista" },
   { text: "El dashboard en tiempo real me da la tranquilidad de saber qué piezas tengo disponibles desde cualquier dispositivo.",        initials: "EB", name: "Estela B.", role: "Administradora · Stella" },
-  { text: "Ver las joyas en 3D cambia completamente la experiencia. Me siento segura de lo que adquiero sin verla en persona.",          initials: "LC", name: "Laura C.",  role: "Cliente Minorista" },
+  { text: "Poder probarme las joyas con los filtros en tiempo real es increíble. Ver cómo luce la pieza antes de comprarla me da una seguridad absoluta.", initials: "LC", name: "Laura C.",  role: "Cliente Minorista" },
 ];
 
 const statsData = [
@@ -526,148 +658,65 @@ export default function HomeClient() {
         </AnimatePresence>
 
         {/* ══════════ HERO ══════════ */}
-        {/* Fondo #f6f4ef, texto slate, acento rose en keyword */}
-        <section ref={heroRef} style={{ position: "relative", overflow: "hidden", background: C.bg, paddingBottom: 0 }}>
-          {/* dot grid sutil */}
-          <div style={{ position: "absolute", inset: 0, backgroundImage: `radial-gradient(circle, rgba(112,128,144,0.08) 1px, transparent 1px)`, backgroundSize: "36px 36px", pointerEvents: "none" }} />
-          {/* rose glow top-right — muy sutil */}
-          <motion.div style={{ y: blobY, position: "absolute", top: -80, right: -80, width: 420, height: 420, background: `radial-gradient(circle, rgba(183,110,121,0.07) 0%, transparent 65%)`, borderRadius: "50%", pointerEvents: "none" }} />
-          <motion.div style={{ y: blobY, position: "absolute", bottom: -60, left: -60, width: 320, height: 320, background: `radial-gradient(circle, rgba(112,128,144,0.06) 0%, transparent 65%)`, borderRadius: "50%", pointerEvents: "none" }} />
+        <section id="inicio" ref={heroRef} style={{ 
+          position: "relative", 
+          padding: `clamp(100px, 12vh, 160px) 0 clamp(60px, 8vh, 100px)`, 
+          background: `radial-gradient(circle at 70% 30%, ${C.bgAlt} 0%, ${C.bg} 100%)`,
+          overflow: "hidden" 
+        }}>
+          {/* subtle background accent */}
+          <div style={{ position: "absolute", top: -200, right: -200, width: 800, height: 800, background: C.rose, opacity: 0.04, filter: "blur(140px)", borderRadius: "50%" }} />
+          
+          <div style={{ maxWidth: 1600, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)" }}>
+            <div style={{ 
+              display: "grid", 
+              gridTemplateColumns: "1fr 1.2fr", 
+              gap: "clamp(40px, 6vw, 120px)", 
+              alignItems: "center" 
+            }}>
+              
+              {/* TEXT SIDE */}
+              <motion.div initial="hidden" animate="show" variants={containerV}>
+                <motion.div variants={d(0)} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.white, padding: "8px 16px", borderRadius: 100, border: `1px solid ${C.slateBorder}`, boxShadow: `0 4px 12px ${C.sageSm}`, marginBottom: 24 }}>
+                  <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#4ade80", boxShadow: "0 0 10px #4ade80" }} />
+                  <span style={{ fontSize: "0.72rem", fontWeight: 700, color: C.slateDeep, letterSpacing: "0.05em", textTransform: "uppercase" }}>Sistema Online v4.2</span>
+                </motion.div>
 
-          <div
-            className="hero-inner"
-            style={{ display: "grid", gridTemplateColumns: "1fr 1fr", alignItems: "center", gap: "clamp(24px,5vw,56px)", maxWidth: 1240, margin: "0 auto", padding: "clamp(90px,10vh,120px) clamp(20px,5vw,52px) clamp(60px,8vw,88px)", position: "relative", zIndex: 2 }}
-          >
-            {/* TEXT */}
-            <motion.div initial="hidden" animate="show" variants={containerV}>
-              {/* eyebrow pill — como en la imagen */}
-              <motion.div variants={d(0)} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: C.roseBg, border: `1px solid ${C.roseBorder}`, color: C.rose, borderRadius: 4, padding: "4px 12px", fontSize: "0.65rem", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 24, fontFamily: "var(--font-subtitle)" }}>
-                <span style={{ width: 4, height: 4, background: C.rose, borderRadius: "50%", display: "inline-block" }} />
-                ERP + E-Commerce · Joyería Artesanal
+                <motion.h1 variants={d(0.08)} style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(3.2rem, 5.8vw, 5.8rem)", fontWeight: 500, lineHeight: 1.05, color: C.slateDeep, letterSpacing: "-0.02em", margin: "0 0 24px" }}>
+                  Gestión <span style={{ color: C.rose, fontStyle: "italic" }}>Maestra</span> para Joyería.
+                </motion.h1>
+
+                <motion.p variants={d(0.16)} style={{ fontSize: "clamp(1.05rem, 1.25vw, 1.2rem)", lineHeight: 1.65, color: C.slate, maxWidth: 620, marginBottom: 40, fontWeight: 400 }}>
+                  Stella ERP centraliza tu producción, inventarios y ventas con una interfaz diseñada para la excelencia y el control absoluto del negocio artesanal.
+                </motion.p>
+
+                <motion.div variants={d(0.24)} style={{ display: "flex", gap: 18, flexWrap: "wrap" }}>
+                  <motion.button whileHover={{ scale: 1.02, boxShadow: `0 8px 25px ${C.roseBorder}` }} whileTap={{ scale: 0.97 }} onClick={() => router.push("/catalogo")}
+                    style={{ background: C.rose, color: "#f6f4ef", border: "none", cursor: "pointer", padding: "18px 36px", borderRadius: 8, fontSize: "0.9rem", fontWeight: 600, letterSpacing: "0.04em", fontFamily: "var(--font-subtitle)", boxShadow: `0 4px 15px ${C.roseBorder}`, display: "flex", alignItems: "center", gap: 10 }}>
+                    Explorar Catálogo <ArrowRight size={16} />
+                  </motion.button>
+                  <motion.button whileHover={{ borderColor: C.slate, color: C.slateDeep, background: "rgba(255,255,255,0.5)" }} whileTap={{ scale: 0.97 }} onClick={() => router.push("/login")}
+                    style={{ background: "transparent", color: C.slate, border: `1.5px solid ${C.slateMid}`, cursor: "pointer", padding: "18px 36px", borderRadius: 8, fontSize: "0.9rem", fontWeight: 600, letterSpacing: "0.04em", fontFamily: "var(--font-subtitle)" }}>
+                    Acceso Portal
+                  </motion.button>
+                </motion.div>
+
+                {/* stats row */}
+                <motion.div variants={d(0.32)} className="hero-stats" style={{ display: "flex", gap: "clamp(24px, 5vw, 60px)", marginTop: 60 }}>
+                  {[{ num: "50%", label: "Menos errores" }, { num: "3", label: "Roles clave" }, { num: "10+", label: "Módulos ERP" }].map((s, i) => (
+                    <div key={s.label} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                      <span style={{ fontFamily: "var(--font-serif)", fontSize: "2.6rem", fontWeight: 600, color: C.rose, lineHeight: 1 }}>{s.num}</span>
+                      <span style={{ fontSize: "0.8rem", color: C.slate, letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 500 }}>{s.label}</span>
+                    </div>
+                  ))}
+                </motion.div>
               </motion.div>
 
-              {/* h1: palabra clave en rose */}
-              <motion.h1 variants={d(0.07)} style={{ fontFamily: "var(--font-title)", fontSize: "clamp(2.8rem,5.2vw,5.2rem)", fontWeight: 400, lineHeight: 1.10, marginBottom: 20, letterSpacing: "-0.02em" }}>
-                <span style={{ color: C.slateDeep }}>Gestión inteligente<br />para </span>
-                <em style={{ fontStyle: "italic", color: C.rose }}>joyería</em>
-                <span style={{ color: C.slateDeep }}><br />de alto valor</span>
-              </motion.h1>
-
-              <motion.p variants={d(0.14)} style={{ fontSize: "clamp(0.94rem,1.5vw,1.05rem)", lineHeight: 1.72, color: C.slate, maxWidth: 440, marginBottom: 32, fontWeight: 400 }}>
-                Stella ERP centraliza inventario, ventas, consignaciones y atención al cliente en una plataforma moderna y segura diseñada para crecer.
-              </motion.p>
-
-              <motion.div variants={d(0.20)} style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                <motion.button whileHover={{ y: -2, boxShadow: `0 10px 26px ${C.roseMid}` }} whileTap={{ scale: 0.96 }} onClick={() => router.push("/dashboard/cliente")}
-                  style={{ background: C.rose, color: "#f6f4ef", border: "none", cursor: "pointer", padding: "13px 26px", borderRadius: 6, fontSize: "0.83rem", letterSpacing: "0.04em", fontFamily: "var(--font-sans, Inter, sans-serif)", boxShadow: `0 3px 12px ${C.roseBorder}`, display: "flex", alignItems: "center", gap: 7, transition: "box-shadow 0.2s" }}>
-                  Explorar Catálogo <ArrowRight size={13} />
-                </motion.button>
-                <motion.button whileHover={{ borderColor: C.slate, color: C.slateDeep }} whileTap={{ scale: 0.96 }} onClick={() => router.push("/login")}
-                  style={{ background: "transparent", color: C.slate, border: `1.5px solid ${C.slateMid}`, cursor: "pointer", padding: "13px 26px", borderRadius: 6, fontSize: "0.83rem", letterSpacing: "0.04em", fontFamily: "var(--font-sans, Inter, sans-serif)", transition: "border-color 0.2s, color 0.2s" }}>
-                  Iniciar sesión
-                </motion.button>
+              {/* PRESENTATION SIDE */}
+              <motion.div className="hero-visual-wrap" initial="hidden" animate="show" variants={slideV} style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+                <PresentationDeck />
               </motion.div>
-
-              {/* stats row */}
-              <motion.div variants={d(0.26)} className="hero-stats" style={{ display: "flex", gap: "clamp(16px,3.5vw,34px)", marginTop: 40 }}>
-                {[{ num: "50%", label: "Menos errores" }, { num: "3", label: "Roles de usuario" }, { num: "10+", label: "Módulos ERP" }].map((s, i) => (
-                  <div key={s.label} style={{ display: "flex", flexDirection: "column", gap: 2, paddingRight: i < 2 ? "clamp(12px,3vw,30px)" : 0, borderRight: i < 2 ? `1px solid ${C.slateBorder}` : "none" }}>
-                    <span style={{ fontFamily: "var(--font-serif, 'Celestial', serif)", fontSize: "2.1rem", fontWeight: 600, color: C.rose, lineHeight: 1 }}>{s.num}</span>
-                    <span style={{ fontSize: "0.74rem", color: C.slate, letterSpacing: "0.07em", textTransform: "uppercase", fontWeight: 400 }}>{s.label}</span>
-                  </div>
-                ))}
-              </motion.div>
-            </motion.div>
-
-            {/* CARD STACK — más grande, tercera card, sin espacio vacío */}
-            <motion.div className="hero-visual-wrap" initial="hidden" animate="show" variants={slideV} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <div style={{ position: "relative", width: 380, height: 480 }}>
-
-                {/* Back card — ventas */}
-                <motion.div animate={{ y: [0, -6, 0] }} transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }} whileHover={{ rotate: 2, y: -12 }}
-                  style={{ position: "absolute", top: 0, right: 0, width: 236, height: 300, borderRadius: 16, background: `linear-gradient(145deg, #708090 0%, #4a5568 100%)`, transform: "rotate(8deg)", boxShadow: `0 24px 56px rgba(112,128,144,0.40), 0 6px 16px rgba(112,128,144,0.22)`, display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: 24, color: "#f6f4ef", overflow: "hidden" }}>
-                  <div style={{ position: "absolute", inset: 0, backgroundImage: "repeating-linear-gradient(90deg,rgba(246,244,239,0.04) 0,rgba(246,244,239,0.04) 1px,transparent 1px,transparent 44px)", borderRadius: 16 }} />
-                  <div style={{ position: "absolute", top: -30, right: -30, width: 110, height: 110, borderRadius: "50%", background: "rgba(183,110,121,0.14)" }} />
-                  <div style={{ position: "absolute", top: 20, left: 20, width: 32, height: 32, borderRadius: 8, background: "rgba(183,110,121,0.22)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.85rem" }}>✦</div>
-                  {/* mini bar chart */}
-                  <div style={{ display: "flex", alignItems: "flex-end", gap: 4, marginBottom: 14, paddingTop: 48 }}>
-                    {[40, 60, 45, 75, 55, 90, 70].map((h, i) => (
-                      <div key={i} style={{ flex: 1, height: h * 0.5, borderRadius: 3, background: i === 5 ? "rgba(183,110,121,0.90)" : "rgba(246,244,239,0.25)" }} />
-                    ))}
-                  </div>
-                  <div style={{ fontSize: "0.60rem", letterSpacing: "0.14em", textTransform: "uppercase", opacity: 0.6, marginBottom: 5 }}>Ventas del mes</div>
-                  <div style={{ fontFamily: "var(--font-serif, 'Celestial', serif)", fontSize: "1.6rem", fontWeight: 600, color: "#f6f4ef", lineHeight: 1 }}>$284,500</div>
-                  <div style={{ fontSize: "0.64rem", opacity: 0.55, marginTop: 4 }}>MXN · ↑ 18% este mes</div>
-                </motion.div>
-
-                {/* Main product card — white */}
-                <motion.div animate={{ y: [0, -4, 0] }} transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.6 }} whileHover={{ y: -12 }}
-                  style={{ position: "absolute", top: 40, left: 18, width: 292, height: 382, borderRadius: 16, background: C.white, border: `1px solid ${C.slateBorder}`, boxShadow: `0 20px 56px ${C.sageLg}, 0 4px 14px ${C.sageSm}, inset 0 1px 0 rgba(255,255,255,1)`, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-                  {/* product image */}
-                  <div style={{ height: 196, position: "relative", background: "linear-gradient(135deg,#ede8e1 0%,#e2d9ce 50%,#d6cec2 100%)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <div style={{ fontSize: "3.8rem", filter: "drop-shadow(0 5px 12px rgba(112,128,144,0.22))", color: C.slate }}>
-                      <Gem size={80} strokeWidth={1} />
-                    </div>
-                    <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 40, background: "linear-gradient(to top,rgba(255,255,255,0.97),transparent)" }} />
-                    <div style={{ position: "absolute", top: 12, right: 12, background: "rgba(255,255,255,0.88)", backdropFilter: "blur(6px)", borderRadius: 4, padding: "3px 9px", fontSize: "0.58rem", color: C.sage, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 500 }}>En stock</div>
-                    <div style={{ position: "absolute", top: 12, left: 12, background: C.roseBg, border: `1px solid ${C.roseBorder}`, borderRadius: 4, padding: "3px 9px", fontSize: "0.58rem", color: C.rose, letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 500 }}>Nuevo</div>
-                  </div>
-                  {/* card body */}
-                  <div style={{ padding: "16px 18px", flex: 1, display: "flex", flexDirection: "column" }}>
-                    <div style={{ fontFamily: "var(--font-serif, 'Celestial', serif)", fontSize: "1.28rem", fontWeight: 600, color: C.slateDeep, marginBottom: 2, letterSpacing: "-0.01em" }}>Anillo Stella</div>
-                    <div style={{ fontSize: "0.72rem", color: C.slate, marginBottom: 8 }}>Colección Primavera 2025 · Talla 7</div>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
-                      <div style={{ fontSize: "0.96rem", color: C.rose, fontWeight: 600 }}>$12,500 MXN</div>
-                      <div style={{ color: C.rose, fontSize: "0.72rem", letterSpacing: 1 }}>★★★★★ <span style={{ color: C.slate, fontSize: "0.68rem" }}>(24)</span></div>
-                    </div>
-                    <div style={{ height: 1, background: C.slateBorder, marginBottom: 10 }} />
-                    {/* specs */}
-                    <div style={{ display: "flex", gap: 6, marginBottom: 12, flexWrap: "wrap" }}>
-                      {["Oro 18k", "Brillante", "Artesanal"].map((tag) => (
-                        <span key={tag} style={{ fontSize: "0.60rem", color: C.slate, background: C.slateIcon, border: `1px solid ${C.slateBorder}`, borderRadius: 3, padding: "2px 7px" }}>{tag}</span>
-                      ))}
-                    </div>
-                    <div style={{ display: "flex", gap: 8, marginTop: "auto" }}>
-                      <div style={{ flex: 1, background: C.rose, borderRadius: 5, padding: "9px 0", textAlign: "center", fontSize: "0.72rem", color: "#f6f4ef", letterSpacing: "0.06em", fontWeight: 500 }}>Comprar ahora</div>
-                      <div style={{ width: 36, height: 34, borderRadius: 5, border: `1.5px solid ${C.slateBorder}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.82rem", color: C.slate }}>♡</div>
-                    </div>
-                  </div>
-                </motion.div>
-
-                {/* Bottom-left: stock pill */}
-                <motion.div animate={{ y: [0, -5, 0] }} transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 1.1 }} whileHover={{ y: -8 }}
-                  style={{ position: "absolute", bottom: 48, left: 0, width: 162, height: 66, borderRadius: 12, background: C.white, border: `1px solid ${C.slateBorder}`, transform: "rotate(-4deg)", boxShadow: `0 10px 28px ${C.sageLg}`, display: "flex", alignItems: "center", padding: "0 14px", gap: 10 }}>
-                  <div style={{ width: 32, height: 32, borderRadius: 8, background: C.slateIcon, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.95rem", flexShrink: 0, border: `1px solid ${C.slateBorder}` }}>
-                    <Package size={16} color={C.slate} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: "0.60rem", color: C.slate, textTransform: "uppercase", letterSpacing: "0.10em" }}>Inventario</div>
-                    <div style={{ fontSize: "0.90rem", fontWeight: 600, color: C.slateDeep }}>48 piezas</div>
-                  </div>
-                </motion.div>
-
-                {/* Bottom-right: pedido confirmado */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1.8, duration: 0.4, ease: [0.22,1,0.36,1] }}
-                  style={{ position: "absolute", bottom: 0, right: 0, width: 158, height: 60, borderRadius: 12, background: C.white, border: `1px solid ${C.slateBorder}`, boxShadow: `0 8px 22px ${C.sageLg}`, display: "flex", alignItems: "center", padding: "0 14px", gap: 10 }}>
-                  <div style={{ width: 30, height: 30, borderRadius: "50%", background: "rgba(140,151,104,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.9rem", flexShrink: 0, border: `1px solid rgba(140,151,104,0.25)` }}>
-                    <Check size={16} color={C.sage} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: "0.60rem", color: C.slate, textTransform: "uppercase", letterSpacing: "0.08em" }}>Pedido</div>
-                    <div style={{ fontSize: "0.82rem", fontWeight: 600, color: C.slateDeep }}>Confirmado</div>
-                  </div>
-                </motion.div>
-
-                {/* Notification dot */}
-                <motion.div initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 1.5, type: "spring", stiffness: 320 }}
-                  style={{ position: "absolute", top: 36, left: 14, width: 22, height: 22, borderRadius: "50%", background: C.rose, color: "#f6f4ef", fontSize: "0.58rem", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 0 0 3px ${C.white}` }}>
-                  3
-                </motion.div>
-              </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 

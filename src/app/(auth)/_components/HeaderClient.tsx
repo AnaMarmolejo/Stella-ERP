@@ -39,20 +39,29 @@ const DARK = "#1A1A1A";
 
 // ─── íconos por ruta ──────────────────────────────────────
 const NAV_ICONS: Record<string, React.ReactNode> = {
-  "/dashboard/cliente": <Home size={18} />,
   "categoria=personalizada": <Sparkles size={18} />,
   "categoria=nuevos": <Star size={18} />,
   "categoria=accesorios": <Heart size={18} />,
-  "categoria=mayoreo": <ShoppingBag size={18} />, // This entry is for the old href, keeping it for now as the instruction is ambiguous
   "/dashboard/cliente/mayoreo": <ShoppingBag size={18} />,
+  "categoria=mayoreo": <ShoppingBag size={18} />,
   "/dashboard/cliente/faq": <HelpCircle size={18} />,
   "/dashboard/cliente/nosotros": <MessageCircle size={18} />,
   "/dashboard/cliente/contacto": <MessageSquare size={18} />,
+  "/dashboard/cliente": <Home size={18} />,
 };
 
 function getNavIcon(href: string): React.ReactNode {
-  const match = Object.entries(NAV_ICONS).find(([key]) => href.includes(key));
-  return match ? match[1] : null;
+  // Primero buscamos coincidencias con parámetros de búsqueda (más específicas)
+  const queryMatch = Object.entries(NAV_ICONS).find(
+    ([key]) => key.includes("=") && href.includes(key)
+  );
+  if (queryMatch) return queryMatch[1];
+
+  // Luego buscamos rutas exactas o prefijos más largos
+  const pathMatch = Object.entries(NAV_ICONS).find(
+    ([key]) => !key.includes("=") && href.includes(key)
+  );
+  return pathMatch ? pathMatch[1] : null;
 }
 
 // ─── sub-components ───────────────────────────────────────
@@ -367,15 +376,17 @@ export default function HeaderClient({ user: userProp }: HeaderClientProps) {
         href: "/dashboard/cliente/catalogo?categoria=accesorios",
         icon: <Heart size={18} />,
       },
-    ];
-
-    if (isUserLoaded) {
-      base.push({
+      {
         label: id_rol === 3 ? "Panel Mayorista" : "Mayoreo",
         href: "/dashboard/cliente/mayoreo",
+<<<<<<< HEAD
         icon: <ShoppingBag size={18} />,
       });
     }
+=======
+      },
+    ];
+>>>>>>> e244b38 (Responsive pantallas del erp)
 
     base.push(
       {
@@ -688,7 +699,6 @@ export default function HeaderClient({ user: userProp }: HeaderClientProps) {
                             setUserMenu(false);
                           }}
                         />
-                        <NavBtn icon={<Heart size={15} />} label="Favoritos" />
 
                         {(id_rol === 1 || id_rol === 3) && (
                           <NavBtn
@@ -893,10 +903,14 @@ export default function HeaderClient({ user: userProp }: HeaderClientProps) {
                               setMobileMenu(false);
                             }}
                           />
+<<<<<<< HEAD
                           <NavBtn
                             icon={<Heart size={18} />}
                             label="Favoritos"
                           />
+=======
+                          
+>>>>>>> e244b38 (Responsive pantallas del erp)
                         </>
                       )}
 

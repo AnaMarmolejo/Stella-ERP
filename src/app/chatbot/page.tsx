@@ -16,7 +16,7 @@ export default function ChatbotPage() {
   }, [open]);
 
   // Si no estamos en la ruta de cliente, no renderizar el chatbot
-  if (!pathname || !pathname.startsWith("/dashboard/cliente")) {
+  if (!pathname || (!pathname.startsWith("/dashboard/cliente") && !pathname.startsWith("/productos"))) {
     return null;
   }
 

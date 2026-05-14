@@ -31,13 +31,13 @@ export default function AverageTicket({ totalSales, orderCount, prevAverage = 45
         <div>
           <h3 style={{
             fontFamily: "var(--font-marcellus)",
-            fontSize: "0.9rem", fontWeight: 700, color: "#2A2E34", margin: 0,
+            fontSize: "0.9rem", fontWeight: 700, color: "#2d3748", margin: 0,
           }}>
             Ticket Promedio
           </h3>
           <p style={{
             fontFamily: "var(--font-poppins)",
-            fontSize: "0.7rem", color: "#8A94A6", margin: "2px 0 0",
+            fontSize: "0.7rem", color: "#708090", margin: "2px 0 0",
           }}>
             Consumo medio por pedido
           </p>
@@ -59,8 +59,8 @@ export default function AverageTicket({ totalSales, orderCount, prevAverage = 45
           </div>
         </div>
         <div style={{ textAlign: "right" }}>
-          <div style={{ fontSize: "0.6rem", color: "#A0AEC0", textTransform: "uppercase" }}>Pedidos</div>
-          <div style={{ fontSize: "1rem", fontWeight: 700, color: "#4A5568" }}>{orderCount}</div>
+          <div style={{ fontSize: "0.6rem", color: "#708090", textTransform: "uppercase" }}>Pedidos</div>
+          <div style={{ fontSize: "1rem", fontWeight: 700, color: "#2d3748" }}>{orderCount}</div>
         </div>
       </div>
     </div>

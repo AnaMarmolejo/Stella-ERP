@@ -14,70 +14,49 @@ export default function StatsCards(props: StatsCardsProps) {
     { 
       label: "Productos Asignados", 
       value: props.asignados, 
-      icon: Package,
-      gradient: "from-[#C07E88] to-[#B76E79]", // Rose Gold
+      bg: "linear-gradient(135deg, #708090 0%, #4a5568 100%)", // Slate
     },
     { 
-      label: "Cantidades Vendidas", 
+      label: "Cantidad Vendida", 
       value: props.vendidos, 
-      icon: CheckCircle,
-      gradient: "from-[#758390] to-[#657582]", // Charcoal/Gray
+      bg: "linear-gradient(135deg, #B76E79 0%, #9d5a64 100%)", // Rose
     },
     { 
-      label: "Mermas / Devueltas", 
+      label: "Cantidad Devuelta", 
       value: props.devueltos, 
-      icon: XCircle,
-      gradient: "from-[#D4A5A5] to-[#B76E79]", // Soft Rose
+      bg: "linear-gradient(135deg, #708090 0%, #4a5568 100%)", // Slate
     },
     { 
-      label: "Ganancia Mayoristas", 
+      label: "Ganancia Estimada", 
       value: `$${props.ganancia.toLocaleString("es-MX", { minimumFractionDigits: 2 })}`, 
-      icon: TrendingUp,
-      gradient: "from-[#657582] to-[#4a5568]", // Darker Gray
+      bg: "linear-gradient(135deg, #B76E79 0%, #9d5a64 100%)", // Rose
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full mb-8">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full mb-8">
       {stats.map((item, idx) => {
-        const Icon = item.icon;
-
         return (
           <div
             key={idx}
-            className="relative group overflow-hidden rounded-[24px] p-6 text-left transition-all duration-500 hover:-translate-y-1 shadow-lg hover:shadow-2xl"
+            className="rounded-[18px] p-4 sm:p-6 text-left shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 relative overflow-hidden"
+            style={{ background: item.bg }}
           >
-            {/* Background Gradient */}
-            <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} transition-opacity duration-500`} />
-
-            {/* Decorative Elements */}
-            <div 
-              className="absolute -right-4 -bottom-4 opacity-10 transition-transform duration-700 group-hover:scale-110 group-hover:rotate-12"
-              style={{ color: 'white' }}
-            >
-              <Icon size={120} strokeWidth={1} />
+            {/* Subtle Pattern */}
+            <div className="absolute -right-4 -bottom-4 opacity-10 text-white pointer-events-none">
+               <Package size={80} strokeWidth={1} />
             </div>
 
-            {/* Content */}
-            <div className="relative z-10 flex flex-col h-full justify-between gap-4">
-              <div className="flex justify-between items-start">
-                <div className="space-y-1">
-                  <p className="text-[0.65rem] font-bold text-white/70 uppercase tracking-[0.2em] font-sans">
-                    {item.label}
-                  </p>
-                  <h3 className="text-3xl font-bold text-white font-serif tracking-tight" style={{ fontFamily: "var(--font-marcellus)" }}>
-                    {item.value}
-                  </h3>
-                </div>
-                <div className="p-2.5 rounded-xl bg-white/10 border border-white/20 text-white shadow-inner">
-                  <Icon size={20} />
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 pt-2 text-white/50 text-[0.7rem] font-medium">
-                <TrendingUp size={14} className="text-white/80" />
-                <span className="font-sans uppercase tracking-wider">Historial Detallado</span>
-              </div>
+            <div className="relative z-10">
+              <h3 
+                className="text-2xl sm:text-3xl font-normal mb-1 text-white" 
+                style={{ fontFamily: "var(--font-serif, 'Cormorant Garamond', serif)" }}
+              >
+                {item.value}
+              </h3>
+              <p className="text-[9px] sm:text-[10px] font-bold text-white/70 uppercase tracking-[0.1em] sm:tracking-[0.12em] font-sans">
+                {item.label}
+              </p>
             </div>
           </div>
         );

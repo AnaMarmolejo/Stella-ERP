@@ -40,7 +40,7 @@ function pct(n: number) { return `${n.toFixed(1)}%`; }
 const COL: React.CSSProperties = {
   fontFamily: "var(--font-marcellus)",
   fontSize: "0.72rem", fontWeight: 600,
-  color: "#8C9796",
+  color: "#708090",
   padding: "10px 14px",
   textAlign: "left",
   whiteSpace: "nowrap",
@@ -100,19 +100,19 @@ export default function ReportTable() {
       {/* Header */}
       <div style={{
         display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: "14px 18px", borderBottom: "1px solid #F0EDE8",
+        padding: "14px 18px", borderBottom: "1px solid #f6f4ef",
         flexWrap: "wrap", gap: 10,
       }}>
         <div>
           <h3 style={{
             fontFamily: "var(--font-marcellus)",
-            fontSize: "0.9rem", fontWeight: 700, color: "#1C1C1C", margin: 0,
+            fontSize: "0.9rem", fontWeight: 700, color: "#2d3748", margin: 0,
           }}>
             Detalle de Productos
           </h3>
           <p style={{
             fontFamily: "var(--font-poppins)",
-            fontSize: "0.67rem", color: "#8C9796", margin: "2px 0 0",
+            fontSize: "0.67rem", color: "#708090", margin: "2px 0 0",
           }}>
             {filtered.length} productos · haz clic en columnas para ordenar
           </p>
@@ -120,10 +120,10 @@ export default function ReportTable() {
         {/* Search */}
         <div style={{
           display: "flex", alignItems: "center", gap: 8,
-          background: "#F6F3EF", borderRadius: 10, padding: "7px 12px",
+          background: "#f6f4ef", borderRadius: 10, padding: "7px 12px",
           border: "1px solid rgba(112,128,144,0.15)",
         }}>
-          <Search size={13} style={{ color: "#8C9796" }} />
+          <Search size={13} style={{ color: "#708090" }} />
           <input
             value={search}
             onChange={e => { setSearch(e.target.value); setPage(1); }}
@@ -131,7 +131,7 @@ export default function ReportTable() {
             style={{
               background: "none", border: "none", outline: "none",
               fontFamily: "var(--font-poppins)",
-              fontSize: "0.78rem", color: "#1C1C1C", width: 200,
+              fontSize: "0.78rem", color: "#2d3748", width: 200,
             }}
           />
         </div>
@@ -141,7 +141,7 @@ export default function ReportTable() {
       <div style={{ overflowX: "auto" }}>
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
           <thead>
-            <tr style={{ background: "#F8F6F2", borderBottom: "1px solid #F0EDE8" }}>
+            <tr style={{ background: "#f6f4ef", borderBottom: "1px solid #f6f4ef" }}>
               <th style={{ ...COL, minWidth: 180 }}>Producto</th>
               <th style={COL}>Categoría</th>
               <TH label="Qty" col="cantidad" />
@@ -158,30 +158,30 @@ export default function ReportTable() {
                 <tr
                   key={p.id}
                   style={{
-                    borderBottom: i < paged.length - 1 ? "1px solid #F7F4F0" : "none",
+                    borderBottom: i < paged.length - 1 ? "1px solid #f6f4ef" : "none",
                     transition: "background 0.12s",
                   }}
-                  onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = "#FAFAF8")}
+                  onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = "#f6f4ef")}
                   onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = "transparent")}
                 >
                   <td style={{ padding: "10px 14px" }}>
                     <p style={{
                       fontFamily: "var(--font-poppins)",
-                      fontSize: "0.78rem", fontWeight: 600, color: "#1C1C1C",
+                      fontSize: "0.78rem", fontWeight: 600, color: "#2d3748",
                       margin: 0, whiteSpace: "nowrap",
                     }}>{p.nombre}</p>
                   </td>
                   <td style={{ padding: "10px 14px" }}>
                     <span style={{
-                      background: "#F0EDE8", borderRadius: 20, padding: "2px 10px",
+                      background: "#f6f4ef", borderRadius: 20, padding: "2px 10px",
                       fontFamily: "var(--font-poppins)",
                       fontSize: "0.65rem", fontWeight: 600, color: "#708090",
                     }}>{p.categoria}</span>
                   </td>
                   {[p.cantidad, null, null, null, null].map((_, idx) => null)}
-                  <td style={{ padding: "10px 14px", fontFamily: "var(--font-poppins)", fontSize: "0.78rem", color: "#1C1C1C", fontWeight: 500 }}>{p.cantidad}</td>
+                  <td style={{ padding: "10px 14px", fontFamily: "var(--font-poppins)", fontSize: "0.78rem", color: "#2d3748", fontWeight: 500 }}>{p.cantidad}</td>
                   <td style={{ padding: "10px 14px", fontFamily: "var(--font-poppins)", fontSize: "0.78rem", color: "#708090" }}>{money(p.costo)}</td>
-                  <td style={{ padding: "10px 14px", fontFamily: "var(--font-poppins)", fontSize: "0.78rem", color: "#1C1C1C", fontWeight: 600 }}>{money(p.precio)}</td>
+                  <td style={{ padding: "10px 14px", fontFamily: "var(--font-poppins)", fontSize: "0.78rem", color: "#2d3748", fontWeight: 600 }}>{money(p.precio)}</td>
                   <td style={{ padding: "10px 14px", fontFamily: "var(--font-poppins)", fontSize: "0.85rem", fontWeight: 700, color: "#3d8c60" }}>{money(p.ganancia)}</td>
                   <td style={{ padding: "10px 14px" }}>
                     <span style={{
@@ -200,7 +200,7 @@ export default function ReportTable() {
             })}
             {paged.length === 0 && (
               <tr>
-                <td colSpan={7} style={{ padding: "28px", textAlign: "center", color: "#8C9796", fontSize: "0.8rem" }}>
+                <td colSpan={7} style={{ padding: "28px", textAlign: "center", color: "#708090", fontSize: "0.8rem" }}>
                   No se encontraron productos con ese criterio
                 </td>
               </tr>
@@ -212,12 +212,12 @@ export default function ReportTable() {
       {/* Pagination */}
       <div style={{
         display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: "10px 18px", borderTop: "1px solid #F0EDE8",
+        padding: "10px 18px", borderTop: "1px solid #f6f4ef",
         flexWrap: "wrap", gap: 8,
       }}>
         <span style={{
           fontFamily: "var(--font-marcellus)",
-          fontSize: "0.7rem", color: "#8C9796",
+          fontSize: "0.7rem", color: "#708090",
         }}>
           Mostrando {((page - 1) * PAGE_SIZE) + 1}–{Math.min(page * PAGE_SIZE, filtered.length)} de {filtered.length}
         </span>
@@ -226,8 +226,8 @@ export default function ReportTable() {
             onClick={() => setPage(p => Math.max(1, p - 1))}
             disabled={page === 1}
             style={{
-              width: 30, height: 30, borderRadius: 8, border: "1px solid #E8E5E0",
-              background: page === 1 ? "#F8F6F2" : "#fff", cursor: page === 1 ? "default" : "pointer",
+              width: 30, height: 30, borderRadius: 8, border: "1px solid #f6f4ef",
+              background: page === 1 ? "#f6f4ef" : "#fff", cursor: page === 1 ? "default" : "pointer",
               display: "flex", alignItems: "center", justifyContent: "center",
               color: page === 1 ? "#C8C4BC" : "#708090",
             }}
@@ -239,7 +239,7 @@ export default function ReportTable() {
               key={n}
               onClick={() => setPage(n)}
               style={{
-                width: 30, height: 30, borderRadius: 8, border: "1px solid #E8E5E0",
+                width: 30, height: 30, borderRadius: 8, border: "1px solid #f6f4ef",
                 background: page === n ? "#B76E79" : "#fff",
                 cursor: "pointer",
                 fontFamily: "var(--font-marcellus)",
@@ -255,8 +255,8 @@ export default function ReportTable() {
             onClick={() => setPage(p => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
             style={{
-              width: 30, height: 30, borderRadius: 8, border: "1px solid #E8E5E0",
-              background: page === totalPages ? "#F8F6F2" : "#fff",
+              width: 30, height: 30, borderRadius: 8, border: "1px solid #f6f4ef",
+              background: page === totalPages ? "#f6f4ef" : "#fff",
               cursor: page === totalPages ? "default" : "pointer",
               display: "flex", alignItems: "center", justifyContent: "center",
               color: page === totalPages ? "#C8C4BC" : "#708090",

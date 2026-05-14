@@ -47,23 +47,23 @@ export default function ProfitReinvestment({ ventas, productos }: ProfitReinvest
     }}>
       <h3 style={{
         fontFamily: "var(--font-marcellus)",
-        fontSize: "0.85rem", fontWeight: 700, color: "#2A2E34", margin: "0 0 4px 0",
+        fontSize: "0.85rem", fontWeight: 700, color: "#2d3748", margin: "0 0 4px 0",
       }}>
         Ganancias y Administración
       </h3>
       <p style={{
         fontFamily: "var(--font-poppins)",
-        fontSize: "0.65rem", color: "#8A94A6", margin: "0 0 20px 0",
+        fontSize: "0.65rem", color: "#708090", margin: "0 0 20px 0",
       }}>
         Basado en tus ventas completadas
       </p>
 
       {/* Main Income */}
       <div style={{ marginBottom: 20 }}>
-        <p style={{ fontFamily: "var(--font-marcellus)", fontSize: "0.7rem", color: "#8A94A6", margin: "0 0 4px 0", fontWeight: 600 }}>
+        <p style={{ fontFamily: "var(--font-marcellus)", fontSize: "0.7rem", color: "#708090", margin: "0 0 4px 0", fontWeight: 600 }}>
           Ingresos Brutos
         </p>
-        <span style={{ fontFamily: "var(--font-poppins)", fontSize: "1.6rem", fontWeight: 800, color: "#2A2E34" }}>
+        <span style={{ fontFamily: "var(--font-poppins)", fontSize: "1.6rem", fontWeight: 800, color: "#2d3748" }}>
           {fmt(ingresos)}
         </span>
       </div>
@@ -74,20 +74,20 @@ export default function ProfitReinvestment({ ventas, productos }: ProfitReinvest
         {/* Cost vs Gross Profit */}
         <div>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-            <span style={{ fontFamily: "var(--font-marcellus)", fontSize: "0.7rem", color: "#4A5568", fontWeight: 600 }}>Costo de Mercancía</span>
-            <span style={{ fontFamily: "var(--font-poppins)", fontSize: "0.7rem", color: "#2A2E34", fontWeight: 700 }}>{fmt(estimatedCost)}</span>
+            <span style={{ fontFamily: "var(--font-marcellus)", fontSize: "0.7rem", color: "#2d3748", fontWeight: 600 }}>Costo de Mercancía</span>
+            <span style={{ fontFamily: "var(--font-poppins)", fontSize: "0.7rem", color: "#2d3748", fontWeight: 700 }}>{fmt(estimatedCost)}</span>
           </div>
-          <div style={{ width: "100%", background: "#F0F2F5", borderRadius: 4, height: 6 }}>
-            <div style={{ width: `${(estimatedCost/ingresos)*100 || 0}%`, background: "#8A94A6", borderRadius: 4, height: "100%" }} />
+          <div style={{ width: "100%", background: "#f6f4ef", borderRadius: 4, height: 6 }}>
+            <div style={{ width: `${(estimatedCost/ingresos)*100 || 0}%`, background: "#708090", borderRadius: 4, height: "100%" }} />
           </div>
         </div>
 
         <div>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-            <span style={{ fontFamily: "var(--font-marcellus)", fontSize: "0.7rem", color: "#4A5568", fontWeight: 600 }}>Ganancia Antes de Adm.</span>
+            <span style={{ fontFamily: "var(--font-marcellus)", fontSize: "0.7rem", color: "#2d3748", fontWeight: 600 }}>Ganancia Antes de Adm.</span>
             <span style={{ fontFamily: "var(--font-poppins)", fontSize: "0.7rem", color: "#3d8c60", fontWeight: 700 }}>{fmt(gananciaBruta)}</span>
           </div>
-          <div style={{ width: "100%", background: "#F0F2F5", borderRadius: 4, height: 6 }}>
+          <div style={{ width: "100%", background: "#f6f4ef", borderRadius: 4, height: 6 }}>
             <div style={{ width: `${(gananciaBruta/ingresos)*100 || 0}%`, background: "#3d8c60", borderRadius: 4, height: "100%" }} />
           </div>
         </div>
@@ -102,24 +102,24 @@ export default function ProfitReinvestment({ ventas, productos }: ProfitReinvest
         borderRadius: 12,
         border: "1px dashed #E2E8F0" 
       }}>
-        <h4 style={{ fontFamily: "var(--font-marcellus)", fontSize: "0.7rem", color: "#2A2E34", fontWeight: 700, margin: "0 0 10px 0" }}>
+        <h4 style={{ fontFamily: "var(--font-marcellus)", fontSize: "0.7rem", color: "#2d3748", fontWeight: 700, margin: "0 0 10px 0" }}>
           Sugerencia de Distribución
         </h4>
         
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8, alignItems: "center" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#708090" }} />
-            <span style={{ fontFamily: "var(--font-marcellus)", fontSize: "0.7rem", color: "#4A5568" }}>Reinversión (25%)</span>
+            <span style={{ fontFamily: "var(--font-marcellus)", fontSize: "0.7rem", color: "#2d3748" }}>Reinversión (25%)</span>
           </div>
-          <span style={{ fontFamily: "var(--font-poppins)", fontSize: "0.75rem", fontWeight: 700, color: "#2A2E34" }}>{fmt(fondoInversion)}</span>
+          <span style={{ fontFamily: "var(--font-poppins)", fontSize: "0.75rem", fontWeight: 700, color: "#2d3748" }}>{fmt(fondoInversion)}</span>
         </div>
         
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#B76E79" }} />
-            <span style={{ fontFamily: "var(--font-marcellus)", fontSize: "0.7rem", color: "#4A5568" }}>Ganancia Neta (70%)</span>
+            <span style={{ fontFamily: "var(--font-marcellus)", fontSize: "0.7rem", color: "#2d3748" }}>Ganancia Neta (70%)</span>
           </div>
-          <span style={{ fontFamily: "var(--font-poppins)", fontSize: "0.75rem", fontWeight: 700, color: "#2A2E34" }}>{fmt(gananciaNeta)}</span>
+          <span style={{ fontFamily: "var(--font-poppins)", fontSize: "0.75rem", fontWeight: 700, color: "#2d3748" }}>{fmt(gananciaNeta)}</span>
         </div>
       </div>
 

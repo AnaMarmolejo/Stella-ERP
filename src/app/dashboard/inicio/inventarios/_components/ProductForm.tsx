@@ -37,7 +37,6 @@ import {
 import { toast } from "sonner";
 import ImageCropper from "./ImageCropper";
 import { motion, AnimatePresence } from "framer-motion";
-
 const LUXURY_PALETTE = [
   { name: "Verde Bandera", hex: "#006847" },
   { name: "Verde Limón", hex: "#A4D307" },
@@ -460,32 +459,71 @@ export default function ProductForm({
 
     if (errors[name]) setErrors(prev => ({ ...prev, [name]: "" }));
   };
-  const handleGalleryUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // 1. Extraemos TODOS los archivos seleccionados, no solo el primero
+  const handleGalleryUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    // 1. Extraemos TODOS los archivos seleccionados
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
 
-    // 2. Filtramos los que pesan más de 5MB
-    const validFiles = files.filter(f => f.size <= 5 * 1024 * 1024);
-    if (validFiles.length < files.length) {
-      setErrors(prev => ({
-        ...prev,
-        imagen: "Algunas imágenes superan los 5MB y fueron ignoradas.",
+    toast.info("Procesando imágenes...");
+
+    try {
+      // 2. Procesamos y convertimos HEIC si es necesario
+      const processedFiles = await Promise.all(
+        files.map(async file => {
+          const isHeic =
+            file.name.toLowerCase().endsWith(".heic") ||
+            file.type === "image/heic" ||
+            file.type === "image/heif";
+
+          if (isHeic) {
+            try {
+              const heic2any = (await import("heic2any")).default;
+              const convertedBlob = await heic2any({
+                blob: file,
+                toType: "image/jpeg",
+                quality: 0.7,
+              });
+              const finalBlob = Array.isArray(convertedBlob)
+                ? convertedBlob[0]
+                : convertedBlob;
+              return new File(
+                [finalBlob],
+                file.name.replace(/\.(heic|heif)$/i, ".jpg"),
+                { type: "image/jpeg" }
+              );
+            } catch (err) {
+              console.error("Error al convertir HEIC:", err);
+              return file; // Si falla, intentamos con el original
+            }
+          }
+          return file;
+        })
+      );
+
+      // 3. Filtramos los que pesan más de 10MB (HEIC convertidos suelen pesar menos)
+      const validFiles = processedFiles.filter(f => f.size <= 10 * 1024 * 1024);
+      if (validFiles.length < processedFiles.length) {
+        setErrors(prev => ({
+          ...prev,
+          imagen: "Algunas imágenes superan los 10MB y fueron ignoradas.",
+        }));
+      }
+
+      // 4. Creamos las vistas previas para cada imagen nueva
+      const nuevasVistas: VistaImagen[] = validFiles.map((file, index) => ({
+        idUnico: `new-${Date.now()}-${index}-${file.name}`,
+        file,
+        url: URL.createObjectURL(file),
       }));
+
+      // 5. Las AGREGAMOS a las que ya estaban en la galería
+      setGaleria(prev => [...prev, ...nuevasVistas]);
+    } catch (error) {
+      console.error("Error en la subida de galería:", error);
+      toast.error("Ocurrió un error al procesar las imágenes.");
+    } finally {
+      e.target.value = "";
     }
-
-    // 3. Creamos las vistas previas para cada imagen nueva
-    const nuevasVistas: VistaImagen[] = validFiles.map((file, index) => ({
-      // Agregamos el index al ID para asegurar que no haya duplicados si se suben al mismo milisegundo
-      idUnico: `new-${Date.now()}-${index}-${file.name}`,
-      file,
-      url: URL.createObjectURL(file),
-    }));
-
-    // 4. Las AGREGAMOS a las que ya estaban en la galería
-    setGaleria(prev => [...prev, ...nuevasVistas]);
-
-    e.target.value = "";
   };
   const handleRemoveImage = (img: VistaImagen) => {
     // Si viene de la base de datos, lo anotamos para borrarlo en el backend
@@ -894,20 +932,19 @@ export default function ProductForm({
     icon: React.ElementType;
     children?: React.ReactNode;
   }) => (
-    <div className="flex items-center justify-between mb-12 group/header">
-      <div className="flex items-center gap-6">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 sm:mb-12 group/header gap-4">
+      <div className="flex items-center gap-4 sm:gap-6">
         <div
-          className="w-16 h-16 rounded-2xl bg-[#ffffff] flex items-center justify-center text-[#708090] border-2 border-[rgba(112,128,144,0.12)] transition-all group-hover/header:border-[#b76e79] shadow-xl"
+          className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-[#ffffff] flex items-center justify-center text-[#708090] border-2 border-[rgba(112,128,144,0.12)] transition-all group-hover/header:border-[#b76e79] shadow-lg sm:shadow-xl"
           style={{ boxShadow: "0 8px 30px rgba(140,151,104,0.12)" }}
         >
-          <Icon size={28} strokeWidth={1.2} />
+          <Icon className="w-6 h-6 sm:w-7 sm:h-7" strokeWidth={1.2} />
         </div>
         <div>
           <h3
-            className="text-[#4a5568] tracking-tight leading-tight"
+            className="text-[#4a5568] tracking-tight leading-tight text-xl sm:text-[1.8rem]"
             style={{
               fontFamily: "var(--font-display, Manrope, sans-serif)",
-              fontSize: "1.8rem",
               fontWeight: 700,
             }}
           >
@@ -918,10 +955,10 @@ export default function ProductForm({
               </span>
             )}
           </h3>
-          <div className="w-12 h-1 bg-[#b76e79]/30 rounded-full mt-2 transition-all group-hover/header:w-20 group-hover/header:bg-[#b76e79]/60" />
+          <div className="w-10 h-1 bg-[#b76e79]/30 rounded-full mt-1.5 transition-all group-hover/header:w-20 group-hover/header:bg-[#b76e79]/60" />
         </div>
       </div>
-      {children}
+      {children && <div className="w-full sm:w-auto">{children}</div>}
     </div>
   );
 
@@ -1107,7 +1144,7 @@ export default function ProductForm({
                 <input
                   type="file"
                   multiple
-                  accept="image/*"
+                  accept="image/*,.heic,.heif"
                   onChange={handleGalleryUpload}
                   className="hidden"
                 />
@@ -1146,7 +1183,7 @@ export default function ProductForm({
         </div>
       </div>
       {/* COLUMNA DERECHA (Scrollable) */}
-      <div className="flex-1 flex flex-col gap-6 w-full">
+      <div className="flex-1 flex flex-col gap-6 w-full min-w-0 overflow-hidden">
         {/* COMPONENTES DEL JUEGO (Solo si la categoría es Juego) */}
         {categorias
           .find(c => c.id == formData.id_categoria)
@@ -1276,7 +1313,8 @@ export default function ProductForm({
                   >
                     <Trash2 size={12} />
                   </button>
-                  <div className="grid grid-cols-3 gap-3 mb-3">
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
                     <div>
                       <label className="text-[0.7rem] font-bold text-[#b76e79] uppercase tracking-widest block mb-1">
                         Atributo
@@ -1312,7 +1350,7 @@ export default function ProductForm({
                         <option value="number">Número</option>
                       </select>
                     </div>
-                    <div className="flex items-end pb-2">
+                    <div className="flex items-center sm:items-end sm:pb-2 pt-2 sm:pt-0">
                       <label className="relative flex items-center cursor-pointer gap-2">
                         <div className="relative">
                           <input
@@ -1815,55 +1853,69 @@ export default function ProductForm({
                     return (
                       <div
                         key={idx}
-                        className="flex items-center gap-3 bg-[#f6f4ef]/50 px-4 py-2.5 rounded-[14px] border border-transparent hover:border-[#b76e79]/20 transition-all"
+                        className="flex flex-col sm:flex-row sm:items-center gap-3 bg-[#f6f4ef]/50 px-4 py-4 sm:py-2.5 rounded-[14px] border border-transparent hover:border-[#b76e79]/20 transition-all relative"
                       >
-                        <div className="w-2 h-2 rounded-full bg-[#b76e79] flex-shrink-0" />
-                        <select
-                          value={sel.id_insumo}
-                          onChange={e =>
-                            handleInsumoChange(
-                              idx,
-                              "id_insumo",
-                              parseInt(e.target.value)
-                            )
-                          }
-                          className="flex-1 bg-transparent text-sm font-bold text-[#4a5568] focus:outline-none appearance-none cursor-pointer min-w-0"
-                        >
-                          {insumosDisponibles.map(ins => (
-                            <option key={ins.id} value={ins.id}>
-                              {ins.nombre} — ${ins.precio}/{ins.unidad_medida}
-                            </option>
-                          ))}
-                        </select>
-                        <div className="flex items-center gap-2 flex-shrink-0">
-                          <input
-                            type="number"
-                            step="0.01"
-                            value={sel.cantidad_necesaria}
+                        <div className="hidden sm:block w-2 h-2 rounded-full bg-[#b76e79] flex-shrink-0" />
+                        <div className="flex-1 min-w-0 pr-8 sm:pr-0">
+                          <label className="text-[0.6rem] font-bold text-[#b76e79] uppercase mb-1 sm:hidden">Insumo</label>
+                          <select
+                            value={sel.id_insumo}
                             onChange={e =>
                               handleInsumoChange(
                                 idx,
-                                "cantidad_necesaria",
-                                parseFloat(e.target.value) || 0
+                                "id_insumo",
+                                parseInt(e.target.value)
                               )
                             }
-                            className="w-16 bg-white rounded-lg py-1.5 px-2 text-center text-sm font-black text-[#4a5568] border border-transparent focus:border-[#b76e79] outline-none"
-                          />
-                          <span className="text-xs font-bold text-[#b76e79] w-8">
-                            {info?.unidad_medida || "u."}
-                          </span>
-                          <span className="text-sm font-black text-[#4a5568] w-14 text-right">
-                            $
-                            {(
-                              (info?.precio || 0) * sel.cantidad_necesaria
-                            ).toFixed(2)}
-                          </span>
+                            className="w-full bg-white sm:bg-transparent border border-[#b76e79]/10 sm:border-none rounded-lg p-2 sm:p-0 text-sm font-bold text-[#4a5568] focus:outline-none appearance-none cursor-pointer overflow-hidden text-ellipsis"
+                          >
+                            {insumosDisponibles.map(ins => (
+                              <option key={ins.id} value={ins.id}>
+                                {ins.nombre} — ${ins.precio}/{ins.unidad_medida}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        
+                        <div className="flex items-center justify-between sm:justify-end gap-3 sm:flex-shrink-0 pt-2 sm:pt-0 border-t sm:border-none border-[#b76e79]/10">
+                          <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2">
+                             <span className="text-[0.6rem] font-bold text-[#708090] uppercase sm:hidden">Cant.</span>
+                             <div className="flex items-center gap-1">
+                                <input
+                                  type="number"
+                                  step="0.01"
+                                  value={sel.cantidad_necesaria}
+                                  onChange={e =>
+                                    handleInsumoChange(
+                                      idx,
+                                      "cantidad_necesaria",
+                                      parseFloat(e.target.value) || 0
+                                    )
+                                  }
+                                  className="w-14 sm:w-16 bg-white rounded-lg py-1.5 px-2 text-center text-sm font-black text-[#4a5568] border border-[rgba(112,128,144,0.15)] focus:border-[#b76e79] outline-none shadow-sm"
+                                />
+                                <span className="text-[0.65rem] font-bold text-[#b76e79] w-6 sm:w-8">
+                                  {info?.unidad_medida || "u."}
+                                </span>
+                             </div>
+                          </div>
+
+                          <div className="flex flex-col items-end sm:flex-row sm:items-center gap-0 sm:gap-4">
+                             <span className="text-[0.6rem] font-bold text-[#708090] uppercase sm:hidden">Subtotal</span>
+                             <span className="text-sm font-black text-[#4a5568] min-w-[60px] text-right">
+                               $
+                               {(
+                                 (info?.precio || 0) * sel.cantidad_necesaria
+                               ).toFixed(2)}
+                             </span>
+                          </div>
+
                           <button
                             type="button"
                             onClick={() => eliminarInsumo(idx)}
-                            className="p-1.5 text-[#708090]/30 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all"
+                            className="p-2 text-rose-500 bg-rose-50 sm:bg-transparent sm:text-[#708090]/30 hover:text-rose-500 sm:hover:bg-rose-50 rounded-lg transition-all absolute top-2 right-2 sm:static"
                           >
-                            <Trash2 size={13} />
+                            <Trash2 className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
                           </button>
                         </div>
                       </div>
@@ -2041,7 +2093,7 @@ export default function ProductForm({
             </div>
 
             {/* Métricas de Rentabilidad */}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="px-5 py-4 rounded-[18px] bg-[#8c9768]/5 border border-[#8c9768]/20 flex flex-col items-center">
                 <span className="text-[0.6rem] font-black text-[#8c9768] uppercase tracking-[0.2em] mb-1">
                   Ganancia Neta
@@ -2099,12 +2151,12 @@ export default function ProductForm({
                 Control de Stock
               </p>
             </div>
-            <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto">
-              <div className="flex flex-col items-start sm:items-end gap-1 flex-1 sm:flex-none">
+            <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 w-full sm:w-auto">
+              <div className="flex flex-col items-start sm:items-end gap-1">
                 <div className="flex items-center gap-2">
                   {formData.es_personalizable && (
                     <span className="bg-[#b76e79]/10 text-[#b76e79] text-[0.6rem] font-bold px-2 py-0.5 rounded-full animate-pulse border border-[#b76e79]/20">
-                      Calculado de variantes
+                      Variantes
                     </span>
                   )}
                   <label className="text-[0.75rem] font-bold text-[#708090] uppercase tracking-widest">
@@ -2124,8 +2176,7 @@ export default function ProductForm({
                   }}
                 />
               </div>
-              <div className="hidden sm:block w-px h-10 bg-[rgba(112,128,144,0.2)]" />
-              <div className="flex flex-col items-start sm:items-end gap-1 flex-1 sm:flex-none">
+              <div className="flex flex-col items-start sm:items-end gap-1">
                 <label className="text-[0.75rem] font-bold text-[#b76e79] uppercase tracking-widest">
                   Stock mínimo
                 </label>
@@ -2153,7 +2204,7 @@ export default function ProductForm({
             <div className="flex-1 flex flex-col gap-6">
               {/* PANEL DE CONFIGURACIÓN IA */}
               <div className="p-5 bg-[#f6f4ef]/50 rounded-[24px] border-2 border-dashed border-[#b76e79]/20 space-y-4">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-center gap-2">
                     <Sparkles size={16} className="text-[#b76e79]" />
                     <span className="text-[0.7rem] font-black text-[#4a5568] uppercase tracking-widest">
@@ -2164,7 +2215,7 @@ export default function ProductForm({
                     type="button"
                     onClick={handleGenerateAI}
                     disabled={isGeneratingAI || galeria.length === 0}
-                    className="relative flex items-center gap-2 px-6 py-2 rounded-full bg-[#2d3748] text-white text-[0.7rem] font-black uppercase tracking-widest hover:bg-black transition-all disabled:opacity-50 shadow-lg overflow-hidden"
+                    className="relative flex items-center justify-center gap-2 px-6 py-3 sm:py-2 rounded-full bg-[#2d3748] text-white text-[0.7rem] font-black uppercase tracking-widest hover:bg-black transition-all disabled:opacity-50 shadow-lg overflow-hidden w-full sm:w-auto"
                   >
                     <AnimatePresence mode="wait">
                       {isGeneratingAI ? (

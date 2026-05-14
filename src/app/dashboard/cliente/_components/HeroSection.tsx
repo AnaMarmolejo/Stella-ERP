@@ -124,9 +124,38 @@ export default function HeroSection({ idRol }: HeroSectionProps) {
     config.featuredProductIds.includes(p.id)
   );
 
-  const handleImageFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleImageFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    let file = e.target.files?.[0];
     if (!file) return;
+
+    // Soporte para archivos HEIC/HEIF
+    if (
+      file.name.toLowerCase().endsWith(".heic") ||
+      file.name.toLowerCase().endsWith(".heif") ||
+      file.type === "image/heic" ||
+      file.type === "image/heif"
+    ) {
+      try {
+        const heic2any = (await import("heic2any")).default;
+        const convertedBlob = await heic2any({
+          blob: file,
+          toType: "image/jpeg",
+          quality: 0.8,
+        });
+
+        const finalBlob = Array.isArray(convertedBlob)
+          ? convertedBlob[0]
+          : convertedBlob;
+        file = new File(
+          [finalBlob],
+          file.name.replace(/\.(heic|heif)$/i, ".jpg"),
+          { type: "image/jpeg" }
+        );
+      } catch (error) {
+        console.error("Error al convertir HEIC:", error);
+      }
+    }
+
     const url = URL.createObjectURL(file);
     setImagePreview(url);
     setDraft(d => ({ ...d, imageUrl: url }));
@@ -627,7 +656,7 @@ export default function HeroSection({ idRol }: HeroSectionProps) {
                 <input
                   ref={fileInputRef}
                   type="file"
-                  accept="image/*"
+                  accept="image/*,.heic,.heif"
                   className="hidden"
                   onChange={handleImageFile}
                 />

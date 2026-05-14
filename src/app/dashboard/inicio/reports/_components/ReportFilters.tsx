@@ -27,106 +27,56 @@ export default function ReportFilters({
   const TABS: PeriodoTab[] = ["DIARIO", "SEMANAL", "MENSUAL", "ANUAL"];
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: 20,
-        marginTop: 50,
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          gap: 10,
-          alignItems: "center",
-          flexWrap: "wrap" /* 🔥 Permite que el botón baje de línea */,
-          width: "100%" /* 🔥 Ocupa el ancho disponible */,
-          justifyContent: "flex-end" /* Mantiene todo a la derecha en PC */,
-        }}
-      >
-        <div style={{ display: "flex", gap: 10, flex: "1 1 auto" }}>
+    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mt-8 w-full">
+      {/* Selector de periodos (Tabs) */}
+      <div className="flex bg-white/80 backdrop-blur-sm border border-gray-200 p-1 rounded-xl w-full lg:w-auto overflow-x-auto hide-scrollbar">
+        {TABS.map((tab) => (
+          <button
+            key={tab}
+            onClick={() => onTabChange(tab)}
+            className={`flex-1 lg:flex-none px-3 sm:px-5 py-2.5 rounded-lg text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap ${
+              activeTab === tab
+                ? "bg-[#2d3748] text-white shadow-md"
+                : "text-gray-500 hover:bg-gray-100/80"
+            }`}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
+
+      {/* Selectores de Fechas y Botón Excel */}
+      <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+        <div className="flex gap-2 flex-1 sm:flex-none">
           <input
             type="date"
             value={startDate}
-            onChange={e => onStartDateChange(e.target.value)}
-            style={{
-              flex: 1 /* 🔥 Hace que las fechas se repartan el espacio equitativamente */,
-              padding: "8px 14px",
-              borderRadius: 8,
-              border: "1px solid #E2E8F0",
-              fontFamily: "var(--font-poppins)",
-              fontSize: "0.75rem",
-              fontWeight: 600,
-              color: "#4A5568",
-              outline: "none",
-              cursor: "pointer",
-              background: "#fff",
-              minWidth: 120 /* Evita que el input se haga microscópico */,
-            }}
+            onChange={(e) => onStartDateChange(e.target.value)}
+            className="flex-1 px-3 sm:px-4 py-2.5 rounded-xl border border-gray-200 text-xs sm:text-sm font-semibold text-gray-700 outline-none bg-white/80 cursor-pointer focus:border-[#b76e79] transition-colors"
           />
           <input
             type="date"
             value={endDate}
-            onChange={e => onEndDateChange(e.target.value)}
-            style={{
-              flex: 1 /* 🔥 Hace que las fechas se repartan el espacio equitativamente */,
-              padding: "8px 14px",
-              borderRadius: 8,
-              border: "1px solid #E2E8F0",
-              fontFamily: "var(--font-poppins)",
-              fontSize: "0.75rem",
-              fontWeight: 600,
-              color: "#4A5568",
-              outline: "none",
-              cursor: "pointer",
-              background: "#fff",
-              minWidth: 120 /* Evita que el input se haga microscópico */,
-            }}
+            onChange={(e) => onEndDateChange(e.target.value)}
+            className="flex-1 px-3 sm:px-4 py-2.5 rounded-xl border border-gray-200 text-xs sm:text-sm font-semibold text-gray-700 outline-none bg-white/80 cursor-pointer focus:border-[#b76e79] transition-colors"
           />
         </div>
 
         {onExport && (
           <button
             onClick={onExport}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 8,
-              padding: "8px 16px",
-              borderRadius: 10,
-              background: "#2d3748",
-              color: "#fff",
-              fontFamily: "var(--font-sans)",
-              fontSize: "0.75rem",
-              fontWeight: 700,
-              border: "none",
-              cursor: "pointer",
-              transition: "all 0.2s",
-              flex: "1 1 100%" /* 🔥 En móvil, esto obliga al botón a ocupar su propia fila del 100% */,
-              maxWidth: "100%",
-            }}
-            onMouseOver={e => (e.currentTarget.style.background = "#000")}
-            onMouseOut={e => (e.currentTarget.style.background = "#2d3748")}
+            className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#2d3748] hover:bg-black text-white font-bold text-[10px] sm:text-xs uppercase tracking-widest transition-all shadow-lg shadow-black/10 w-full sm:w-auto"
           >
             <Download size={16} />
-            EXCEL CONTABLE
+            Excel Contable
           </button>
         )}
-
-        {/* CSS Mágico para escritorio: Desactiva el ancho 100% del botón en pantallas grandes */}
-        <style>{`
-          @media (min-width: 640px) {
-            button {
-              flex: 0 1 auto !important; /* El botón vuelve a su tamaño pequeño en PC */
-            }
-            .acciones-container {
-              width: auto !important;
-            }
-          }
-        `}</style>
       </div>
+
+      <style>{`
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
     </div>
   );
 }

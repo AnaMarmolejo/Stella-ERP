@@ -186,7 +186,9 @@ function WholesalerDashboard({ onDownloadClick }: { onDownloadClick: () => void 
         <div style={iconBoxStyle}><Package size={24} color={STYLES.slate} /></div>
         <h3 style={cardTitleStyle}>Solicitar <em style={{color: STYLES.rose}}>Consignación</em></h3>
         <p style={cardDescStyle}>¿Buscas renovar stock sin inversión inicial? Solicita piezas bajo el modelo de consignación (Solo ZMG).</p>
-        <button style={secondaryButtonStyle}>Gestionar Consignación</button>
+        <Link href="/dashboard/inicio/consignaciones" style={{ textDecoration: "none" }}>
+          <button style={secondaryButtonStyle}>Gestionar Consignación</button>
+        </Link>
       </div>
 
       {/* CARD: BENEFICIOS ACTIVOS */}

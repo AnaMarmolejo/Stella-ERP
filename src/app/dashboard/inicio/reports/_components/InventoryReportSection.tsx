@@ -80,14 +80,14 @@ export default function InventoryReportSection({ productos, ventas }: Props) {
       <div>
         <h3 style={{
           fontFamily: "var(--font-marcellus)",
-          fontSize: "1rem", fontWeight: 700, color: "#2A2E34", margin: 0,
+          fontSize: "1rem", fontWeight: 700, color: "#2d3748", margin: 0,
           display: "flex", alignItems: "center", gap: 8
         }}>
-          <AlertCircle size={18} color="#C07E88" /> Monitoreo de Inventario Crítico
+          <AlertCircle size={18} color="#b76e79" /> Monitoreo de Inventario Crítico
         </h3>
         <p style={{
           fontFamily: "var(--font-poppins)",
-          fontSize: "0.75rem", color: "#8A94A6", margin: "4px 0 0",
+          fontSize: "0.75rem", color: "#708090", margin: "4px 0 0",
         }}>
           Alertas de rotura de stock y productos sin movilización en el periodo consultado.
         </p>
@@ -96,18 +96,18 @@ export default function InventoryReportSection({ productos, ventas }: Props) {
       {/* New Summary KPIs for Inventory */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
         <div style={{ padding: "16px", borderRadius: 12, background: "rgba(183, 110, 121, 0.05)", border: "1px solid rgba(183, 110, 121, 0.1)" }}>
-          <div style={{ fontSize: "0.65rem", color: "#8A94A6", textTransform: "uppercase", fontWeight: 700, letterSpacing: "0.05em" }}>Ventas en Riesgo</div>
+          <div style={{ fontSize: "0.65rem", color: "#708090", textTransform: "uppercase", fontWeight: 700, letterSpacing: "0.05em" }}>Ventas en Riesgo</div>
           <div style={{ fontSize: "1.1rem", fontWeight: 800, color: "#b76e79", marginTop: 4 }}>
             ${valorInventarioBajo.toLocaleString("es-MX")}
           </div>
-          <div style={{ fontSize: "0.6rem", color: "#A0AEC0", marginTop: 2 }}>Potencial perdido por falta de stock</div>
+          <div style={{ fontSize: "0.6rem", color: "#708090", marginTop: 2 }}>Potencial perdido por falta de stock</div>
         </div>
         <div style={{ padding: "16px", borderRadius: 12, background: "rgba(112, 128, 144, 0.05)", border: "1px solid rgba(112, 128, 144, 0.1)" }}>
-          <div style={{ fontSize: "0.65rem", color: "#8A94A6", textTransform: "uppercase", fontWeight: 700, letterSpacing: "0.05em" }}>Capital Estancado</div>
+          <div style={{ fontSize: "0.65rem", color: "#708090", textTransform: "uppercase", fontWeight: 700, letterSpacing: "0.05em" }}>Capital Estancado</div>
           <div style={{ fontSize: "1.1rem", fontWeight: 800, color: "#708090", marginTop: 4 }}>
             ${valorExcesoStock.toLocaleString("es-MX")}
           </div>
-          <div style={{ fontSize: "0.6rem", color: "#A0AEC0", marginTop: 2 }}>Valor de mercancía en exceso (sobrestock)</div>
+          <div style={{ fontSize: "0.6rem", color: "#708090", marginTop: 2 }}>Valor de mercancía en exceso (sobrestock)</div>
         </div>
       </div>
 
@@ -115,24 +115,24 @@ export default function InventoryReportSection({ productos, ventas }: Props) {
         
         {/* Panel Bajo Stock */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <h4 style={{ fontFamily: "var(--font-sans)", fontSize: "0.85rem", color: "#8A94A6", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+          <h4 style={{ fontFamily: "var(--font-sans)", fontSize: "0.85rem", color: "#708090", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
             <PackageX size={14} /> Alertas: Bajo Stock
           </h4>
-          <div style={{ background: "#FAFAFA", borderRadius: 12, border: "1px solid #E2E8F0", overflow: "hidden", maxHeight: 300, overflowY: "auto" }}>
+          <div style={{ background: "#f6f4ef", borderRadius: 12, border: "1px solid #E2E8F0", overflow: "hidden", maxHeight: 300, overflowY: "auto" }}>
             {lowStock.length === 0 ? (
-               <div style={{ padding: 24, textAlign: "center", color: "#8A94A6", fontSize: "0.8rem", fontFamily: "var(--font-sans)" }}>Sin alertas. Inventario saludable.</div>
+               <div style={{ padding: 24, textAlign: "center", color: "#708090", fontSize: "0.8rem", fontFamily: "var(--font-sans)" }}>Sin alertas. Inventario saludable.</div>
             ) : (
               <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead style={{ background: "#F1F5F9" }}>
                   <tr>
-                    <th style={{ padding: "10px 14px", textAlign: "left", fontSize: "0.68rem", color: "#64748B", fontFamily: "var(--font-sans)", fontWeight: 600 }}>PRODUCTO</th>
-                    <th style={{ padding: "10px 14px", textAlign: "right", fontSize: "0.68rem", color: "#64748B", fontFamily: "var(--font-sans)", fontWeight: 600 }}>STOCK (MIN)</th>
+                    <th style={{ padding: "10px 14px", textAlign: "left", fontSize: "0.68rem", color: "#708090", fontFamily: "var(--font-sans)", fontWeight: 600 }}>PRODUCTO</th>
+                    <th style={{ padding: "10px 14px", textAlign: "right", fontSize: "0.68rem", color: "#708090", fontFamily: "var(--font-sans)", fontWeight: 600 }}>STOCK (MIN)</th>
                   </tr>
                 </thead>
                 <tbody>
                   {lowStock.map(p => (
                     <tr key={p.id} style={{ borderBottom: "1px solid #E2E8F0" }}>
-                      <td style={{ padding: "12px 14px", fontSize: "0.8rem", color: "#2A2E34", fontFamily: "var(--font-poppins)", fontWeight: 500 }}>
+                      <td style={{ padding: "12px 14px", fontSize: "0.8rem", color: "#2d3748", fontFamily: "var(--font-poppins)", fontWeight: 500 }}>
                         {p.nombre}
                       </td>
                       <td style={{ padding: "12px 14px", textAlign: "right" }}>
@@ -145,7 +145,7 @@ export default function InventoryReportSection({ productos, ventas }: Props) {
                            }}>
                              {p.stock_actual} uds
                            </span>
-                           <span style={{ fontSize: "0.75rem", color: "#94a3b8", fontFamily: "var(--font-sans)" }}>/ {p.stock_min}</span>
+                           <span style={{ fontSize: "0.75rem", color: "#708090", fontFamily: "var(--font-sans)" }}>/ {p.stock_min}</span>
                         </div>
                       </td>
                     </tr>
@@ -158,30 +158,30 @@ export default function InventoryReportSection({ productos, ventas }: Props) {
 
         {/* Panel Sin Rotación */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <h4 style={{ fontFamily: "var(--font-sans)", fontSize: "0.85rem", color: "#8A94A6", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+          <h4 style={{ fontFamily: "var(--font-sans)", fontSize: "0.85rem", color: "#708090", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
             <PackageSearch size={14} /> Productos Sin Rotación (Estancados)
           </h4>
-          <div style={{ background: "#FAFAFA", borderRadius: 12, border: "1px solid #E2E8F0", overflow: "hidden", maxHeight: 300, overflowY: "auto" }}>
+          <div style={{ background: "#f6f4ef", borderRadius: 12, border: "1px solid #E2E8F0", overflow: "hidden", maxHeight: 300, overflowY: "auto" }}>
             {noRotation.length === 0 ? (
-               <div style={{ padding: 24, textAlign: "center", color: "#8A94A6", fontSize: "0.8rem", fontFamily: "var(--font-sans)" }}>Todos los artículos en inventario mostraron rotación.</div>
+               <div style={{ padding: 24, textAlign: "center", color: "#708090", fontSize: "0.8rem", fontFamily: "var(--font-sans)" }}>Todos los artículos en inventario mostraron rotación.</div>
             ) : (
               <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead style={{ background: "#F1F5F9" }}>
                   <tr>
-                    <th style={{ padding: "10px 14px", textAlign: "left", fontSize: "0.68rem", color: "#64748B", fontFamily: "var(--font-sans)", fontWeight: 600 }}>PRODUCTO</th>
-                    <th style={{ padding: "10px 14px", textAlign: "right", fontSize: "0.68rem", color: "#64748B", fontFamily: "var(--font-sans)", fontWeight: 600 }}>EN ALMACÉN</th>
+                    <th style={{ padding: "10px 14px", textAlign: "left", fontSize: "0.68rem", color: "#708090", fontFamily: "var(--font-sans)", fontWeight: 600 }}>PRODUCTO</th>
+                    <th style={{ padding: "10px 14px", textAlign: "right", fontSize: "0.68rem", color: "#708090", fontFamily: "var(--font-sans)", fontWeight: 600 }}>EN ALMACÉN</th>
                   </tr>
                 </thead>
                 <tbody>
                   {noRotation.slice(0, 50).map(p => (
                     <tr key={p.id} style={{ borderBottom: "1px solid #E2E8F0" }}>
-                      <td style={{ padding: "12px 14px", fontSize: "0.8rem", color: "#2A2E34", fontFamily: "var(--font-poppins)", fontWeight: 500 }}>
+                      <td style={{ padding: "12px 14px", fontSize: "0.8rem", color: "#2d3748", fontFamily: "var(--font-poppins)", fontWeight: 500 }}>
                         {p.nombre}
                       </td>
                       <td style={{ padding: "12px 14px", textAlign: "right" }}>
                          <span style={{ 
                            background: "rgba(100,116,139,0.1)", 
-                           color: "#64748B", 
+                           color: "#708090", 
                            padding: "4px 8px", borderRadius: 6, fontSize: "0.8rem", fontWeight: 600,
                            fontFamily: "var(--font-sans)"
                          }}>
@@ -197,24 +197,24 @@ export default function InventoryReportSection({ productos, ventas }: Props) {
         </div>
         {/* Panel Exceso de Stock */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <h4 style={{ fontFamily: "var(--font-sans)", fontSize: "0.85rem", color: "#8A94A6", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+          <h4 style={{ fontFamily: "var(--font-sans)", fontSize: "0.85rem", color: "#708090", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
              Alertas: Exceso de Stock
           </h4>
-          <div style={{ background: "#FAFAFA", borderRadius: 12, border: "1px solid #E2E8F0", overflow: "hidden", maxHeight: 300, overflowY: "auto" }}>
+          <div style={{ background: "#f6f4ef", borderRadius: 12, border: "1px solid #E2E8F0", overflow: "hidden", maxHeight: 300, overflowY: "auto" }}>
             {overStock.length === 0 ? (
-               <div style={{ padding: 24, textAlign: "center", color: "#8A94A6", fontSize: "0.8rem", fontFamily: "var(--font-sans)" }}>No se detectó inventario en exceso.</div>
+               <div style={{ padding: 24, textAlign: "center", color: "#708090", fontSize: "0.8rem", fontFamily: "var(--font-sans)" }}>No se detectó inventario en exceso.</div>
             ) : (
               <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead style={{ background: "#F1F5F9" }}>
                   <tr>
-                    <th style={{ padding: "10px 14px", textAlign: "left", fontSize: "0.68rem", color: "#64748B", fontFamily: "var(--font-sans)", fontWeight: 600 }}>PRODUCTO</th>
-                    <th style={{ padding: "10px 14px", textAlign: "right", fontSize: "0.68rem", color: "#64748B", fontFamily: "var(--font-sans)", fontWeight: 600 }}>SOBRESTOCK</th>
+                    <th style={{ padding: "10px 14px", textAlign: "left", fontSize: "0.68rem", color: "#708090", fontFamily: "var(--font-sans)", fontWeight: 600 }}>PRODUCTO</th>
+                    <th style={{ padding: "10px 14px", textAlign: "right", fontSize: "0.68rem", color: "#708090", fontFamily: "var(--font-sans)", fontWeight: 600 }}>SOBRESTOCK</th>
                   </tr>
                 </thead>
                 <tbody>
                   {overStock.slice(0, 50).map(p => (
                     <tr key={p.id} style={{ borderBottom: "1px solid #E2E8F0" }}>
-                      <td style={{ padding: "12px 14px", fontSize: "0.8rem", color: "#2A2E34", fontFamily: "var(--font-poppins)", fontWeight: 500 }}>
+                      <td style={{ padding: "12px 14px", fontSize: "0.8rem", color: "#2d3748", fontFamily: "var(--font-poppins)", fontWeight: 500 }}>
                         {p.nombre}
                       </td>
                       <td style={{ padding: "12px 14px", textAlign: "right" }}>

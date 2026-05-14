@@ -163,178 +163,73 @@ export default function OrdersPage() {
   }
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#f6f4ef",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
+    <div className="min-h-screen bg-[#f6f4ef] flex flex-col">
       <style>{`
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(10px); }
           to { opacity: 1; transform: translateY(0); }
         }
+        .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
       `}</style>
 
       <HeaderClient user={usuario} />
 
-      <main
-        style={{
-          flex: 1,
-          maxWidth: 1000,
-          width: "100%",
-          margin: "0 auto",
-          padding: "40px 20px",
-          animation: "fadeIn 0.6s ease-out",
-        }}
-      >
-        <div style={{ marginBottom: 36 }}>
-          <h1
-            style={{
-              fontFamily: "var(--font-serif, 'Cormorant Garamond', serif)",
-              fontSize: "clamp(2.8rem, 5.2vw, 5.2rem)",
-              fontWeight: 400,
-              color: "#4a5568",
-              margin: "0 0 8px 0",
-            }}
-          >
-            Mis{" "}
-            <span style={{ color: "#b76e79", fontStyle: "italic" }}>
-              Pedidos
-            </span>
+      <main className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 animate-fade-in">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal text-[#4a5568] m-0 mb-2">
+            Mis <span className="text-[#b76e79] italic">Pedidos</span>
           </h1>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 16,
-            marginBottom: 24,
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              alignItems: "center",
-              borderBottom: "1px solid rgba(112,128,144,0.18)",
-              gap: 24,
-            }}
-          >
-            <button
-              onClick={() => setActiveTab("pedidos")}
-              style={{
-                background: "none",
-                border: "none",
-                borderBottom:
+        <div className="flex flex-col gap-4 mb-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-[#708090]/20 gap-4 pb-2">
+            
+            {/* Tabs */}
+            <div className="flex overflow-x-auto no-scrollbar gap-2 sm:gap-6 w-full md:w-auto pb-1">
+              <button
+                onClick={() => setActiveTab("pedidos")}
+                className={`whitespace-nowrap px-2 sm:px-4 py-2 text-sm sm:text-[0.95rem] transition-all font-sans border-b-4 ${
                   activeTab === "pedidos"
-                    ? "3px solid #b76e79"
-                    : "3px solid transparent",
-                padding: "8px 4px",
-                fontSize: "0.95rem",
-                fontWeight: activeTab === "pedidos" ? 600 : 500,
-                color: activeTab === "pedidos" ? "#b76e79" : "#4a5568",
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-                fontFamily: "var(--font-sans, Inter, sans-serif)",
-              }}
-            >
-              Pedidos
-            </button>
-            <button
-              onClick={() => setActiveTab("comprar_nuevo")}
-              style={{
-                background: "none",
-                border: "none",
-                borderBottom:
-                  activeTab === "comprar_nuevo"
-                    ? "3px solid #b76e79"
-                    : "3px solid transparent",
-                padding: "8px 4px",
-                fontSize: "0.95rem",
-                fontWeight: activeTab === "comprar_nuevo" ? 600 : 500,
-                color: activeTab === "comprar_nuevo" ? "#b76e79" : "#4a5568",
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-                fontFamily: "var(--font-sans, Inter, sans-serif)",
-              }}
-            >
-              Comprar de nuevo
-            </button>
-            <button
-              onClick={() => setActiveTab("cancelados")}
-              style={{
-                background: "none",
-                border: "none",
-                borderBottom:
-                  activeTab === "cancelados"
-                    ? "3px solid #b76e79"
-                    : "3px solid transparent",
-                padding: "8px 4px",
-                fontSize: "0.95rem",
-                fontWeight: activeTab === "cancelados" ? 600 : 500,
-                color: activeTab === "cancelados" ? "#b76e79" : "#4a5568",
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-                fontFamily: "var(--font-sans, Inter, sans-serif)",
-              }}
-            >
-              Pedidos cancelados
-            </button>
-
-            <div
-              style={{
-                marginLeft: "auto",
-                display: "flex",
-                alignItems: "center",
-                position: "relative",
-                alignSelf: "center",
-                paddingBottom: 6,
-              }}
-            >
-              <div
-                style={{
-                  position: "absolute",
-                  left: 12,
-                  top: "45%",
-                  transform: "translateY(-50%)",
-                }}
+                    ? "border-[#b76e79] text-[#b76e79] font-semibold"
+                    : "border-transparent text-[#4a5568] font-medium hover:text-[#b76e79]"
+                }`}
               >
-                <Search size={14} color="#708090" />
+                Pedidos
+              </button>
+              <button
+                onClick={() => setActiveTab("comprar_nuevo")}
+                className={`whitespace-nowrap px-2 sm:px-4 py-2 text-sm sm:text-[0.95rem] transition-all font-sans border-b-4 ${
+                  activeTab === "comprar_nuevo"
+                    ? "border-[#b76e79] text-[#b76e79] font-semibold"
+                    : "border-transparent text-[#4a5568] font-medium hover:text-[#b76e79]"
+                }`}
+              >
+                Comprar de nuevo
+              </button>
+              <button
+                onClick={() => setActiveTab("cancelados")}
+                className={`whitespace-nowrap px-2 sm:px-4 py-2 text-sm sm:text-[0.95rem] transition-all font-sans border-b-4 ${
+                  activeTab === "cancelados"
+                    ? "border-[#b76e79] text-[#b76e79] font-semibold"
+                    : "border-transparent text-[#4a5568] font-medium hover:text-[#b76e79]"
+                }`}
+              >
+                Pedidos cancelados
+              </button>
+            </div>
+
+            {/* Search Bar */}
+            <div className="flex items-center w-full md:w-auto mb-2 md:mb-0 relative shrink-0">
+              <div className="absolute left-3 top-1/2 -translate-y-1/2">
+                <Search size={16} className="text-[#708090]" />
               </div>
               <input
                 placeholder="Buscar en pedidos"
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
-                style={{
-                  padding: "8px 14px 8px 34px",
-                  fontSize: "0.85rem",
-                  border: "1px solid rgba(112,128,144,0.25)",
-                  borderRadius: 6,
-                  outline: "none",
-                  background: "#ffffff",
-                  color: "#4a5568",
-                  minWidth: 240,
-                  fontFamily: "var(--font-sans, Inter, sans-serif)",
-                }}
+                className="w-full md:w-64 py-2.5 pr-4 pl-9 text-sm border border-[#708090]/25 rounded-l-lg outline-none bg-white text-[#4a5568] font-sans focus:border-[#b76e79] transition-colors"
               />
-              <button
-                style={{
-                  background: "#4a5568",
-                  color: "#fff",
-                  border: "none",
-                  padding: "9px 16px",
-                  borderRadius: "0 6px 6px 0",
-                  fontSize: "0.85rem",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  fontFamily: "var(--font-sans, Inter, sans-serif)",
-                  marginLeft: "-2px",
-                }}
-              >
+              <button className="bg-[#4a5568] hover:bg-[#374151] transition-colors text-white border-none py-2.5 px-4 rounded-r-lg text-sm font-semibold cursor-pointer font-sans">
                 Buscar
               </button>
             </div>
@@ -342,57 +237,29 @@ export default function OrdersPage() {
         </div>
 
         {activeTab === "pedidos" && !searchTerm && (
-          <div style={{ marginBottom: 24 }}>
-            <span
-              style={{ fontSize: "0.9rem", color: "#4a5568", fontWeight: 600 }}
-            >
+          <div className="mb-6">
+            <span className="text-sm font-semibold text-[#4a5568]">
               {displayedOrders.length} pedidos
             </span>
-            <span style={{ fontSize: "0.9rem", color: "#708090" }}>
-              {" "}
-              realizados en tu cuenta.
-            </span>
+            <span className="text-sm text-[#708090]"> realizados en tu cuenta.</span>
           </div>
         )}
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+        <div className="flex flex-col gap-6 sm:gap-8">
           {displayedOrders.length > 0 ? (
             displayedOrders.map(order => (
               <OrderCard key={order.id} order={order} activeTab={activeTab} />
             ))
           ) : (
-            <div
-              style={{
-                textAlign: "center",
-                padding: "60px 20px",
-                background: "#ffffff",
-                borderRadius: 12,
-                border: "1px dashed rgba(112,128,144,0.4)",
-                marginTop: 20,
-              }}
-            >
+            <div className="text-center py-12 px-4 bg-white rounded-2xl border border-dashed border-[#708090]/40 mt-4 shadow-sm">
               <ShoppingBag
                 size={48}
-                color="#b76e79"
-                style={{ margin: "0 auto 16px auto", opacity: 0.5 }}
+                className="text-[#b76e79] opacity-50 mx-auto mb-4"
               />
-              <h3
-                style={{
-                  fontFamily: "var(--font-serif, 'Cormorant Garamond', serif)",
-                  fontSize: "1.5rem",
-                  color: "#4a5568",
-                  margin: "0 0 8px 0",
-                }}
-              >
+              <h3 className="font-serif text-2xl text-[#4a5568] m-0 mb-2">
                 No encontramos pedidos
               </h3>
-              <p
-                style={{
-                  fontFamily: "var(--font-sans, Inter, sans-serif)",
-                  color: "#708090",
-                  marginBottom: 24,
-                }}
-              >
+              <p className="font-sans text-[#708090] mb-6 max-w-md mx-auto">
                 {searchTerm
                   ? `No hay resultados para "${searchTerm}"`
                   : "Te invitamos a realizar tu primera compra en nuestra tienda."}
@@ -402,17 +269,7 @@ export default function OrdersPage() {
                   onClick={() =>
                     (window.location.href = "/dashboard/cliente/catalogo")
                   }
-                  style={{
-                    padding: "10px 24px",
-                    background: "#b76e79",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: 8,
-                    fontFamily: "var(--font-sans, Inter, sans-serif)",
-                    fontWeight: 500,
-                    cursor: "pointer",
-                    boxShadow: "0 4px 12px rgba(183,110,121,0.2)",
-                  }}
+                  className="px-6 py-2.5 bg-[#b76e79] hover:bg-[#a45f69] transition-colors text-white border-none rounded-xl font-sans font-medium cursor-pointer shadow-md shadow-[#b76e79]/20"
                 >
                   Continuar comprando
                 </button>

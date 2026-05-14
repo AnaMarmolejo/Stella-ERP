@@ -22,48 +22,34 @@ export default function PedidosStats({ pedidos }: Props) {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-      <style jsx>{`
-        .stat-card-hover {
-          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
-        }
-        .stat-card-hover:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-      `}</style>
-
+    <div className="grid grid-cols-3 gap-2 sm:gap-4 lg:gap-6 w-full">
       {items.map((item, idx) => {
         const Icon = item.icon;
         return (
           <div
             key={idx}
-            className="stat-card-hover group relative overflow-hidden rounded-[2rem] p-8 text-white shadow-xl flex flex-col justify-between min-h-[160px]"
+            className="relative flex flex-col items-center sm:items-start gap-1 sm:gap-4 p-2.5 sm:p-5 lg:p-6 rounded-xl sm:rounded-2xl shadow-sm sm:shadow-md text-white overflow-hidden group transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
             style={{
-              background: `linear-gradient(135deg, ${item.bgStart}, ${item.bgEnd})`,
+              background: `linear-gradient(to bottom right, ${item.bgStart}, ${item.bgEnd})`,
             }}
           >
-            {/* Header */}
-            <div className="flex justify-between items-start relative z-10">
-              <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-80 mb-1">{item.label}</p>
-                <p className="text-4xl font-black font-mono tracking-tighter" style={{ fontFamily: "var(--font-marcellus)" }}>
-                    {item.value.toString().padStart(2, '0')}
-                </p>
-              </div>
-              <div className="bg-white/20 p-3 rounded-2xl backdrop-blur-md border border-white/10 group-hover:rotate-12 transition-transform duration-500">
-                <Icon size={24} />
+            <div className="flex w-full justify-center sm:justify-between items-start z-10 relative">
+              <p className="font-sans text-[8px] sm:text-xs lg:text-sm font-semibold sm:font-medium text-white/90 m-0 leading-tight uppercase tracking-wider text-center sm:text-left w-full sm:w-[70%]">
+                {item.label}
+              </p>
+              <div className="hidden sm:flex bg-white/15 p-2 rounded-xl items-center justify-center shrink-0">
+                <Icon size={18} className="text-white" />
               </div>
             </div>
-
-            {/* Bottom Decoration */}
-            <div className="mt-4 flex items-center justify-between relative z-10">
-                <div className="w-12 h-1 bg-white/30 rounded-full group-hover:w-20 transition-all duration-700" />
+            
+            <div className="z-10 relative mt-0.5 sm:mt-auto sm:pt-4 w-full text-center sm:text-left">
+              <p className="font-serif text-2xl sm:text-4xl lg:text-5xl font-normal m-0 leading-none drop-shadow-sm">
+                {item.value}
+              </p>
             </div>
-
-            {/* Background Icon Decoration */}
-            <div className="absolute -right-8 -bottom-8 opacity-10 group-hover:opacity-20 group-hover:scale-125 transition-all duration-700">
-                <Icon size={140} />
+            
+            <div className="hidden sm:block absolute -right-[10%] -bottom-[15%] opacity-10 -rotate-[15deg] pointer-events-none z-0 transition-transform duration-500 group-hover:scale-110">
+                <Icon size={100} className="text-white" />
             </div>
           </div>
         );

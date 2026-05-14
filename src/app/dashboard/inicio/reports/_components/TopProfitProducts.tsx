@@ -41,25 +41,25 @@ export default function TopProfitProducts({ productos }: TopProfitProductsProps)
       border: "1px solid rgba(0,0,0,0.04)",
       display: "flex", flexDirection: "column",
       minHeight: 200,
-      background: "linear-gradient(135deg, #fff 0%, #FAFAFA 100%)"
+      background: "linear-gradient(135deg, #fff 0%, #f6f4ef 100%)"
     }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
         <div style={{
           width: 32, height: 32, borderRadius: 8,
-          background: "#FFF9E6", display: "flex", alignItems: "center", justifyContent: "center"
+          background: "#f6f4ef", display: "flex", alignItems: "center", justifyContent: "center"
         }}>
           <Award size={18} color="#D69E2E" />
         </div>
         <div>
           <h3 style={{
             fontFamily: "var(--font-marcellus)",
-            fontSize: "0.9rem", fontWeight: 700, color: "#2A2E34", margin: 0,
+            fontSize: "0.9rem", fontWeight: 700, color: "#2d3748", margin: 0,
           }}>
             Productos más Rentables
           </h3>
           <p style={{
             fontFamily: "var(--font-poppins)",
-            fontSize: "0.7rem", color: "#8A94A6", margin: "2px 0 0",
+            fontSize: "0.7rem", color: "#708090", margin: "2px 0 0",
           }}>
             Mayor margen de ganancia por unidad
           </p>
@@ -79,12 +79,12 @@ export default function TopProfitProducts({ productos }: TopProfitProductsProps)
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <span style={{ fontSize: "0.75rem", fontWeight: 700, color: index === 0 && p.hasCost ? "#D69E2E" : "#CBD5E0" }}>#{index + 1}</span>
+                <span style={{ fontSize: "0.75rem", fontWeight: 700, color: index === 0 && p.hasCost ? "#D69E2E" : "#708090" }}>#{index + 1}</span>
                 <span style={{ 
                   fontFamily: "var(--font-sans)", 
                   fontSize: "0.75rem", 
                   fontWeight: 600,
-                  color: "#4A5568"
+                  color: "#2d3748"
                 }}>
                   {p.nombre}
                 </span>
@@ -106,8 +106,8 @@ export default function TopProfitProducts({ productos }: TopProfitProductsProps)
                 <div style={{ 
                   fontSize: "0.6rem", 
                   fontWeight: 600, 
-                  color: "#A0AEC0",
-                  background: "#F7FAFC",
+                  color: "#708090",
+                  background: "#f6f4ef",
                   padding: "2px 6px",
                   borderRadius: 4,
                   border: "1px solid #E2E8F0"
@@ -122,8 +122,8 @@ export default function TopProfitProducts({ productos }: TopProfitProductsProps)
             flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
             padding: "20px", background: "rgba(248, 250, 252, 0.5)", borderRadius: 12, border: "1px dashed #E2E8F0"
           }}>
-            <TrendingUp size={24} color="#CBD5E0" style={{ marginBottom: 8 }} />
-            <p style={{ fontSize: "0.65rem", color: "#A0AEC0", textAlign: "center", margin: 0 }}>
+            <TrendingUp size={24} color="#708090" style={{ marginBottom: 8 }} />
+            <p style={{ fontSize: "0.65rem", color: "#708090", textAlign: "center", margin: 0 }}>
               Registra productos en el inventario para ver este panel.
             </p>
           </div>

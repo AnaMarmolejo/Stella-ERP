@@ -41,21 +41,9 @@ export default function ReportKPIs({ kpis }: ReportKPIsProps) {
             box-shadow: 0 12px 24px rgba(0,0,0,0.12);
           }
         }
-        @media (max-width: 640px) {
-          .report-kpi-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 12px !important;
-          }
-        }
       `}</style>
       
-      <div className="report-kpi-grid" style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-        gap: 20,
-        width: "100%",
-        boxSizing: "border-box",
-      }}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 w-full">
         {kpis.map((k, idx) => {
           const Icon = getIcon(k.icon);
 

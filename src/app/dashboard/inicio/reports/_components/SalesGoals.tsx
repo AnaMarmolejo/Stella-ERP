@@ -30,13 +30,13 @@ export default function SalesGoals({ currentSales, target = 150000 }: SalesGoals
         <div>
           <h3 style={{
             fontFamily: "var(--font-marcellus)",
-            fontSize: "0.9rem", fontWeight: 700, color: "#2A2E34", margin: 0,
+            fontSize: "0.9rem", fontWeight: 700, color: "#2d3748", margin: 0,
           }}>
             Meta de Ventas Mensual
           </h3>
           <p style={{
             fontFamily: "var(--font-poppins)",
-            fontSize: "0.7rem", color: "#8A94A6", margin: "2px 0 0",
+            fontSize: "0.7rem", color: "#708090", margin: "2px 0 0",
           }}>
             Progreso del objetivo comercial
           </p>
@@ -45,7 +45,7 @@ export default function SalesGoals({ currentSales, target = 150000 }: SalesGoals
 
       <div style={{ marginBottom: 15, flex: 1 }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-          <span style={{ fontSize: "0.7rem", fontWeight: 600, color: "#718096" }}>Progreso Actual</span>
+          <span style={{ fontSize: "0.7rem", fontWeight: 600, color: "#708090" }}>Progreso Actual</span>
           <span style={{ fontSize: "0.7rem", fontWeight: 800, color: "#319795" }}>{percentage}%</span>
         </div>
         <div style={{
@@ -61,14 +61,14 @@ export default function SalesGoals({ currentSales, target = 150000 }: SalesGoals
 
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
         <div>
-          <div style={{ fontSize: "0.6rem", color: "#A0AEC0", textTransform: "uppercase", letterSpacing: "0.05em" }}>Vendido</div>
+          <div style={{ fontSize: "0.6rem", color: "#708090", textTransform: "uppercase", letterSpacing: "0.05em" }}>Vendido</div>
           <div style={{ fontSize: "1.1rem", fontWeight: 800, color: "#2D3748" }}>
             ${currentSales.toLocaleString("es-MX")}
           </div>
         </div>
         <div style={{ textAlign: "right" }}>
-          <div style={{ fontSize: "0.6rem", color: "#A0AEC0", textTransform: "uppercase", letterSpacing: "0.05em" }}>Objetivo</div>
-          <div style={{ fontSize: "0.9rem", fontWeight: 600, color: "#718096" }}>
+          <div style={{ fontSize: "0.6rem", color: "#708090", textTransform: "uppercase", letterSpacing: "0.05em" }}>Objetivo</div>
+          <div style={{ fontSize: "0.9rem", fontWeight: 600, color: "#708090" }}>
             ${target.toLocaleString("es-MX")}
           </div>
         </div>

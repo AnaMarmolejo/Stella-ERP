@@ -264,15 +264,15 @@ export default function ReportsPage() {
 
   // Build KPI Cards List based on Role
   const kpiList: KPI[] = isAdmin ? [
-    { label: "Ventas Totales", value: `$${ventasTotales.toLocaleString("es-MX", { minimumFractionDigits: 2 })}`, icon: "dollar", bgStart: "#758390", bgEnd: "#6b7a88" },
-    { label: "Cuentas por cobrar", value: `$${cuentasPendientesTotal.toLocaleString("es-MX", { minimumFractionDigits: 2 })}`, icon: "trending", bgStart: "#D4A5A5", bgEnd: "#C07E88" },
-    { label: "Productos Vendidos", value: productosVendidosTotal, icon: "package", bgStart: "#C07E88", bgEnd: "#B76E79" },
-    { label: "Items Consignados", value: consignacionTotalAsignada, icon: "package", bgStart: "#758390", bgEnd: "#6b7a88" },
+    { label: "Ventas Totales", value: `$${ventasTotales.toLocaleString("es-MX", { minimumFractionDigits: 2 })}`, icon: "dollar", bgStart: "#708090", bgEnd: "#708090" },
+    { label: "Cuentas por cobrar", value: `$${cuentasPendientesTotal.toLocaleString("es-MX", { minimumFractionDigits: 2 })}`, icon: "trending", bgStart: "#b76e79", bgEnd: "#b76e79" },
+    { label: "Productos Vendidos", value: productosVendidosTotal, icon: "package", bgStart: "#b76e79", bgEnd: "#B76E79" },
+    { label: "Items Consignados", value: consignacionTotalAsignada, icon: "package", bgStart: "#708090", bgEnd: "#708090" },
   ] : [
-    { label: "Mis Compras Totales", value: `$${ventasTotales.toLocaleString("es-MX", { minimumFractionDigits: 2 })}`, icon: "dollar", bgStart: "#C07E88", bgEnd: "#B76E79" },
-    { label: "Deuda Pendiente", value: `$${cuentasPendientesTotal.toLocaleString("es-MX", { minimumFractionDigits: 2 })}`, icon: "trending", bgStart: "#D4A5A5", bgEnd: "#C07E88" },
-    { label: "Productos Adquiridos", value: productosVendidosTotal, icon: "package", bgStart: "#758390", bgEnd: "#6b7a88" },
-    { label: "Stock Consignado", value: consignacionTotalAsignada, icon: "package", bgStart: "#D4A5A5", bgEnd: "#C07E88" },
+    { label: "Mis Compras Totales", value: `$${ventasTotales.toLocaleString("es-MX", { minimumFractionDigits: 2 })}`, icon: "dollar", bgStart: "#b76e79", bgEnd: "#B76E79" },
+    { label: "Deuda Pendiente", value: `$${cuentasPendientesTotal.toLocaleString("es-MX", { minimumFractionDigits: 2 })}`, icon: "trending", bgStart: "#b76e79", bgEnd: "#b76e79" },
+    { label: "Productos Adquiridos", value: productosVendidosTotal, icon: "package", bgStart: "#708090", bgEnd: "#708090" },
+    { label: "Stock Consignado", value: consignacionTotalAsignada, icon: "package", bgStart: "#b76e79", bgEnd: "#b76e79" },
   ];
   
   // -- Exportar a Excel (Contador) --
@@ -329,7 +329,7 @@ export default function ReportsPage() {
         <motion.div 
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mx-auto max-w-[1440px] space-y-8"
+          className="mx-auto w-full 2xl:max-w-[1920px] space-y-8"
         >
 
           <ReportFilters
@@ -352,25 +352,9 @@ export default function ReportsPage() {
               <ReportKPIs kpis={kpiList} />
 
               {/* Middle Row Charts */}
-              <div 
-                className="reports-charts-row"
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1.5fr 1fr",
-                  gap: 24,
-                  width: "100%",
-                }} 
-              >
-                <style>{`
-                  @media (max-width: 1100px) { 
-                    .reports-charts-row { grid-template-columns: 1fr !important; } 
-                  }
-                  @media (max-width: 640px) {
-                    .reports-charts-row { gap: 16px !important; }
-                    main { padding: 16px 12px !important; }
-                  }
-                `}</style>
+              <div className="grid grid-cols-1 xl:grid-cols-[1.5fr_1fr] gap-4 sm:gap-6 w-full">
                 
+
                 <motion.div variants={{ hidden: { opacity: 0, x: -10 }, show: { opacity: 1, x: 0 } }} style={{ minWidth: 0 }}>
                   <SalesAreaChart 
                     ventas={ventasAprobadas.map(v => ({
@@ -418,14 +402,10 @@ export default function ReportsPage() {
 
             {/* Bottom Section: Goals & Intelligence - Responsive */}
             {isAdmin && (
-              <div className="space-y-8 mt-4">
+              <div className="space-y-6 mt-4 w-full">
                 <motion.div 
                   variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                    gap: 24
-                  }}
+                  className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6 w-full"
                 >
                   <SalesGoals currentSales={ventasTotales} target={200000} />
                   <WholesalerGoal currentCount={4} target={10} />
@@ -486,14 +466,14 @@ export default function ReportsPage() {
 
             </motion.div>
           ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 }}>
+            <div className="flex flex-col gap-6 w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 w-full">
                  <Skeleton height={120} borderRadius={20} />
                  <Skeleton height={120} borderRadius={20} />
                  <Skeleton height={120} borderRadius={20} />
                  <Skeleton height={120} borderRadius={20} />
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr", gap: 24 }}>
+              <div className="grid grid-cols-1 xl:grid-cols-[1.5fr_1fr] gap-4 sm:gap-6 w-full">
                  <Skeleton height={400} borderRadius={24} />
                  <Skeleton height={400} borderRadius={24} />
               </div>

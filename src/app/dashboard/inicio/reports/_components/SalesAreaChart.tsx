@@ -69,13 +69,13 @@ export default function SalesAreaChart({
         <div>
           <h3 style={{
             fontFamily: "var(--font-marcellus)",
-            fontSize: "1rem", fontWeight: 700, color: "#2A2E34", margin: 0,
+            fontSize: "1rem", fontWeight: 700, color: "#2d3748", margin: 0,
           }}>
             {title}
           </h3>
           <p style={{
             fontFamily: "var(--font-poppins)",
-            fontSize: "0.75rem", color: "#8A94A6", margin: "4px 0 0",
+            fontSize: "0.75rem", color: "#708090", margin: "4px 0 0",
           }}>
             {subtitle}
           </p>
@@ -87,9 +87,9 @@ export default function SalesAreaChart({
         <div style={{ display: "flex", flexDirection: "column" }}>
           <h2 style={{
             fontFamily: "var(--font-poppins)",
-            fontSize: "2rem", fontWeight: 800, color: "#2A2E34", margin: 0, lineHeight: 1.1,
+            fontSize: "2rem", fontWeight: 800, color: "#2d3748", margin: 0, lineHeight: 1.1,
           }}>${totalIngresos.toLocaleString("es-MX", { minimumFractionDigits: 2 })}</h2>
-          <p style={{ fontFamily: "var(--font-marcellus)", fontSize: "0.8rem", color: "#8A94A6", margin: "4px 0 0" }}>
+          <p style={{ fontFamily: "var(--font-marcellus)", fontSize: "0.8rem", color: "#708090", margin: "4px 0 0" }}>
             {totalLabel}
           </p>
         </div>
@@ -100,15 +100,15 @@ export default function SalesAreaChart({
             <AreaChart data={renderData} margin={{ top: 10, right: 0, left: -10, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorTotal" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#C07E88" stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor="#C07E88" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="#b76e79" stopOpacity={0.4}/>
+                  <stop offset="95%" stopColor="#b76e79" stopOpacity={0}/>
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
-              <XAxis dataKey="mes" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: "#8A94A6", fontFamily: "var(--font-poppins)" }} dy={10} />
+              <XAxis dataKey="mes" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: "#708090", fontFamily: "var(--font-poppins)" }} dy={10} />
               <YAxis 
                 axisLine={false} tickLine={false} 
-                tick={{ fontSize: 11, fill: "#8A94A6", fontFamily: "var(--font-poppins)" }}
+                tick={{ fontSize: 11, fill: "#708090", fontFamily: "var(--font-poppins)" }}
                 tickFormatter={(v) => `$${(v/1000).toFixed(0)}k`}
               />
               <Tooltip 
@@ -117,8 +117,8 @@ export default function SalesAreaChart({
               />
               <Area 
                 type="monotone" dataKey="Ingresos" 
-                stroke="#C07E88" strokeWidth={3} fillOpacity={1} fill="url(#colorTotal)" 
-                activeDot={{ r: 6, fill: "#C07E88", strokeWidth: 0 }} 
+                stroke="#b76e79" strokeWidth={3} fillOpacity={1} fill="url(#colorTotal)" 
+                activeDot={{ r: 6, fill: "#b76e79", strokeWidth: 0 }} 
               />
             </AreaChart>
           </ResponsiveContainer>

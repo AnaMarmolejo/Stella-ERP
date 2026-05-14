@@ -21,28 +21,28 @@ export default function ReportStats({
         label="Ingresos Totales"
         value={ingresosFormateados}
         bgColor="bg-[#708090]"
-        textColor="text-[#F8F6F2]"
+        textColor="text-[#f6f4ef]"
       />
 
       <Stat
         label="Margen de Ganancia"
         value={`${data.margen}%`}
         bgColor="bg-[#B76E79]"
-        textColor="text-[#F8F6F2]"
+        textColor="text-[#f6f4ef]"
       />
 
       <Stat
         label="Productos Vendidos"
         value={data.productosVendidos}
         bgColor="bg-[#708090]"
-        textColor="text-[#F8F6F2]"
+        textColor="text-[#f6f4ef]"
       />
 
       <Stat
         label="Tasa de Retorno"
         value={`${data.tasaRetorno}%`}
         bgColor="bg-[#B76E79]"
-        textColor="text-[#F8F6F2]"
+        textColor="text-[#f6f4ef]"
       />
     </div>
   );
@@ -80,7 +80,7 @@ function Stat({
         className={`
           text-xs
           tracking-wide
-          ${isDark ? "text-white/70" : "text-[#111111]/70"}
+          ${isDark ? "text-white/70" : "text-[#2d3748]/70"}
         `}
         style={{ fontFamily: "var(--font-marcellus)" }}
       >

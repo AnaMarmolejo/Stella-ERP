@@ -39,65 +39,128 @@ export default function MayoristaView({ consignaciones, loading, stats, nombre }
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-      {/* Bienvenida */}
-      <div
-        style={{
-          background: "linear-gradient(135deg,#B76E79 0%,#9d5a64 100%)",
-          borderRadius: 18,
-          padding: "22px 24px",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
+    <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+      {/* Overview Header - Inspired by Image 2 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Welcome Card */}
         <div
           style={{
-            position: "absolute",
-            top: -30,
-            right: -30,
-            width: 140,
-            height: 140,
-            borderRadius: "50%",
-            background: "rgba(255,255,255,0.08)",
+            background: "linear-gradient(135deg, #708090 0%, #4a5568 100%)",
+            borderRadius: 24,
+            padding: "20px 24px sm:32px", // Responsivo manual
+            position: "relative",
+            overflow: "hidden",
+            boxShadow: "0 10px 30px rgba(112, 128, 144, 0.15)",
           }}
-        />
-        <p style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.7)", letterSpacing: "0.15em", textTransform: "uppercase", fontFamily: "var(--font-marcellus)" }}>
-          Portal Mayorista
-        </p>
-        <h2 style={{ fontSize: "1.6rem", fontWeight: 400, color: "#fff", margin: "6px 0 4px", fontFamily: "var(--font-marcellus)" }}>
-          Bienvenido, {nombre}
-        </h2>
-        <p style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.75)", fontFamily: "var(--font-sans)" }}>
-          Aquí encontrarás todas tus consignaciones y productos asignados
-        </p>
+          className="p-5 sm:p-8" // Usando Tailwind para paddings responsivos
+        >
+          {/* Decorative Icon */}
+          <div style={{ position: "absolute", bottom: -10, right: -10, opacity: 0.1, color: "white" }}>
+             <Package className="w-24 h-24 sm:w-32 sm:h-32" strokeWidth={1} />
+          </div>
+          
+          <div style={{ position: "relative", zIndex: 2 }}>
+            <p style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.6)", letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 700, marginBottom: 4 }}>
+              Portal Mayorista
+            </p>
+            <h2 
+              style={{ fontWeight: 400, color: "#fff", margin: 0, fontFamily: "var(--font-serif, 'Cormorant Garamond', serif)" }}
+              className="text-2xl sm:text-4xl"
+            >
+              Bienvenida, <em style={{ fontStyle: "italic", color: "#B76E79" }}>{nombre}</em>
+            </h2>
+            <div className="mt-4 sm:mt-6">
+               <div style={{ display: "inline-flex", background: "rgba(255,255,255,0.1)", borderRadius: 10, padding: "6px 12px", border: "1px solid rgba(255,255,255,0.15)" }}>
+                  <p style={{ fontSize: "0.55rem", color: "rgba(255,255,255,0.5)", textTransform: "uppercase", margin: 0, marginRight: 8 }}>Estado:</p>
+                  <p style={{ fontSize: "0.75rem", color: "#fff", margin: 0, fontWeight: 500 }}>Activo</p>
+               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Level Card - Inspired by Image 2 */}
+        <div
+          style={{
+            background: "linear-gradient(135deg, #B76E79 0%, #9d5a64 100%)",
+            borderRadius: 24,
+            position: "relative",
+            overflow: "hidden",
+            boxShadow: "0 10px 30px rgba(183, 110, 121, 0.15)",
+          }}
+          className="p-5 sm:p-8"
+        >
+          <div style={{ position: "absolute", bottom: -10, right: -10, opacity: 0.1, color: "white" }}>
+             <CheckCircle className="w-24 h-24 sm:w-32 sm:h-32" strokeWidth={1} />
+          </div>
+
+          <div style={{ position: "relative", zIndex: 2 }}>
+            <p style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.6)", letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 700, marginBottom: 4 }}>
+              Mi Nivel Stella
+            </p>
+            <h2 
+              style={{ fontWeight: 400, color: "#fff", margin: 0, fontFamily: "var(--font-serif, 'Cormorant Garamond', serif)" }}
+              className="text-2xl sm:text-4xl"
+            >
+              Mayorista <em style={{ fontStyle: "italic" }}>Gold</em>
+            </h2>
+            <p style={{ color: "rgba(255,255,255,0.85)", marginTop: 8 }} className="text-xs sm:text-sm">
+              25% de descuento aplicado en todas tus compras.
+            </p>
+          </div>
+        </div>
       </div>
 
-      {/* Mini stats */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
-          gap: 12,
-        }}
-      >
+      {/* Mini stats - Colored Backgrounds */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: "Productos Asignados", value: stats.asignados, color: "#708090" },
-          { label: "Cantidad Vendida", value: stats.vendidos, color: "#B76E79" },
-          { label: "Cantidad Devuelta", value: stats.devueltos, color: "#c0856d" },
-          { label: "Ganancia Estimada", value: `$${stats.ganancia.toLocaleString("es-MX", { minimumFractionDigits: 2 })}`, color: "#3d8c60" },
+          { label: "Productos Asignados", value: stats.asignados, bg: "linear-gradient(135deg, #708090 0%, #4a5568 100%)" },
+          { label: "Cantidad Vendida", value: stats.vendidos, bg: "linear-gradient(135deg, #B76E79 0%, #9d5a64 100%)" },
+          { label: "Cantidad Devuelta", value: stats.devueltos, bg: "linear-gradient(135deg, #708090 0%, #4a5568 100%)" },
+          { label: "Ganancia Estimada", value: `$${stats.ganancia.toLocaleString("es-MX", { minimumFractionDigits: 2 })}`, bg: "linear-gradient(135deg, #B76E79 0%, #9d5a64 100%)" },
         ].map(s => (
           <div
             key={s.label}
             style={{
-              background: "#fff",
-              border: "1px solid rgba(112,128,144,0.15)",
-              borderRadius: 14,
-              padding: "14px 16px",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+              background: s.bg,
+              borderRadius: 20,
+              padding: "20px 24px",
+              boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
+              position: "relative",
+              overflow: "hidden",
             }}
           >
-            <p style={{ fontSize: "1.6rem", fontWeight: 400, color: s.color, margin: 0, fontFamily: "var(--font-marcellus)" }}>{s.value}</p>
-            <p style={{ fontSize: "0.72rem", color: "#8C9796", marginTop: 2, textTransform: "uppercase", letterSpacing: "0.06em", fontFamily: "var(--font-sans)", lineHeight: 1.2 }}>{s.label}</p>
+             <div style={{ position: "absolute", bottom: -10, right: -10, opacity: 0.1, color: "white" }}>
+                <Package size={60} strokeWidth={1} />
+             </div>
+
+            <p 
+              style={{ 
+                fontSize: "2rem", 
+                fontWeight: 400, 
+                color: "#fff", 
+                margin: 0, 
+                fontFamily: "var(--font-serif, 'Cormorant Garamond', serif)",
+                position: "relative",
+                zIndex: 2
+              }}
+            >
+              {s.value}
+            </p>
+            <p 
+              style={{ 
+                fontSize: "0.65rem", 
+                color: "rgba(255,255,255,0.7)", 
+                marginTop: 4, 
+                textTransform: "uppercase", 
+                letterSpacing: "0.1em", 
+                fontWeight: 700,
+                lineHeight: 1.2,
+                position: "relative",
+                zIndex: 2
+              }}
+            >
+              {s.label}
+            </p>
           </div>
         ))}
       </div>

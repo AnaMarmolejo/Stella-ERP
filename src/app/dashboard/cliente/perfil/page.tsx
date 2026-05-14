@@ -107,25 +107,19 @@ export default function ProfilePage() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: "#f6f4ef", display: "flex", flexDirection: "column" }}>
+    <div className="min-h-screen bg-[#f6f4ef] flex flex-col">
       <style>{`
-                @keyframes fadeIn {
+        @keyframes fadeIn {
           from { opacity: 0; transform: translateY(10px); }
           to { opacity: 1; transform: translateY(0); }
         }
+        .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
       `}</style>
       
       <HeaderClient user={usuario} />
 
-      <main style={{
-        flex: 1,
-        maxWidth: 1000,
-        width: "100%",
-        margin: "0 auto",
-        padding: "40px 20px",
-        animation: "fadeIn 0.6s ease-out"
-      }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+      <main className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 animate-fade-in">
+        <div className="flex flex-col gap-8 sm:gap-10">
           <ProfileHeader profile={profileData} />
           <ProfileStats stats={statsData} />
           <ProfileForm profile={profileData} />

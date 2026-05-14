@@ -108,6 +108,34 @@ export default function EditCampaignModal({ campana, onClose, onSaved }: Props) 
   const [uploadError, setUploadError] = useState<string | null>(null);
 
   const handleImageUpload = async (file: File) => {
+    // Soporte para archivos HEIC/HEIF
+    if (
+      file.name.toLowerCase().endsWith(".heic") ||
+      file.name.toLowerCase().endsWith(".heif") ||
+      file.type === "image/heic" ||
+      file.type === "image/heif"
+    ) {
+      try {
+        const heic2any = (await import("heic2any")).default;
+        const convertedBlob = await heic2any({
+          blob: file,
+          toType: "image/jpeg",
+          quality: 0.8,
+        });
+
+        const finalBlob = Array.isArray(convertedBlob)
+          ? convertedBlob[0]
+          : convertedBlob;
+        file = new File(
+          [finalBlob],
+          file.name.replace(/\.(heic|heif)$/i, ".jpg"),
+          { type: "image/jpeg" }
+        );
+      } catch (error) {
+        console.error("Error al convertir HEIC:", error);
+      }
+    }
+
     if (!file.type.startsWith("image/")) {
       setUploadError("Solo se permiten archivos de imagen.");
       return;
@@ -444,7 +472,7 @@ export default function EditCampaignModal({ campana, onClose, onSaved }: Props) 
                       <input
                         id="banner-upload"
                         type="file"
-                        accept="image/*"
+                        accept="image/*,.heic,.heif"
                         style={{ display: "none" }}
                         disabled={uploading}
                         onChange={e => {

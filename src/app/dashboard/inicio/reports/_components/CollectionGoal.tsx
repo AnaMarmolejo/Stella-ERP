@@ -19,7 +19,7 @@ export default function CollectionGoal({ currentCollected, totalPending }: Colle
       border: "1px solid rgba(0,0,0,0.04)",
       display: "flex", flexDirection: "column",
       minHeight: 200,
-      background: "linear-gradient(135deg, #fff 0%, #FAFAFA 100%)"
+      background: "linear-gradient(135deg, #fff 0%, #f6f4ef 100%)"
     }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
         <div style={{
@@ -31,13 +31,13 @@ export default function CollectionGoal({ currentCollected, totalPending }: Colle
         <div>
           <h3 style={{
             fontFamily: "var(--font-marcellus)",
-            fontSize: "0.9rem", fontWeight: 700, color: "#2A2E34", margin: 0,
+            fontSize: "0.9rem", fontWeight: 700, color: "#2d3748", margin: 0,
           }}>
             Meta de Cobranza
           </h3>
           <p style={{
             fontFamily: "var(--font-poppins)",
-            fontSize: "0.7rem", color: "#8A94A6", margin: "2px 0 0",
+            fontSize: "0.7rem", color: "#708090", margin: "2px 0 0",
           }}>
             Efectividad de recuperación
           </p>
@@ -46,7 +46,7 @@ export default function CollectionGoal({ currentCollected, totalPending }: Colle
 
       <div style={{ marginBottom: 15, flex: 1 }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-          <span style={{ fontSize: "0.7rem", fontWeight: 600, color: "#718096" }}>Recuperado</span>
+          <span style={{ fontSize: "0.7rem", fontWeight: 600, color: "#708090" }}>Recuperado</span>
           <span style={{ fontSize: "0.7rem", fontWeight: 800, color: "#38A169" }}>{percentage}%</span>
         </div>
         <div style={{

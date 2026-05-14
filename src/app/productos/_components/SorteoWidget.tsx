@@ -341,6 +341,12 @@ export default function SorteoWidget({ onRegistroExitoso, allProducts = [], part
                       </div>
                    </div>
 
+                   {formError && (
+                     <div className="text-red-500 text-xs text-center font-bold bg-red-50 py-2 px-4 rounded-xl border border-red-100">
+                       {formError}
+                     </div>
+                   )}
+
                    <button disabled={loading} type="submit" className="w-full py-4 bg-[#708090] text-white rounded-2xl font-bold text-xs uppercase tracking-widest shadow-lg hover:bg-[#5a6a7a] transition-all">
                       {loading ? "Registrando..." : "Finalizar registro"}
                    </button>

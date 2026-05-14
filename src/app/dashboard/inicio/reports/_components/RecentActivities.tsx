@@ -39,7 +39,7 @@ export default function RecentActivities({ ventas }: RecentActivitiesProps) {
       case "denegada":
         return { icon: XCircle, color: "#ff5c6b", bg: "#FFE8EA", title: "Venta Cancelada", sub: "La transacción falló o se anuló" };
       default:
-        return { icon: Check, color: "#8A94A6", bg: "#F0F2F5", title: "Movimiento", sub: estado };
+        return { icon: Check, color: "#708090", bg: "#f6f4ef", title: "Movimiento", sub: estado };
     }
   }
 
@@ -54,14 +54,14 @@ export default function RecentActivities({ ventas }: RecentActivitiesProps) {
     }}>
       <h3 style={{
         fontFamily: "var(--font-marcellus)",
-        fontSize: "0.8rem", fontWeight: 700, color: "#2A2E34", margin: "0 0 20px 0",
+        fontSize: "0.8rem", fontWeight: 700, color: "#2d3748", margin: "0 0 20px 0",
       }}>
         Actividad Reciente
       </h3>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
         {recent.length === 0 ? (
-          <div style={{ color: "#8A94A6", fontSize: "0.75rem", fontFamily: "var(--font-poppins)" }}>No hay actividad en este periodo.</div>
+          <div style={{ color: "#708090", fontSize: "0.75rem", fontFamily: "var(--font-poppins)" }}>No hay actividad en este periodo.</div>
         ) : (
           recent.map((v) => {
             const config = getStatusConfig(v.estado);
@@ -70,7 +70,7 @@ export default function RecentActivities({ ventas }: RecentActivitiesProps) {
               <div key={v.id} style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
                 <span style={{
                   fontFamily: "var(--font-poppins)", fontSize: "0.65rem",
-                  color: "#8A94A6", width: 62, flexShrink: 0, marginTop: 4,
+                  color: "#708090", width: 62, flexShrink: 0, marginTop: 4,
                 }}>
                   {getTimeAgo(v.fecha)}
                 </span>
@@ -83,10 +83,10 @@ export default function RecentActivities({ ventas }: RecentActivitiesProps) {
                 </div>
 
                 <div>
-                  <p style={{ fontFamily: "var(--font-marcellus)", fontSize: "0.8rem", fontWeight: 600, color: "#2A2E34", margin: 0 }}>
-                    {config.title} <span style={{fontSize: "0.7rem", color: "#8A94A6", fontWeight: 500, fontFamily: "var(--font-poppins)"}}>#{v.id}</span>
+                  <p style={{ fontFamily: "var(--font-marcellus)", fontSize: "0.8rem", fontWeight: 600, color: "#2d3748", margin: 0 }}>
+                    {config.title} <span style={{fontSize: "0.7rem", color: "#708090", fontWeight: 500, fontFamily: "var(--font-poppins)"}}>#{v.id}</span>
                   </p>
-                  <p style={{ fontFamily: "var(--font-poppins)", fontSize: "0.65rem", color: "#8A94A6", margin: "2px 0 0" }}>
+                  <p style={{ fontFamily: "var(--font-poppins)", fontSize: "0.65rem", color: "#708090", margin: "2px 0 0" }}>
                     {v.id_usuario && v.id_usuario !== "guest" ? `Cliente: ${v.id_usuario}` : config.sub}
                   </p>
                 </div>

@@ -35,13 +35,13 @@ export default function InventoryAlerts({ productos }: InventoryAlertsProps) {
         <div>
           <h3 style={{
             fontFamily: "var(--font-marcellus)",
-            fontSize: "0.9rem", fontWeight: 700, color: "#2A2E34", margin: 0,
+            fontSize: "0.9rem", fontWeight: 700, color: "#2d3748", margin: 0,
           }}>
             Alertas de Reabastecimiento
           </h3>
           <p style={{
             fontFamily: "var(--font-poppins)",
-            fontSize: "0.7rem", color: "#8A94A6", margin: "2px 0 0",
+            fontSize: "0.7rem", color: "#708090", margin: "2px 0 0",
           }}>
             Productos por debajo del stock mínimo
           </p>
@@ -60,12 +60,12 @@ export default function InventoryAlerts({ productos }: InventoryAlertsProps) {
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <Package size={14} color="#718096" />
+              <Package size={14} color="#708090" />
               <span style={{ 
                 fontFamily: "var(--font-sans)", 
                 fontSize: "0.75rem", 
                 fontWeight: 600,
-                color: "#4A5568"
+                color: "#2d3748"
               }}>
                 {p.nombre}
               </span>
@@ -78,7 +78,7 @@ export default function InventoryAlerts({ productos }: InventoryAlertsProps) {
               }}>
                 {p.stock_actual} <span style={{ fontSize: "0.6rem", opacity: 0.6 }}>uds</span>
               </div>
-              <div style={{ fontSize: "0.6rem", color: "#A0AEC0" }}>
+              <div style={{ fontSize: "0.6rem", color: "#708090" }}>
                 Min: {p.stock_min}
               </div>
             </div>
@@ -89,7 +89,7 @@ export default function InventoryAlerts({ productos }: InventoryAlertsProps) {
       <button style={{
         width: "100%", marginTop: 20, padding: "10px",
         borderRadius: 10, background: "none", border: "1px dashed #E2E8F0",
-        color: "#718096", fontSize: "0.7rem", fontWeight: 600,
+        color: "#708090", fontSize: "0.7rem", fontWeight: 600,
         cursor: "pointer", transition: "all 0.2s"
       }}>
         Ver inventario completo

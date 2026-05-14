@@ -25,7 +25,7 @@ export default function SalesVsConsignmentChart({ ventasTotales, consignacionVen
     ].filter(d => d.value > 0); // only show > 0
   }, [ventasTotales, consignacionVendida]);
 
-  const COLORS = ["#758390", "#D4A5A5"];
+  const COLORS = ["#708090", "#b76e79"];
 
   return (
     <div style={{
@@ -41,13 +41,13 @@ export default function SalesVsConsignmentChart({ ventasTotales, consignacionVen
       <div style={{ marginBottom: 20 }}>
         <h3 style={{
           fontFamily: "var(--font-marcellus)",
-          fontSize: "1rem", fontWeight: 700, color: "#2A2E34", margin: 0,
+          fontSize: "1rem", fontWeight: 700, color: "#2d3748", margin: 0,
         }}>
           {title}
         </h3>
         <p style={{
           fontFamily: "var(--font-poppins)",
-          fontSize: "0.75rem", color: "#8A94A6", margin: "4px 0 0",
+          fontSize: "0.75rem", color: "#708090", margin: "4px 0 0",
         }}>
           {subtitle}
         </p>
@@ -55,7 +55,7 @@ export default function SalesVsConsignmentChart({ ventasTotales, consignacionVen
 
       <div style={{ flex: 1, minHeight: 250 }}>
         {data.length === 0 ? (
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "#8A94A6", fontSize: "0.8rem", fontFamily: "var(--font-sans)" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "#708090", fontSize: "0.8rem", fontFamily: "var(--font-sans)" }}>
             Sin datos comparativos
           </div>
         ) : (
@@ -76,12 +76,12 @@ export default function SalesVsConsignmentChart({ ventasTotales, consignacionVen
               </Pie>
               <Tooltip 
                 contentStyle={{ borderRadius: 8, border: "1px solid #E2E8F0", boxShadow: "0 4px 12px rgba(0,0,0,0.05)", fontFamily: "var(--font-sans)", fontSize: "0.8rem" }}
-                itemStyle={{ color: "#2A2E34", fontWeight: 600 }}
+                itemStyle={{ color: "#2d3748", fontWeight: 600 }}
                 formatter={(value: any) => [`${value} uds`, "Volumen"]}
               />
               <Legend 
                 verticalAlign="bottom" height={36} iconType="circle"
-                wrapperStyle={{ fontFamily: "var(--font-sans)", fontSize: "0.75rem", color: "#4B5563" }}
+                wrapperStyle={{ fontFamily: "var(--font-sans)", fontSize: "0.75rem", color: "#2d3748" }}
               />
             </PieChart>
           </ResponsiveContainer>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stella ERP - Presentación 3 Segundos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --accent-gold: #D4AF37;
+            --text-main: #FFFFFF;
+            --text-muted: #A0A0A0;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Golden glow background */
+        .glow {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60vw;
+            height: 60vh;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, rgba(5, 5, 5, 0) 70%);
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 5vh;
+        }
+
+        /* Header / Texts */
+        .header {
+            text-align: center;
+            margin-bottom: 4vh;
+            opacity: 0;
+            animation: fadeInDown 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            animation-delay: 0.1s;
+        }
+
+        .title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #FFF 0%, #D4AF37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            opacity: 0;
+            animation: fadeInDown 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            animation-delay: 0.3s;
+        }
+
+        /* Devices Container */
+        .devices-wrapper {
+            position: relative;
+            width: 80vw;
+            height: 60vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1200px;
+        }
+
+        .device {
+            position: absolute;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            opacity: 0;
+        }
+
+        .device-header {
+            height: 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .screen-placeholder {
+            flex: 1;
+            background-color: #00FF00; /* Green screen for easy keying */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(0, 0, 0, 0.6);
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Desktop */
+        .desktop {
+            width: 55%;
+            height: 85%;
+            z-index: 1;
+            transform: translateY(40px) scale(0.95);
+            animation: slideUpDevice 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            animation-delay: 0.5s;
+        }
+
+        /* Tablet */
+        .tablet {
+            width: 30%;
+            height: 70%;
+            left: 10%;
+            z-index: 2;
+            transform: translateX(-20px) translateY(40px) rotateY(15deg);
+            animation: slideUpTablet 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            animation-delay: 0.7s;
+        }
+
+        /* Mobile */
+        .mobile {
+            width: 15%;
+            height: 60%;
+            right: 18%;
+            z-index: 3;
+            border-radius: 20px;
+            transform: translateX(20px) translateY(40px) rotateY(-15deg);
+            animation: slideUpMobile 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            animation-delay: 0.9s;
+        }
+
+        .mobile .device-header {
+            height: 20px;
+            justify-content: center;
+        }
+        .mobile .dot {
+            width: 40px;
+            height: 4px;
+            border-radius: 4px;
+        }
+        
+        .mobile .screen-placeholder {
+            font-size: 0.8rem;
+        }
+
+        /* Feature Tags */
+        .tag {
+            position: absolute;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--accent-gold);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            z-index: 20;
+        }
+
+        .tag-1 { top: 20%; left: 15%; animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; animation-delay: 1.4s; }
+        .tag-2 { top: 15%; right: 20%; animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; animation-delay: 1.6s; }
+        .tag-3 { bottom: 10%; left: 30%; animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; animation-delay: 1.8s; }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            0% { opacity: 0; transform: translateY(-30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUpDevice {
+            0% { opacity: 0; transform: translateY(60px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes slideUpTablet {
+            0% { opacity: 0; transform: translateX(-30px) translateY(60px) rotateY(15deg); }
+            100% { opacity: 1; transform: translateX(0) translateY(10px) rotateY(10deg); }
+        }
+
+        @keyframes slideUpMobile {
+            0% { opacity: 0; transform: translateX(30px) translateY(60px) rotateY(-15deg); }
+            100% { opacity: 1; transform: translateX(0) translateY(30px) rotateY(-10deg); }
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.8) translateY(10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* Timer bar to show it's a 3s animation */
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: var(--accent-gold);
+            width: 0%;
+            animation: progress 3s linear forwards;
+        }
+
+        @keyframes progress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="glow"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Stella ERP</h1>
+            <p class="subtitle">Gestión inteligente para joyería de alto valor</p>
+        </div>
+
+        <div class="devices-wrapper">
+            <!-- Tablet -->
+            <div class="device tablet">
+                <div class="device-header">
+                    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                </div>
+                <div class="screen-placeholder">
+                    CAPTURAS<br>TABLET
+                </div>
+            </div>
+
+            <!-- Desktop -->
+            <div class="device desktop">
+                <div class="device-header">
+                    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                </div>
+                <div class="screen-placeholder">
+                    CAPTURAS<br>EQUIPO DE CÓMPUTO
+                </div>
+            </div>
+
+            <!-- Mobile -->
+            <div class="device mobile">
+                <div class="device-header">
+                    <div class="dot"></div>
+                </div>
+                <div class="screen-placeholder">
+                    CAPTURAS<br>MÓVIL
+                </div>
+            </div>
+
+            <!-- Features -->
+            <div class="tag tag-1">Inventario en Tiempo Real</div>
+            <div class="tag tag-2">Portal de Distribuidores</div>
+            <div class="tag tag-3">Visualización 3D & IA</div>
+        </div>
+    </div>
+
+    <!-- 3 second timeline indicator -->
+    <div class="progress-bar"></div>
+
+    <script>
+        // Reload animation button mechanism if needed
+        document.body.addEventListener('dblclick', () => {
+            location.reload();
+        });
+    </script>
+</body>
+</html>

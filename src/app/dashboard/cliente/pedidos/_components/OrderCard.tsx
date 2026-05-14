@@ -78,146 +78,58 @@ export default function OrderCard({ order, activeTab }: OrderCardProps) {
       <div
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        style={{
-          background: COLORS.white,
-          border: `1px solid ${COLORS.slateBorder}`,
-          borderRadius: "14px",
-          overflow: "hidden",
-          display: "flex",
-          flexDirection: "column",
-          fontFamily: "var(--font-sans, Inter, sans-serif)",
-          boxShadow: isHovered
-            ? `0 18px 40px ${COLORS.sageLg}`
-            : `0 2px 12px ${COLORS.sageSm}`,
-          transform: isHovered ? "translateY(-5px)" : "translateY(0)",
-          transition: "all 0.22s ease",
-          position: "relative",
-        }}
+        className={`bg-white border border-[#708090]/15 rounded-2xl overflow-hidden flex flex-col font-sans transition-all duration-300 relative ${
+          isHovered ? "shadow-xl shadow-[#8c9768]/10 -translate-y-1" : "shadow-sm"
+        }`}
       >
         {/* Header */}
-        <div
-          style={{
-            background: COLORS.bgAlt,
-            padding: "clamp(12px, 2vw, 18px) clamp(18px, 2.2vw, 26px)",
-            borderBottom: `1px solid ${COLORS.slateBorder}`,
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            gap: 20,
-            flexWrap: "wrap",
-          }}
-        >
-          <div style={{ display: "flex", gap: "2.5rem", flexWrap: "wrap" }}>
-            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              <span
-                style={{
-                  fontSize: "0.68rem",
-                  color: COLORS.slateDeep,
-                  textTransform: "uppercase",
-                  fontWeight: 500,
-                  letterSpacing: "0.05em",
-                }}
-              >
+        <div className="bg-[#f6f4ef]/60 px-4 sm:px-6 py-4 border-b border-[#708090]/15 flex flex-col md:flex-row md:justify-between items-start gap-4 md:gap-6">
+          <div className="flex gap-4 sm:gap-8 flex-wrap">
+            <div className="flex flex-col gap-1">
+              <span className="text-[10px] sm:text-[11px] text-[#4a5568] uppercase font-semibold tracking-wider">
                 Pedido Realizado
               </span>
-              <span style={{ fontSize: "0.86rem", color: COLORS.slate }}>
+              <span className="text-sm text-[#708090] font-medium">
                 {order.fecha}
               </span>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              <span
-                style={{
-                  fontSize: "0.68rem",
-                  color: COLORS.slateDeep,
-                  textTransform: "uppercase",
-                  fontWeight: 500,
-                  letterSpacing: "0.05em",
-                }}
-              >
+            <div className="flex flex-col gap-1">
+              <span className="text-[10px] sm:text-[11px] text-[#4a5568] uppercase font-semibold tracking-wider">
                 Total
               </span>
-              <span style={{ fontSize: "0.86rem", color: COLORS.slate }}>
+              <span className="text-sm text-[#708090] font-medium">
                 ${order.total.toLocaleString()}
               </span>
             </div>
 
             {order.direccion_envio && (
-              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                <span
-                  style={{
-                    fontSize: "0.68rem",
-                    color: COLORS.slateDeep,
-                    textTransform: "uppercase",
-                    fontWeight: 500,
-                    letterSpacing: "0.05em",
-                  }}
-                >
+              <div className="flex flex-col gap-1">
+                <span className="text-[10px] sm:text-[11px] text-[#4a5568] uppercase font-semibold tracking-wider">
                   Enviar a
                 </span>
-                <span
-                  style={{
-                    fontSize: "0.86rem",
-                    color: COLORS.rose,
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 4,
-                  }}
-                >
+                <span className="text-sm text-[#b76e79] cursor-pointer flex items-center gap-1 hover:underline">
                   Stella Cliente <ChevronRight size={14} />
                 </span>
               </div>
             )}
           </div>
 
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 4,
-              alignItems: "flex-end",
-              flex: 1,
-            }}
-          >
-            <span
-              style={{
-                fontSize: "0.68rem",
-                color: COLORS.slateDeep,
-                textTransform: "uppercase",
-                fontWeight: 500,
-                letterSpacing: "0.05em",
-              }}
-            >
+          <div className="flex flex-col gap-1 items-start md:items-end w-full md:w-auto">
+            <span className="text-[10px] sm:text-[11px] text-[#4a5568] uppercase font-semibold tracking-wider">
               Pedido n.º {order.id}
             </span>
-            <div style={{ display: "flex", gap: 12 }}>
+            <div className="flex gap-3 text-sm">
               <button
                 onClick={() => setActiveModal("details")}
-                style={{
-                  background: "none",
-                  border: "none",
-                  padding: 0,
-                  fontSize: "0.84rem",
-                  color: COLORS.rose,
-                  cursor: "pointer",
-                }}
+                className="bg-transparent border-none p-0 text-[#b76e79] hover:text-[#a45f69] hover:underline cursor-pointer transition-colors"
               >
                 Detalles del pedido
               </button>
-              <span style={{ color: COLORS.slateBorder, fontSize: "0.84rem" }}>
-                |
-              </span>
+              <span className="text-[#708090]/30">|</span>
               <button
                 onClick={() => setActiveModal("receipt")}
-                style={{
-                  background: "none",
-                  border: "none",
-                  padding: 0,
-                  fontSize: "0.84rem",
-                  color: COLORS.rose,
-                  cursor: "pointer",
-                }}
+                className="bg-transparent border-none p-0 text-[#b76e79] hover:text-[#a45f69] hover:underline cursor-pointer transition-colors"
               >
                 Ver recibo
               </button>
@@ -226,127 +138,49 @@ export default function OrderCard({ order, activeTab }: OrderCardProps) {
         </div>
 
         {/* Body */}
-        <div
-          style={{
-            padding: "clamp(18px, 2.2vw, 26px)",
-            display: "flex",
-            flexDirection: "column",
-            gap: 24,
-          }}
-        >
-          <h3
-            style={{
-              fontFamily: "var(--font-serif, 'Cormorant Garamond', serif)",
-              fontSize: "1.35rem",
-              fontWeight: 600,
-              color: status.text,
-              margin: 0,
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-            }}
-          >
+        <div className="p-4 sm:p-6 flex flex-col gap-6 sm:gap-8">
+          <h3 className="font-serif text-xl sm:text-2xl font-semibold m-0 flex items-center gap-3" style={{ color: status.text }}>
             {status.icon}
             {order.estado === "enviado"
               ? `Entregado ${order.fecha}`
               : status.label}
           </h3>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr auto",
-              gap: 24,
-              alignItems: "start",
-            }}
-          >
-            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+          <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
+            {/* Items List */}
+            <div className="flex flex-col gap-6 w-full lg:w-auto lg:flex-1">
               {order.items.map((item, idx) => (
-                <div key={idx} style={{ display: "flex", gap: 16 }}>
-                  <div
-                    style={{
-                      width: 90,
-                      height: 90,
-                      borderRadius: "12px",
-                      overflow: "hidden",
-                      background: COLORS.bg,
-                      flexShrink: 0,
-                      border: `1px solid ${COLORS.slateBorder}`,
-                    }}
-                  >
+                <div key={idx} className="flex gap-4 sm:gap-5 w-full">
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden bg-[#f6f4ef] shrink-0 border border-[#708090]/15 relative">
                     <img
                       src={item.imagen_url || "/LogoM.svg"}
                       alt={item.nombre_producto}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
+                      className="w-full h-full object-cover"
                     />
                   </div>
 
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 4,
-                      paddingTop: 4,
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: "0.94rem",
-                        color: COLORS.rose,
-                        fontWeight: 400,
-                      }}
-                    >
+                  <div className="flex flex-col gap-1 sm:gap-1.5 pt-1 w-full">
+                    <span className="text-[0.95rem] sm:text-base text-[#b76e79] font-medium leading-tight">
                       {item.nombre_producto}
                     </span>
-                    <span style={{ fontSize: "0.82rem", color: COLORS.slate }}>
+                    <span className="text-sm text-[#708090]">
                       Cantidad: {item.cantidad}
                     </span>
 
-                    <div style={{ display: "flex", gap: 12, marginTop: 8 }}>
+                    <div className="flex flex-wrap gap-2 sm:gap-3 mt-2">
                       <button
-                        style={{
-                          background:
-                            activeTab === "comprar_nuevo"
-                              ? COLORS.rose
-                              : "transparent",
-                          border:
-                            activeTab === "comprar_nuevo"
-                              ? "none"
-                              : `1.5px solid ${COLORS.slateMid}`,
-                          borderRadius: "6px",
-                          padding: "6px 12px",
-                          fontSize: "0.78rem",
-                          color:
-                            activeTab === "comprar_nuevo"
-                              ? COLORS.white
-                              : COLORS.slate,
-                          fontWeight: 400,
-                          cursor: "pointer",
-                          transition: "all 0.22s ease",
-                          letterSpacing: "0.04em",
-                        }}
+                        className={`rounded-lg px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-medium transition-colors ${
+                          activeTab === "comprar_nuevo"
+                            ? "bg-[#b76e79] hover:bg-[#a45f69] text-white border-none shadow-sm"
+                            : "bg-transparent hover:bg-[#f6f4ef] text-[#708090] border-2 border-[#708090]/25"
+                        }`}
                       >
                         {activeTab === "comprar_nuevo"
                           ? "Agregar al carrito"
                           : "Comprar de nuevo"}
                       </button>
 
-                      <button
-                        style={{
-                          background: "transparent",
-                          border: `1.5px solid ${COLORS.slateMid}`,
-                          borderRadius: "6px",
-                          padding: "6px 12px",
-                          fontSize: "0.78rem",
-                          color: COLORS.slate,
-                          fontWeight: 400,
-                          cursor: "pointer",
-                        }}
-                      >
+                      <button className="bg-transparent hover:bg-[#f6f4ef] rounded-lg px-3 sm:px-4 py-1.5 text-xs sm:text-sm text-[#708090] border-2 border-[#708090]/25 font-medium transition-colors">
                         Ver tu artículo
                       </button>
                     </div>
@@ -355,39 +189,15 @@ export default function OrderCard({ order, activeTab }: OrderCardProps) {
               ))}
             </div>
 
-            {/* Actions */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 12,
-                minWidth: 200,
-              }}
-            >
+            {/* Main Actions */}
+            <div className="flex flex-col gap-3 w-full lg:w-[220px] shrink-0 mt-2 lg:mt-0">
               <button
                 onClick={() => setActiveModal("tracking")}
-                style={{
-                  width: "100%",
-                  padding: "10px 16px",
-                  background:
-                    order.estado === "cancelado" ? "transparent" : COLORS.rose,
-                  color:
-                    order.estado === "cancelado" ? COLORS.slate : COLORS.white,
-                  border:
-                    order.estado === "cancelado"
-                      ? `1.5px solid ${COLORS.slateMid}`
-                      : "none",
-                  borderRadius: "6px",
-                  fontSize: "0.83rem",
-                  cursor: "pointer",
-                  textAlign: "center",
-                  transition: "all 0.22s ease",
-                }}
-                onMouseEnter={e => {
-                  if (order.estado !== "cancelado")
-                    e.currentTarget.style.boxShadow = `0 10px 26px ${COLORS.roseMid}`;
-                }}
-                onMouseLeave={e => (e.currentTarget.style.boxShadow = "none")}
+                className={`w-full py-2.5 px-4 rounded-xl text-sm font-medium transition-all duration-200 ${
+                  order.estado === "cancelado"
+                    ? "bg-transparent text-[#708090] border-2 border-[#708090]/25 hover:bg-gray-50"
+                    : "bg-[#b76e79] hover:bg-[#a45f69] text-white border-none shadow-md hover:shadow-lg shadow-[#b76e79]/20"
+                }`}
               >
                 {order.estado === "enviado" ? "Rastrear paquete" : "Ver estado"}
               </button>
@@ -395,37 +205,15 @@ export default function OrderCard({ order, activeTab }: OrderCardProps) {
               {order.estado === "enviado" && (
                 <button
                   onClick={() => setActiveModal("review")}
-                  style={{
-                    width: "100%",
-                    padding: "10px 16px",
-                    background: "transparent",
-                    color: COLORS.slate,
-                    border: `1.5px solid ${COLORS.slateMid}`,
-                    borderRadius: "6px",
-                    fontSize: "0.83rem",
-                    cursor: "pointer",
-                    textAlign: "center",
-                    transition: "all 0.22s ease",
-                  }}
+                  className="w-full py-2.5 px-4 bg-transparent hover:bg-gray-50 text-[#708090] border-2 border-[#708090]/25 rounded-xl text-sm font-medium transition-colors"
                 >
-                  Dejar reseña del producto
+                  Dejar reseña
                 </button>
               )}
 
               <button
                 onClick={() => setActiveModal("details")}
-                style={{
-                  width: "100%",
-                  padding: "10px 16px",
-                  background: "transparent",
-                  color: COLORS.slate,
-                  border: `1.5px solid ${COLORS.slateMid}`,
-                  borderRadius: "6px",
-                  fontSize: "0.83rem",
-                  cursor: "pointer",
-                  textAlign: "center",
-                  transition: "all 0.22s ease",
-                }}
+                className="w-full py-2.5 px-4 bg-transparent hover:bg-gray-50 text-[#708090] border-2 border-[#708090]/25 rounded-xl text-sm font-medium transition-colors"
               >
                 Ver detalles del pedido
               </button>

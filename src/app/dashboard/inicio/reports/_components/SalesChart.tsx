@@ -40,13 +40,13 @@ export default function SalesChart() {
       <div style={{ marginBottom: 14 }}>
         <h3 style={{
           fontFamily: "var(--font-marcellus)",
-          fontSize: "0.9rem", fontWeight: 700, color: "#1C1C1C", margin: 0,
+          fontSize: "0.9rem", fontWeight: 700, color: "#2d3748", margin: 0,
         }}>
           Ingresos vs Costos
         </h3>
         <p style={{
           fontFamily: "var(--font-poppins)",
-          fontSize: "0.67rem", color: "#8C9796", margin: "2px 0 0",
+          fontSize: "0.67rem", color: "#708090", margin: "2px 0 0",
         }}>
           Comparativa mensual — últimos 6 meses
         </p>
@@ -54,15 +54,15 @@ export default function SalesChart() {
 
       <ResponsiveContainer width="100%" height={220}>
         <BarChart data={DATA} barCategoryGap="25%" margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
-          <CartesianGrid stroke="#F0EDE8" strokeDasharray="3 3" vertical={false} />
+          <CartesianGrid stroke="#f6f4ef" strokeDasharray="3 3" vertical={false} />
           <XAxis
             dataKey="mes"
-            tick={{ fontSize: 11, fill: "#8C9796", fontFamily: "var(--font-poppins)" }}
+            tick={{ fontSize: 11, fill: "#708090", fontFamily: "var(--font-poppins)" }}
             axisLine={false} tickLine={false}
           />
           <YAxis
             tickFormatter={fmt}
-            tick={{ fontSize: 11, fill: "#8C9796", fontFamily: "var(--font-poppins)" }}
+            tick={{ fontSize: 11, fill: "#708090", fontFamily: "var(--font-poppins)" }}
             axisLine={false} tickLine={false} width={42}
           />
           <Tooltip
@@ -73,7 +73,7 @@ export default function SalesChart() {
             contentStyle={{
               background: "#fff",
               borderRadius: 10,
-              border: "1px solid #F0EDE8",
+              border: "1px solid #f6f4ef",
               boxShadow: "0 4px 14px rgba(112,128,144,0.18)",
               fontFamily: "var(--font-poppins)", fontSize: 12,
             }}
@@ -84,7 +84,7 @@ export default function SalesChart() {
             wrapperStyle={{ fontFamily: "var(--font-marcellus)", fontSize: 11, paddingTop: 10 }}
           />
           <Bar dataKey="ingresos" fill="#708090" radius={[5, 5, 0, 0]} />
-          <Bar dataKey="costos" fill="#E8C2C7" radius={[5, 5, 0, 0]} />
+          <Bar dataKey="costos" fill="#b76e79" radius={[5, 5, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

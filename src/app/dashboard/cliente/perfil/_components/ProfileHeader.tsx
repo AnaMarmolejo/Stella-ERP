@@ -9,80 +9,38 @@ interface ProfileHeaderProps {
 
 export default function ProfileHeader({ profile }: ProfileHeaderProps) {
   return (
-    <div style={{
-      position: "relative",
-      padding: "40px 0",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: 20,
-      background: "linear-gradient(180deg, rgba(183,110,121,0.05) 0%, rgba(246,244,239,0) 100%)",
-      borderRadius: "24px 24px 0 0",
-      marginBottom: 32
-    }}>
-      {/* Avatar Container */}
-      <div style={{ position: "relative" }}>
-        <div style={{
-          width: 120,
-          height: 120,
-          borderRadius: "50%",
-          background: "#ffffff",
-          border: "2px solid rgba(183,110,121,0.22)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          boxShadow: "0 12px 24px rgba(140,151,104,0.08)",
-          overflow: "hidden"
-        }}>
-          {profile.avatarUrl ? (
-            <img src={profile.avatarUrl} alt={profile.nombre} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-          ) : (
-            <span style={{ 
-              fontFamily: "var(--font-serif, 'Cormorant Garamond', serif)", 
-              fontSize: "3.5rem", 
-              fontWeight: 600, 
-              color: "#b76e79",
-              fontStyle: "italic"
-            }}>
-              {profile.nombre.charAt(0).toUpperCase()}
-            </span>
-          )}
-        </div>
+    <div className="relative w-full rounded-3xl overflow-hidden shadow-lg border border-gray-100 bg-white">
+      {/* Banner Background */}
+      <div className="absolute top-0 left-0 w-full h-32 sm:h-48 bg-gradient-to-r from-[#b76e79] to-[#c88b94] opacity-90 z-0">
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
       </div>
+      
+      <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-end gap-6 p-6 sm:p-8 pt-16 sm:pt-24 mt-4 sm:mt-0">
+        {/* Avatar Container */}
+        <div className="relative flex-shrink-0">
+          <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-white border-4 border-white shadow-xl flex items-center justify-center overflow-hidden z-20">
+            {profile.avatarUrl ? (
+              <img src={profile.avatarUrl} alt={profile.nombre} className="w-full h-full object-cover" />
+            ) : (
+              <span className="font-serif text-4xl sm:text-5xl font-semibold text-[#b76e79] italic">
+                {profile.nombre.charAt(0).toUpperCase()}
+              </span>
+            )}
+          </div>
+        </div>
 
-      {/* Basic Info */}
-      <div style={{ textAlign: "center" }}>
-        <h1 style={{
-          fontFamily: "var(--font-serif, 'Cormorant Garamond', serif)",
-          fontSize: "2.4rem",
-          fontWeight: 500,
-          color: "#4a5568",
-          margin: "0 0 6px 0",
-          fontStyle: "italic"
-        }}>
-          {profile.nombre}
-        </h1>
-        
-        <div style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: 6,
-          padding: "4px 12px",
-          background: "rgba(183,110,121,0.08)",
-          borderRadius: 20,
-          border: "1px solid rgba(183,110,121,0.22)"
-        }}>
-          <ShieldCheck size={14} color="#b76e79" />
-          <span style={{
-            fontFamily: "var(--font-sans, Inter, sans-serif)",
-            fontSize: "0.75rem",
-            fontWeight: 600,
-            color: "#b76e79",
-            textTransform: "uppercase",
-            letterSpacing: "0.05em"
-          }}>
-            {profile.rol}
-          </span>
+        {/* Basic Info */}
+        <div className="flex flex-col items-center sm:items-start text-center sm:text-left mb-2">
+          <h1 className="font-serif text-3xl sm:text-4xl font-medium text-[#2d3748] m-0 mb-2 italic drop-shadow-sm">
+            {profile.nombre}
+          </h1>
+          
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#f6f4ef] rounded-full border border-gray-200 shadow-sm">
+            <ShieldCheck size={16} className="text-[#b76e79]" />
+            <span className="font-sans text-[10px] sm:text-xs font-bold text-[#708090] uppercase tracking-widest">
+              {profile.rol}
+            </span>
+          </div>
         </div>
       </div>
     </div>

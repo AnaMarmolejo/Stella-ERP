@@ -61,8 +61,8 @@ function PedidosPageContent() {
     <div className="flex h-screen overflow-hidden" style={{ background: "var(--beige)" }}>
       <SideBarMenu />
 
-      <main className="flex-1 px-4 sm:px-6 py-8 overflow-y-auto" style={{ background: "var(--beige)" }}>
-        <div className="mx-auto max-w-[1440px] space-y-8">
+      <main className="flex-1 px-3 sm:px-6 py-4 sm:py-8 overflow-y-auto" style={{ background: "var(--beige)" }}>
+        <div className="mx-auto max-w-[1440px] space-y-4 sm:space-y-8">
 
           {/* HEADER */}
           <header className="space-y-1">
@@ -101,7 +101,7 @@ function PedidosPageContent() {
           </header>
 
           <div 
-            className="relative rounded-3xl p-6 sm:p-8 md:p-10 space-y-8 border"
+            className="relative rounded-3xl p-4 sm:p-8 md:p-10 space-y-4 sm:space-y-6 border"
             style={{
               background: "var(--white)",
               border: "1px solid var(--border-subtle)",
@@ -113,7 +113,7 @@ function PedidosPageContent() {
             <div className="flex p-1.5 rounded-2xl w-fit" style={{ background: "var(--beige-light)" }}>
               <button
                 onClick={() => setActiveTab("LISTA")}
-                className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition duration-300 cursor-pointer ${
+                className={`flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-xl text-sm sm:text-base font-bold transition duration-300 cursor-pointer ${
                   activeTab === "LISTA" 
                     ? "bg-white shadow-sm scale-105" 
                     : "text-[#8C9796] hover:text-[#708090]"
@@ -128,7 +128,7 @@ function PedidosPageContent() {
               {usuario?.id_rol === 3 && (
                 <button
                   onClick={() => setActiveTab("NUEVO")}
-                  className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition duration-300 cursor-pointer ${
+                  className={`flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-xl text-sm sm:text-base font-bold transition duration-300 cursor-pointer ${
                     activeTab === "NUEVO" 
                       ? "bg-white shadow-sm scale-105" 
                       : "text-[#8C9796] hover:text-[#708090]"
@@ -144,7 +144,7 @@ function PedidosPageContent() {
             </div>
 
             {loading ? (
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-4 sm:gap-6">
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 20 }}>
                   <Skeleton height={100} borderRadius={16} />
                   <Skeleton height={100} borderRadius={16} />
@@ -162,7 +162,7 @@ function PedidosPageContent() {
                   transition={{ duration: 0.3 }}
                 >
                   {activeTab === "LISTA" ? (
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                       <PedidosStats pedidos={pedidosFiltrados} />
                       
                       <PedidosToolbar

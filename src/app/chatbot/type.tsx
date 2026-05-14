@@ -7,10 +7,11 @@ export type Message = {
   id: number
   text?: string
   sender: "user" | "bot"
-  type?: "text" | "card" | "options"
+  type?: "text" | "card" | "options" | "image"
   data?: {
     title: string
     description: string
   }
   options?: MessageOption[]
+  imageUrl?: string
 }

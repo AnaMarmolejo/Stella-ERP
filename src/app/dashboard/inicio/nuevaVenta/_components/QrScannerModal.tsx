@@ -89,7 +89,35 @@ export default function QrScannerModal({ isOpen, onClose, onScan }: QrScannerMod
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
-    const file = e.target.files[0];
+    let file = e.target.files[0];
+
+    // Soporte para archivos HEIC/HEIF
+    if (
+      file.name.toLowerCase().endsWith(".heic") ||
+      file.name.toLowerCase().endsWith(".heif") ||
+      file.type === "image/heic" ||
+      file.type === "image/heif"
+    ) {
+      try {
+        const heic2any = (await import("heic2any")).default;
+        const convertedBlob = await heic2any({
+          blob: file,
+          toType: "image/jpeg",
+          quality: 0.8,
+        });
+
+        const finalBlob = Array.isArray(convertedBlob)
+          ? convertedBlob[0]
+          : convertedBlob;
+        file = new File(
+          [finalBlob],
+          file.name.replace(/\.(heic|heif)$/i, ".jpg"),
+          { type: "image/jpeg" }
+        );
+      } catch (error) {
+        console.error("Error al convertir HEIC:", error);
+      }
+    }
     
     if (!scannerRef.current) {
       scannerRef.current = new Html5Qrcode(qrcodeRegionId);
@@ -184,7 +212,7 @@ export default function QrScannerModal({ isOpen, onClose, onScan }: QrScannerMod
 
             <input
               type="file"
-              accept="image/*"
+              accept="image/*,.heic,.heif"
               className="hidden"
               ref={fileInputRef}
               onChange={handleFileUpload}

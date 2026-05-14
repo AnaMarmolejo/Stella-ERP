@@ -32,7 +32,7 @@ export default function SalesByProductChart({
       Ventas: p.totalVendido
     }));
 
-  const COLORS = ["#B76E79", "#C07E88", "#D4A5A5", "#758390", "#9CA3AF"];
+  const COLORS = ["#B76E79", "#b76e79", "#b76e79", "#708090", "#9CA3AF"];
 
   return (
     <div style={{
@@ -47,13 +47,13 @@ export default function SalesByProductChart({
       <div style={{ marginBottom: 20 }}>
         <h3 style={{
           fontFamily: "var(--font-marcellus)",
-          fontSize: "1rem", fontWeight: 700, color: "#2A2E34", margin: 0,
+          fontSize: "1rem", fontWeight: 700, color: "#2d3748", margin: 0,
         }}>
           {title}
         </h3>
         <p style={{
           fontFamily: "var(--font-poppins)",
-          fontSize: "0.75rem", color: "#8A94A6", margin: "4px 0 0",
+          fontSize: "0.75rem", color: "#708090", margin: "4px 0 0",
         }}>
           {subtitle}
         </p>
@@ -63,13 +63,13 @@ export default function SalesByProductChart({
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={chartData} layout="vertical" margin={{ top: 10, right: 30, left: 20, bottom: 10 }}>
             <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#E2E8F0" />
-            <XAxis type="number" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: "#8A94A6" }} />
+            <XAxis type="number" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: "#708090" }} />
             <YAxis 
               dataKey="name" 
               type="category" 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fontSize: 11, fill: "#2A2E34", fontFamily: "var(--font-sans)" }} 
+              tick={{ fontSize: 11, fill: "#2d3748", fontFamily: "var(--font-sans)" }} 
               width={100}
             />
             <Tooltip 

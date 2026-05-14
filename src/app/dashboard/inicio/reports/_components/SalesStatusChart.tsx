@@ -17,8 +17,8 @@ export default function SalesStatusChart({
 }: SalesStatusChartProps) {
   
   const DATA = [
-    { name: "Completadas", value: aprobadas, color: "#758390" }, // Slate Gray
-    { name: "Pendientes",  value: pendientes,color: "#D4A5A5" }, // Light Rose 
+    { name: "Completadas", value: aprobadas, color: "#708090" }, // Slate Gray
+    { name: "Pendientes",  value: pendientes,color: "#b76e79" }, // Light Rose 
     { name: "Canceladas / Denegadas",  value: canceladas,color: "#B76E79" }, // Muted Rose
   ].filter(d => d.value > 0);
 
@@ -40,10 +40,10 @@ export default function SalesStatusChart({
       minHeight: 320
     }}>
       <div style={{ marginBottom: 10 }}>
-        <h3 style={{ fontFamily: "var(--font-marcellus)", fontSize: "1rem", fontWeight: 700, color: "#2A2E34", margin: 0 }}>
+        <h3 style={{ fontFamily: "var(--font-marcellus)", fontSize: "1rem", fontWeight: 700, color: "#2d3748", margin: 0 }}>
           {title}
         </h3>
-        <p style={{ fontFamily: "var(--font-poppins)", fontSize: "0.75rem", color: "#8A94A6", margin: "4px 0 0" }}>
+        <p style={{ fontFamily: "var(--font-poppins)", fontSize: "0.75rem", color: "#708090", margin: "4px 0 0" }}>
           {subtitle}
         </p>
       </div>
@@ -73,10 +73,10 @@ export default function SalesStatusChart({
           display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
           pointerEvents: "none",
         }}>
-          <span style={{ fontFamily: "var(--font-poppins)", fontSize: "1.8rem", fontWeight: 800, color: "#2A2E34" }}>
+          <span style={{ fontFamily: "var(--font-poppins)", fontSize: "1.8rem", fontWeight: 800, color: "#2d3748" }}>
             {percentage}%
           </span>
-          <span style={{ fontFamily: "var(--font-marcellus)", fontSize: "0.75rem", color: "#8A94A6" }}>
+          <span style={{ fontFamily: "var(--font-marcellus)", fontSize: "0.75rem", color: "#708090" }}>
             Éxito
           </span>
         </div>
@@ -86,12 +86,12 @@ export default function SalesStatusChart({
         {total > 0 ? DATA.map(d => (
           <div key={d.name} style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <div style={{ width: 10, height: 10, borderRadius: 3, background: d.color }} />
-            <span style={{ fontFamily: "var(--font-sans)", fontSize: "0.75rem", color: "#4B5563" }}>
+            <span style={{ fontFamily: "var(--font-sans)", fontSize: "0.75rem", color: "#2d3748" }}>
               {d.name} ({d.value})
             </span>
           </div>
         )) : (
-          <span style={{ fontFamily: "var(--font-sans)", fontSize: "0.75rem", color: "#8A94A6" }}>Sin registros en este periodo</span>
+          <span style={{ fontFamily: "var(--font-sans)", fontSize: "0.75rem", color: "#708090" }}>Sin registros en este periodo</span>
         )}
       </div>
     </div>

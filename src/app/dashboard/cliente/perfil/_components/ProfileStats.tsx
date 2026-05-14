@@ -40,59 +40,86 @@ export default function ProfileStats({ stats }: ProfileStatsProps) {
   ];
 
   return (
-    <div style={{
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-      gap: 16,
-      marginBottom: 32
-    }}>
-      {cards.map((card, idx) => (
-        <div key={idx} style={{
-          background: "#ffffff",
-          padding: "20px",
-          borderRadius: 16,
-          boxShadow: "0 4px 12px rgba(112,128,144,0.05)",
-          border: "1px solid rgba(112,128,144,0.1)",
-          display: "flex",
-          flexDirection: "column",
-          gap: 12,
-          transition: "transform 0.2s ease, box-shadow 0.2s ease",
-          cursor: "default"
-        }} onMouseOver={(e) => {
-          e.currentTarget.style.transform = "translateY(-4px)";
-          e.currentTarget.style.boxShadow = "0 8px 24px rgba(140,151,104,0.12)";
-        }} onMouseOut={(e) => {
-          e.currentTarget.style.transform = "translateY(0)";
-          e.currentTarget.style.boxShadow = "0 4px 12px rgba(112,128,144,0.05)";
-        }}>
-          <div style={{
-            width: 40,
-            height: 40,
-            borderRadius: 10,
-            background: card.bg,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: card.color
-          }}>
-            {card.icon}
-          </div>
-          <div>
-            <div style={{
-              fontFamily: "var(--font-sans, Inter, sans-serif)",
-              fontSize: "0.75rem",
-              color: "#708090",
-              fontWeight: 500
-            }}>{card.label}</div>
-            <div style={{
-              fontFamily: "var(--font-serif, 'Cormorant Garamond', serif)",
-              fontSize: "1.4rem",
-              fontWeight: 600,
-              color: "#4a5568"
-            }}>{card.value}</div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 w-full mb-8">
+      {/* Pedidos */}
+      <div className="relative flex flex-col gap-4 bg-gradient-to-br from-[#b76e79] to-[#a45f69] p-5 sm:p-6 rounded-2xl shadow-md text-white overflow-hidden group transition-all hover:-translate-y-1 hover:shadow-xl">
+        <div className="flex justify-between items-start z-10 relative">
+          <p className="font-sans text-xs sm:text-sm font-medium text-white/90 m-0 leading-tight max-w-[80%] uppercase tracking-wider">
+            Pedidos Realizados
+          </p>
+          <div className="bg-white/15 p-2 rounded-xl flex items-center justify-center shrink-0">
+            <Package size={18} className="text-white" />
           </div>
         </div>
-      ))}
+        <div className="z-10 relative mt-auto">
+          <p className="font-serif text-3xl sm:text-4xl font-normal m-0 leading-none drop-shadow-sm">
+            {stats.pedidosTotales}
+          </p>
+        </div>
+        <div className="absolute -right-[10%] -bottom-[15%] opacity-10 -rotate-[15deg] pointer-events-none z-0">
+          <Package size={100} className="text-white" />
+        </div>
+      </div>
+
+      {/* Monto Pendiente */}
+      <div className="relative flex flex-col gap-4 bg-gradient-to-br from-[#708090] to-[#5a6a7a] p-5 sm:p-6 rounded-2xl shadow-md text-white overflow-hidden group transition-all hover:-translate-y-1 hover:shadow-xl">
+        <div className="flex justify-between items-start z-10 relative">
+          <p className="font-sans text-xs sm:text-sm font-medium text-white/90 m-0 leading-tight max-w-[80%] uppercase tracking-wider">
+            Monto Pendiente
+          </p>
+          <div className="bg-white/15 p-2 rounded-xl flex items-center justify-center shrink-0">
+            <CreditCard size={18} className="text-white" />
+          </div>
+        </div>
+        <div className="z-10 relative mt-auto">
+          <p className="font-serif text-3xl sm:text-4xl font-normal m-0 leading-none drop-shadow-sm">
+            ${stats.montoPendiente.toLocaleString("es-MX")}
+          </p>
+        </div>
+        <div className="absolute -right-[10%] -bottom-[15%] opacity-10 -rotate-[15deg] pointer-events-none z-0">
+          <CreditCard size={100} className="text-white" />
+        </div>
+      </div>
+
+      {/* Puntos Stella */}
+      <div className="relative flex flex-col gap-4 bg-gradient-to-br from-[#2d3748] to-[#1a202c] p-5 sm:p-6 rounded-2xl shadow-md text-white overflow-hidden group transition-all hover:-translate-y-1 hover:shadow-xl">
+        <div className="flex justify-between items-start z-10 relative">
+          <p className="font-sans text-xs sm:text-sm font-medium text-white/90 m-0 leading-tight max-w-[80%] uppercase tracking-wider">
+            Puntos Stella
+          </p>
+          <div className="bg-white/15 p-2 rounded-xl flex items-center justify-center shrink-0">
+            <Star size={18} className="text-white fill-white/20" />
+          </div>
+        </div>
+        <div className="z-10 relative mt-auto">
+          <p className="font-serif text-3xl sm:text-4xl font-normal m-0 leading-none drop-shadow-sm">
+            {stats.puntosLealtad.toLocaleString("es-MX")}
+          </p>
+        </div>
+        <div className="absolute -right-[10%] -bottom-[15%] opacity-10 -rotate-[15deg] pointer-events-none z-0">
+          <Star size={100} className="text-white" />
+        </div>
+      </div>
+
+      {/* Estatus */}
+      <div className="relative flex flex-col gap-4 bg-gradient-to-br from-[#e0e5da] to-[#cfd8c6] p-5 sm:p-6 rounded-2xl shadow-md text-[#2d3748] overflow-hidden group transition-all hover:-translate-y-1 hover:shadow-xl">
+        <div className="flex justify-between items-start z-10 relative">
+          <p className="font-sans text-xs sm:text-sm font-bold text-[#4a5568]/80 m-0 leading-tight max-w-[80%] uppercase tracking-wider">
+            Estatus
+          </p>
+          <div className="bg-[#8c9768]/15 p-2 rounded-xl flex items-center justify-center shrink-0">
+            <TrendingUp size={18} className="text-[#6b754f]" />
+          </div>
+        </div>
+        <div className="z-10 relative mt-auto">
+          <p className="font-serif text-3xl sm:text-4xl font-semibold m-0 leading-none text-[#4a5568] drop-shadow-sm italic">
+            Premium
+          </p>
+        </div>
+        <div className="absolute -right-[10%] -bottom-[15%] opacity-[0.05] -rotate-[15deg] pointer-events-none z-0">
+          <TrendingUp size={100} className="text-[#4a5568]" />
+        </div>
+      </div>
     </div>
   );
 }

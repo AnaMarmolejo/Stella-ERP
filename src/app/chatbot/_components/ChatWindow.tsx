@@ -92,6 +92,27 @@ export default function ChatWindow({ onClose }: Props) {
       });
   }
 
+  function sendMessageImage(file: File) {
+    const userMsg: Message = {
+      id: Date.now(),
+      sender: "user",
+      type: "image",
+      imageUrl: URL.createObjectURL(file),
+    };
+    setMessages(prev => [...prev, userMsg]);
+
+    // Simular respuesta del bot para la imagen
+    setTimeout(() => {
+      const botMsg: Message = {
+        id: Date.now() + 1,
+        sender: "bot",
+        text: "¡Qué linda imagen! ✨ ¿Deseas que te ayude a encontrar algo similar en nuestro catálogo?",
+        type: "text",
+      };
+      setMessages(prev => [...prev, botMsg]);
+    }, 1000);
+  }
+
   return (
     <div
       className="
@@ -110,7 +131,7 @@ export default function ChatWindow({ onClose }: Props) {
       <ChatHeader onClose={onClose} />
       <ChatMessages messages={messages} typing={typing} onSend={sendMessage} />
       <ChatQuickActions onSend={sendMessage} />
-      <ChatInput onSend={sendMessage} />
+      <ChatInput onSend={sendMessage} onSendImage={sendMessageImage} />
     </div>
   );
 }
