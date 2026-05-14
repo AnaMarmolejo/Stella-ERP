@@ -64,6 +64,7 @@ export async function register(formData: FormData) {
 
   if (password !== confirmPassword) {
     redirect("/register?error=password_mismatch");
+    return;
   }
 
   const supabase = await createClient();
@@ -73,16 +74,17 @@ export async function register(formData: FormData) {
     password,
   });
 
-  // Supabase no lanza error si el email existe por seguridad (prevención de enumeración)
-  // Pero si el usuario existe y no hay identidades, significa que ya está registrado.
-  if (authData.user && authData.user.identities?.length === 0) {
-    redirect("/register?error=user_already_exists");
-  }
-
   if (authError) {
     console.log("Error al registrar usuario:", authError);
     const code = authError.code || "unknown_error";
     redirect(`/register?error=${code}`);
+    return;
+  }
+
+  // Supabase no lanza error si el email existe por seguridad (prevención de enumeración)
+  // Pero si el usuario existe y no hay identidades, significa que ya está registrado.
+  if (authData?.user && authData.user.identities?.length === 0) {
+    redirect("/register?error=user_already_exists");
     return;
   }
 

@@ -379,14 +379,9 @@ export default function HeaderClient({ user: userProp }: HeaderClientProps) {
       {
         label: id_rol === 3 ? "Panel Mayorista" : "Mayoreo",
         href: "/dashboard/cliente/mayoreo",
-<<<<<<< HEAD
         icon: <ShoppingBag size={18} />,
-      });
-    }
-=======
       },
     ];
->>>>>>> e244b38 (Responsive pantallas del erp)
 
     base.push(
       {
@@ -903,14 +898,6 @@ export default function HeaderClient({ user: userProp }: HeaderClientProps) {
                               setMobileMenu(false);
                             }}
                           />
-<<<<<<< HEAD
-                          <NavBtn
-                            icon={<Heart size={18} />}
-                            label="Favoritos"
-                          />
-=======
-                          
->>>>>>> e244b38 (Responsive pantallas del erp)
                         </>
                       )}
 
