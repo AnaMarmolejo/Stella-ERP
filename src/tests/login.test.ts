@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { login } from "../app/(auth)/actions";
 import { redirect } from "next/navigation";
-import * as supabaseServer from "@/utils/supabase/server";
-vi.mock("@/utils/supabase/server", () => ({
+import * as supabaseServer from "../utils/supabase/server";
+vi.mock("../utils/supabase/server", () => ({
   createClient: vi.fn(),
 }));
 
