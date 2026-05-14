@@ -27,7 +27,7 @@ export async function POST(req: Request) {
       await req.json();
 
     const response = await resend.emails.send({
-      from: "stella.joyeriaart@gmail.com", // temporal
+      from: "solicitudes@stellajoyeria.online", // temporal
       to: "stella.joyeriaart@gmail.com",
       subject: "Nueva solicitud - Stella",
       html: `
