@@ -1,8 +1,9 @@
 "use client";
 
 import { IConsignacion, EstadoConsignacion } from "@lib/models";
-import { Package, CheckCircle, Clock, XCircle, ChevronDown, ChevronUp } from "lucide-react";
+import { Package, CheckCircle, Clock, XCircle, ChevronDown, ChevronUp, Info } from "lucide-react";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const BADGE: Record<EstadoConsignacion, { bg: string; color: string; label: string; Icon: React.ElementType }> = {
   activa: { bg: "rgba(183,110,121,0.1)", color: "#B76E79", label: "Activa", Icon: CheckCircle },
@@ -24,9 +25,10 @@ interface MayoristaViewProps {
   loading: boolean;
   stats: { asignados: number; vendidos: number; devueltos: number; ganancia: number };
   nombre: string;
+  isTourOpen?: boolean;
 }
 
-export default function MayoristaView({ consignaciones, loading, stats, nombre }: MayoristaViewProps) {
+export default function MayoristaView({ consignaciones, loading, stats, nombre, isTourOpen }: MayoristaViewProps) {
   const [expanded, setExpanded] = useState<number | null>(null);
 
   if (loading) {
@@ -41,7 +43,24 @@ export default function MayoristaView({ consignaciones, loading, stats, nombre }
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
       {/* Overview Header - Inspired by Image 2 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="space-y-3">
+        <AnimatePresence>
+          {isTourOpen && (
+            <motion.div 
+              initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+              className="bg-white border border-[#b76e79]/30 rounded-xl p-4 shadow-sm mb-2"
+            >
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-8 h-8 rounded-full bg-[#b76e79] text-white flex items-center justify-center font-bold text-sm shadow-md shrink-0">1</div>
+                <h3 className="m-0 text-slate-700 font-sans font-semibold text-lg">Tu Nivel y Estado</h3>
+              </div>
+              <div className="pl-11">
+                <p className="text-sm text-slate-600 mb-0 mt-0 font-sans">Consulta aquí tu nivel actual como mayorista, los beneficios que tienes aplicados y asegúrate de que tu cuenta esté activa.</p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Welcome Card */}
         <div
           style={{
@@ -109,9 +128,27 @@ export default function MayoristaView({ consignaciones, loading, stats, nombre }
           </div>
         </div>
       </div>
+      </div>
 
       {/* Mini stats - Colored Backgrounds */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="space-y-3">
+        <AnimatePresence>
+          {isTourOpen && (
+            <motion.div 
+              initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+              className="bg-white border border-[#b76e79]/30 rounded-xl p-4 shadow-sm mb-2"
+            >
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-8 h-8 rounded-full bg-[#b76e79] text-white flex items-center justify-center font-bold text-sm shadow-md shrink-0">2</div>
+                <h3 className="m-0 text-slate-700 font-sans font-semibold text-lg">Métricas de Consignación</h3>
+              </div>
+              <div className="pl-11">
+                <p className="text-sm text-slate-600 mb-0 mt-0 font-sans">Visualiza rápidamente el resumen numérico de todo el inventario que la empresa te ha facilitado y tu margen de ganancia estimado.</p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           { label: "Productos Asignados", value: stats.asignados, bg: "linear-gradient(135deg, #708090 0%, #4a5568 100%)" },
           { label: "Cantidad Vendida", value: stats.vendidos, bg: "linear-gradient(135deg, #B76E79 0%, #9d5a64 100%)" },
@@ -164,9 +201,31 @@ export default function MayoristaView({ consignaciones, loading, stats, nombre }
           </div>
         ))}
       </div>
+      </div>
 
       {/* Consignaciones */}
-      <div>
+      <div className="space-y-3">
+        <AnimatePresence>
+          {isTourOpen && (
+            <motion.div 
+              initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+              className="bg-white border border-[#b76e79]/30 rounded-xl p-4 shadow-sm mb-2"
+            >
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-8 h-8 rounded-full bg-[#b76e79] text-white flex items-center justify-center font-bold text-sm shadow-md shrink-0">3</div>
+                <h3 className="m-0 text-slate-700 font-sans font-semibold text-lg">Detalle de Consignaciones</h3>
+              </div>
+              <div className="pl-11">
+                <p className="text-sm text-slate-600 mb-2 mt-0 font-sans">Aquí puedes expandir cada bloque para monitorear qué productos tienes asignados, la cantidad vendida y la fecha límite para reportarlos.</p>
+                <div className="bg-slate-50 p-2 rounded-md border border-slate-200 flex gap-2 items-start">
+                  <Info size={14} className="text-slate-500 shrink-0 mt-0.5" />
+                  <p className="text-[12px] text-slate-600 m-0 leading-tight font-sans"><strong>Recuerda:</strong> Esta vista es de <strong>solo lectura</strong> para ti. Para modificar estos estados o reportar ventas, dirígete al módulo de "Pedidos".</p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        
         <h3 style={{ fontSize: "1.1rem", fontWeight: 400, color: "#1C1C1C", marginBottom: 12, fontFamily: "var(--font-marcellus)" }}>
           Mis Consignaciones
         </h3>

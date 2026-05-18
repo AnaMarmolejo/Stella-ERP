@@ -17,6 +17,7 @@ import SolicitudesTable from "./_components/SolicitudesTable";
 import CreateConsignacionModal from "./_components/CreateConsignacionModal";
 import PromoverMayoristaModal from "./_components/PromoverMayoristaModal";
 import MayoristaView from "./_components/MayoristaView";
+import TourBubbleToggle from "./_components/TourBubbleToggle";
 
 import { IConsignacion, ISolicitudMayorista } from "@lib/models";
 import Skeleton from "@/app/_components/ui/Skeleton";
@@ -37,6 +38,9 @@ function ConsignacionHydrator({ isAdmin, onTrigger }: { isAdmin: boolean, onTrig
 
 export default function ConsignacionesPage() {
   const { usuario, loading: authLoading } = useAuth();
+
+  // ─── Tour state ────────────────────────────────────────────────
+  const [isTourOpen, setIsTourOpen] = useState(false);
 
   // ─── Admin state ───────────────────────────────────────────────
   const [activeTab, setActiveTab] = useState<TabId>("consignaciones");
@@ -197,12 +201,14 @@ export default function ConsignacionesPage() {
       <div className="flex h-screen overflow-hidden" style={{ background: "var(--beige)" }}>
         <SidebarMenu />
         <main className="flex-1 px-4 sm:px-6 py-6 sm:py-8 overflow-y-auto" style={{ background: "var(--beige)" }}>
+          <TourBubbleToggle isOpen={isTourOpen} setIsOpen={setIsTourOpen} />
           <div className="mx-auto max-w-[1440px]">
             <MayoristaView
               consignaciones={mayoristaHook.consignaciones}
               loading={mayoristaHook.loading}
               stats={mayoristaHook.stats}
               nombre={usuario?.nombre?.split(" ")[0] ?? "Mayorista"}
+              isTourOpen={isTourOpen}
             />
           </div>
         </main>

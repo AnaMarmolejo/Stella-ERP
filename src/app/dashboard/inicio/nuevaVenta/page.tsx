@@ -9,7 +9,9 @@ import ProductosVenta from "./_components/ProductosVenta";
 import VentaResumen from "./_components/VentaResumen";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { createClient } from "@/utils/supabase/client";
-import { Mail } from "lucide-react"; // Importamos un ícono para el input
+import { Mail, Info } from "lucide-react"; 
+import { motion, AnimatePresence } from "framer-motion";
+import NuevaVentaTourBubble from "./_components/NuevaVentaTourBubble";
 
 function PedidoHydrator({
   onLoaded,
@@ -89,6 +91,8 @@ interface ProductoDisponible {
 
 export default function NuevaVentaPage() {
   const { usuario } = useAuth();
+  const isWholesaler = usuario?.id_rol === 3;
+  const [isTourOpen, setIsTourOpen] = useState(false);
   const [productos, setProductos] = useState<Producto[]>([]);
   const [clienteSeleccionado, setClienteSeleccionado] =
     useState<Cliente | null>(null);
@@ -206,6 +210,7 @@ export default function NuevaVentaPage() {
         className="flex-1 px-4 sm:px-6 py-6 sm:py-8 overflow-y-auto"
         style={{ background: "var(--beige)" }}
       >
+        {isWholesaler && <NuevaVentaTourBubble isOpen={isTourOpen} setIsOpen={setIsTourOpen} />}
         <div className="mx-auto max-w-[1440px] space-y-8">
           <header className="space-y-1">
             <div className="flex items-center gap-4">
@@ -247,59 +252,133 @@ export default function NuevaVentaPage() {
 
           <NuevaVentaHeader />
 
-          <VentaInfoForm
-            usuario={usuario}
-            onClienteChange={setClienteSeleccionado}
-            onFechaChange={setFecha}
-          />
+          <div className="space-y-3">
+            {isWholesaler && isTourOpen && (
+              <motion.div 
+                initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+                className="bg-white border border-[#b76e79]/30 rounded-xl p-4 shadow-sm mb-2"
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-8 h-8 rounded-full bg-[#b76e79] text-white flex items-center justify-center font-bold text-sm shadow-md shrink-0">1</div>
+                  <h3 className="m-0 text-slate-700 font-sans font-semibold text-lg">Información General</h3>
+                </div>
+                <div className="pl-11">
+                  <p className="text-sm text-slate-600 mb-2 mt-0 font-sans">Puedes seleccionar a tu cliente para una venta rápida (pago inmediato) o asignarle la venta para que quede registrada como cuenta por cobrar.</p>
+                  <div className="bg-red-50 p-2 rounded-md border border-red-100 flex gap-2 items-start">
+                    <Info size={14} className="text-red-500 shrink-0 mt-0.5" />
+                    <p className="text-[12px] text-red-800 m-0 leading-tight font-sans"><strong>Restricción:</strong> No puedes finalizar la venta sin seleccionar a un cliente válido de tu lista.</p>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+            <VentaInfoForm
+              usuario={usuario}
+              onClienteChange={setClienteSeleccionado}
+              onFechaChange={setFecha}
+            />
+          </div>
 
-          <ProductosVenta
-            productos={productos}
-            clienteSeleccionado={clienteSeleccionado}
-            usuario={usuario}
-            onAgregar={agregarProducto}
-            onEliminar={eliminarProducto}
-            onAumentar={aumentarCantidad}
-            onDisminuir={disminuirCantidad}
-            onActualizar={actualizarProducto}
-          />
+          <div className="space-y-3">
+            {isWholesaler && isTourOpen && (
+              <motion.div 
+                initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+                className="bg-white border border-[#b76e79]/30 rounded-xl p-4 shadow-sm mb-2"
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-8 h-8 rounded-full bg-[#b76e79] text-white flex items-center justify-center font-bold text-sm shadow-md shrink-0">2</div>
+                  <h3 className="m-0 text-slate-700 font-sans font-semibold text-lg">Catálogo y Carrito</h3>
+                </div>
+                <div className="pl-11">
+                  <p className="text-sm text-slate-600 mb-2 mt-0 font-sans">Añade los productos al carrito. Usa la barra de búsqueda o <strong>utiliza tu escáner de códigos de barras</strong> para encontrar los productos rápidamente.</p>
+                  <div className="bg-red-50 p-2 rounded-md border border-red-100 flex gap-2 items-start">
+                    <Info size={14} className="text-red-500 shrink-0 mt-0.5" />
+                    <p className="text-[12px] text-red-800 m-0 leading-tight font-sans"><strong>Restricción:</strong> El sistema no te dejará añadir más productos del stock físico que posees.</p>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+            <ProductosVenta
+              productos={productos}
+              clienteSeleccionado={clienteSeleccionado}
+              usuario={usuario}
+              onAgregar={agregarProducto}
+              onEliminar={eliminarProducto}
+              onAumentar={aumentarCantidad}
+              onDisminuir={disminuirCantidad}
+              onActualizar={actualizarProducto}
+            />
+          </div>
 
           {/* 🔥 NUEVA SECCIÓN: Captura de correo para ticket */}
-          {productos.length > 0 && (
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-              <h3 className="text-sm font-semibold text-[#4a5568] uppercase tracking-wide mb-4 flex items-center gap-2">
-                <Mail size={16} className="text-[#b76e79]" />
-                Envío de Ticket Digital (Resend)
-              </h3>
-              <div className="flex flex-col gap-2">
-                <input
-                  type="email"
-                  placeholder="ejemplo@correo.com"
-                  value={emailTicket}
-                  onChange={e => setEmailTicket(e.target.value)}
-                  className="w-full p-3 rounded-xl border border-slate-200 outline-none focus:border-[#b76e79] focus:ring-1 focus:ring-[#b76e79] transition-all text-[#4a5568]"
-                />
-                <p className="text-xs text-slate-400 ml-1">
-                  Ingresa el correo del cliente. Al confirmar la venta, se
-                  enviará el recibo automáticamente.
-                </p>
+          <div className="space-y-3">
+            {isWholesaler && isTourOpen && productos.length > 0 && (
+              <motion.div 
+                initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+                className="bg-white border border-[#b76e79]/30 rounded-xl p-4 shadow-sm mb-2"
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-8 h-8 rounded-full bg-slate-100 text-[#b76e79] flex items-center justify-center shadow-sm shrink-0">
+                    <Mail size={16} />
+                  </div>
+                  <h3 className="m-0 text-slate-700 font-sans font-semibold text-lg">Ticket Digital (Opcional)</h3>
+                </div>
+                <div className="pl-11">
+                  <p className="text-sm text-slate-600 mb-0 mt-0 font-sans">Si deseas automatizar el envío de remisión, ingresa aquí el correo de tu cliente. Si lo dejas vacío, solo se registrará la venta.</p>
+                </div>
+              </motion.div>
+            )}
+            {productos.length > 0 && (
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h3 className="text-sm font-semibold text-[#4a5568] uppercase tracking-wide mb-4 flex items-center gap-2">
+                  <Mail size={16} className="text-[#b76e79]" />
+                  Envío de Ticket Digital (Opcional)
+                </h3>
+                <div className="flex flex-col gap-2">
+                  <input
+                    type="email"
+                    placeholder="ejemplo@correo.com"
+                    value={emailTicket}
+                    onChange={e => setEmailTicket(e.target.value)}
+                    className="w-full p-3 rounded-xl border border-slate-200 outline-none focus:border-[#b76e79] focus:ring-1 focus:ring-[#b76e79] transition-all text-[#4a5568]"
+                  />
+                  <p className="text-xs text-slate-400 ml-1">
+                    Ingresa el correo del cliente. Al confirmar la venta, se
+                    enviará el recibo automáticamente.
+                  </p>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
           {/* 🔥 Pasamos el correo a VentaResumen mediante una nueva prop */}
-          <VentaResumen
-            productos={productos}
-            cliente={clienteSeleccionado}
-            vendedor={usuario?.nombre || "Usuario actual"}
-            idUsuario={usuario?.id || ""}
-            fecha={fecha}
-            esVentaMayorista={
-              usuario?.id_rol === 1 && !!clienteSeleccionado?.id_usuario
-            }
-            emailTicket={emailTicket} // <-- Recuerda agregar esta prop en la interfaz de VentaResumen
-            onConfirmed={handleVentaConfirmada}
-          />
+          <div className="space-y-3">
+            {isWholesaler && isTourOpen && (
+              <motion.div 
+                initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+                className="bg-white border border-[#b76e79]/30 rounded-xl p-4 shadow-sm mb-2"
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-8 h-8 rounded-full bg-[#b76e79] text-white flex items-center justify-center font-bold text-sm shadow-md shrink-0">3</div>
+                  <h3 className="m-0 text-slate-700 font-sans font-semibold text-lg">Resumen y Pago</h3>
+                </div>
+                <div className="pl-11">
+                  <p className="text-sm text-slate-600 mb-0 mt-0 font-sans">Revisa el subtotal, los descuentos, elige los métodos de pago y confirma la transacción para registrarla en el sistema.</p>
+                </div>
+              </motion.div>
+            )}
+            <VentaResumen
+              productos={productos}
+              cliente={clienteSeleccionado}
+              vendedor={usuario?.nombre || "Usuario actual"}
+              idUsuario={usuario?.id || ""}
+              fecha={fecha}
+              esVentaMayorista={
+                usuario?.id_rol === 1 && !!clienteSeleccionado?.id_usuario
+              }
+              emailTicket={emailTicket}
+              onConfirmed={handleVentaConfirmada}
+            />
+          </div>
         </div>
       </main>
     </div>

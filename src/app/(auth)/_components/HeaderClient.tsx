@@ -898,13 +898,10 @@ export default function HeaderClient({ user: userProp }: HeaderClientProps) {
                               setMobileMenu(false);
                             }}
                           />
-<<<<<<< HEAD
-=======
                           <NavBtn
                             icon={<Heart size={18} />}
                             label="Favoritos"
                           />
->>>>>>> b096784 (feat: implement dashboard orders module with stats, filtering, and tab navigation)
                         </>
                       )}
 

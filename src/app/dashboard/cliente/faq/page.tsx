@@ -11,6 +11,7 @@ import FaqCategories from "./_components/FaqCategories";
 import FaqAccordion from "./_components/FaqAccordion";
 import FaqLocation from "./_components/FaqLocation";
 import FaqWholesale from "./_components/FaqWholesale";
+import FaqManualMayorista from "./_components/FaqManualMayorista";
 import MothersDayBanner from "@/app/_components/MothersDayBanner";
 
 import {
@@ -1070,6 +1071,9 @@ export default function FaqPage() {
 
         {/* ── Accordion de preguntas ── */}
         <FaqAccordion items={currentSection.items} />
+
+        {/* ── Manual Operativo Mayorista (Solo id_rol === 3 o 1) ── */}
+        {(usuario?.id_rol === 3 || usuario?.id_rol === 1) && <FaqManualMayorista />}
 
         {/* ── Mapa y ubicación (siempre visible) ── */}
         <section>

@@ -10,6 +10,9 @@ import ClientModal from "./_components/ClientModal";
 import SidebarMenu from "@/app/_components/SideBarMenu";
 import { useCuentasPorCobrar } from "@lib/hooks/useCuentasPorCobrar";
 import { useAuth } from "@lib/hooks/useAuth";
+import { motion, AnimatePresence } from "framer-motion";
+import { Info } from "lucide-react";
+import TourBubbleToggle from "./_components/TourBubbleToggle";
 
 export default function AccountsPage() {
   const [openAccount, setOpenAccount] = useState(false);
@@ -21,7 +24,9 @@ export default function AccountsPage() {
 
   const { usuario, loading: authLoading } = useAuth();
   const isAdmin = usuario?.id_rol === 1;
+  const isWholesaler = usuario?.id_rol === 3;
   const usuarioId = typeof usuario?.id === "string" ? parseInt(usuario.id) : (usuario?.id as number | undefined) ?? null;
+  const [isTourOpen, setIsTourOpen] = useState(false);
 
   const {
     cuentas,
@@ -51,7 +56,8 @@ export default function AccountsPage() {
     <div className="flex h-screen overflow-hidden bg-[#f6f4ef]">
       <SidebarMenu />
 
-      <main className="flex-1 px-3 md:px-8 py-5 md:py-8 overflow-y-auto">
+      <main className="flex-1 px-3 md:px-8 py-5 md:py-8 overflow-y-auto relative">
+        {isWholesaler && <TourBubbleToggle isOpen={isTourOpen} setIsOpen={setIsTourOpen} />}
         <div className="mx-auto max-w-7xl space-y-6 md:space-y-8">
           <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-5">
             <div className="space-y-1">
@@ -105,24 +111,82 @@ export default function AccountsPage() {
                 <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#B76E79]" />
               </div>
             ) : (
-              <>
-                <AccountsStats cuentas={cuentas} />
+              <div className="space-y-4">
+                <div className="space-y-3">
+                  <AnimatePresence>
+                    {isWholesaler && isTourOpen && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+                        className="bg-white border border-[#b76e79]/30 rounded-xl p-4 shadow-sm"
+                      >
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className="w-8 h-8 rounded-full bg-[#b76e79] text-white flex items-center justify-center font-bold text-sm shadow-md shrink-0">1</div>
+                          <h3 className="m-0 text-slate-700 font-sans font-semibold text-lg">Resumen de Cuentas</h3>
+                        </div>
+                        <div className="pl-11">
+                          <p className="text-sm text-slate-600 mb-0 mt-0 font-sans">Visualiza rápidamente el dinero que tienes en la calle, el porcentaje de cuentas por cobrar y tu capital recuperado.</p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                  <AccountsStats cuentas={cuentas} />
+                </div>
 
-                <AccountsToolbar
-                  search={search}
-                  onSearchChange={setSearch}
-                  onAddAccount={() => setOpenAccount(true)}
-                  onAddPayment={() => handleOpenPayment()}
-                  onAddClient={() => setOpenClient(true)}
-                />
+                <div className="space-y-3">
+                  <AnimatePresence>
+                    {isWholesaler && isTourOpen && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+                        className="bg-white border border-[#b76e79]/30 rounded-xl p-4 shadow-sm"
+                      >
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className="w-8 h-8 rounded-full bg-[#b76e79] text-white flex items-center justify-center font-bold text-sm shadow-md shrink-0">2</div>
+                          <h3 className="m-0 text-slate-700 font-sans font-semibold text-lg">Gestión Rápida</h3>
+                        </div>
+                        <div className="pl-11">
+                          <p className="text-sm text-slate-600 mb-0 mt-0 font-sans">Añade nuevos clientes a tu libreta personal, registra nuevas cuentas por cobrar o abona pagos recibidos a cuentas existentes.</p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                  <AccountsToolbar
+                    search={search}
+                    onSearchChange={setSearch}
+                    onAddAccount={() => setOpenAccount(true)}
+                    onAddPayment={() => handleOpenPayment()}
+                    onAddClient={() => setOpenClient(true)}
+                  />
+                </div>
 
-                <AccountsTable
-                  search={search}
-                  cuentas={filteredByTab}
-                  onVerPagos={obtenerPagos}
-                  onAddPayment={handleOpenPayment}
-                />
-              </>
+                <div className="space-y-3">
+                  <AnimatePresence>
+                    {isWholesaler && isTourOpen && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+                        className="bg-white border border-[#b76e79]/30 rounded-xl p-4 shadow-sm"
+                      >
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className="w-8 h-8 rounded-full bg-[#b76e79] text-white flex items-center justify-center font-bold text-sm shadow-md shrink-0">3</div>
+                          <h3 className="m-0 text-slate-700 font-sans font-semibold text-lg">Historial de Créditos</h3>
+                        </div>
+                        <div className="pl-11">
+                          <p className="text-sm text-slate-600 mb-2 mt-0 font-sans">Monitorea a qué cliente le fiaste mercancía y el estado exacto de sus deudas.</p>
+                          <div className="bg-slate-50 p-2 rounded-md border border-slate-200 flex gap-2 items-start">
+                            <Info size={14} className="text-slate-500 shrink-0 mt-0.5" />
+                            <p className="text-[12px] text-slate-600 m-0 leading-tight font-sans"><strong>Tip:</strong> Expande cada fila (botón de la flecha) para ver todo el historial de pagos abonados o para agregar un nuevo pago específico a esa cuenta.</p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                  <AccountsTable
+                    search={search}
+                    cuentas={filteredByTab}
+                    onVerPagos={obtenerPagos}
+                    onAddPayment={handleOpenPayment}
+                  />
+                </div>
+              </div>
             )}
           </div>
         </div>
