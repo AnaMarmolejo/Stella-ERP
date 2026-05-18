@@ -17,6 +17,7 @@ import {
   CheckCircle2
 } from "lucide-react";
 import WholesaleCatalogModal from "./_components/WholesaleCatalogModal";
+import HelpTooltip from "./_components/HelpTooltip";
 
 // ── ESTILOS REUTILIZABLES (DESIGN TOKENS) ─────────────────────
 const STYLES = {
@@ -170,7 +171,15 @@ function WholesalerDashboard({ onDownloadClick }: { onDownloadClick: () => void 
     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 30 }}>
       {/* CARD: CATALOGO PDF */}
       <div style={cardStyle}>
-        <div style={iconBoxStyle}><FileText size={24} color={STYLES.slate} /></div>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+          <div style={iconBoxStyle}><FileText size={24} color={STYLES.slate} /></div>
+          <HelpTooltip
+            title="Catálogo de Precios"
+            message="Descarga el PDF actualizado con precios de mayoreo. Tu 25% de descuento como socia ya viene aplicado en todas las piezas."
+            tip="Los tiempos de envío varían. Realiza tus pedidos con al menos 3 días de anticipación a tus fechas de venta."
+            position="bottom"
+          />
+        </div>
         <h3 style={cardTitleStyle}>Catálogo de <em style={{color: STYLES.rose}}>Precios</em></h3>
         <p style={cardDescStyle}>Descarga el catálogo PDF actualizado con tus descuentos exclusivos del 25% aplicados.</p>
         <button 
@@ -183,7 +192,15 @@ function WholesalerDashboard({ onDownloadClick }: { onDownloadClick: () => void 
 
       {/* CARD: CONSIGNACIÓN */}
       <div style={cardStyle}>
-        <div style={iconBoxStyle}><Package size={24} color={STYLES.slate} /></div>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+          <div style={iconBoxStyle}><Package size={24} color={STYLES.slate} /></div>
+          <HelpTooltip
+            title="Modelo de Consignación"
+            message="Recibe mercancía sin pagar de inmediato. Solo pagas por las piezas que vendes. Al llegar tu fecha de corte, reporta vendidas y devuelve el resto."
+            tip="Si tienes consignaciones vencidas sin reportar o deudas atrasadas, el sistema bloqueará nuevas solicitudes."
+            position="bottom"
+          />
+        </div>
         <h3 style={cardTitleStyle}>Solicitar <em style={{color: STYLES.rose}}>Consignación</em></h3>
         <p style={cardDescStyle}>¿Buscas renovar stock sin inversión inicial? Solicita piezas bajo el modelo de consignación (Solo ZMG).</p>
         <Link href="/dashboard/inicio/consignaciones" style={{ textDecoration: "none" }}>
@@ -193,7 +210,15 @@ function WholesalerDashboard({ onDownloadClick }: { onDownloadClick: () => void 
 
       {/* CARD: BENEFICIOS ACTIVOS */}
       <div style={cardStyle}>
-        <div style={iconBoxStyle}><BadgePercent size={24} color={STYLES.slate} /></div>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+          <div style={iconBoxStyle}><BadgePercent size={24} color={STYLES.slate} /></div>
+          <HelpTooltip
+            title="Tus Beneficios Activos"
+            message="Como mayorista activa tienes: 25% de descuento permanente en todo el catálogo, envío prioritario y acceso a soporte dedicado."
+            tip="Revisa cada semana tu módulo de Cuentas por Cobrar para mantener activos todos tus beneficios."
+            position="bottom"
+          />
+        </div>
         <h3 style={cardTitleStyle}>Tus <em style={{color: STYLES.rose}}>Beneficios</em></h3>
         <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 15 }}>
           <BenefitItem text="25% de descuento automático" />
@@ -215,16 +240,24 @@ function ProspectLanding({ onCatalogClick }: { onCatalogClick: () => void }) {
           icon={<BadgePercent size={24} />} 
           title="Margen de Ganancia" 
           desc="Obtén un 25% de descuento fijo en todas tus compras desde el primer pedido." 
+          helpTitle="¿Cómo funciona el descuento?"
+          helpMessage="Al aprobarse tu perfil de mayorista, el 25% de descuento se aplica automáticamente en cada pedido que realices desde el catálogo."
+          helpTip="El descuento aplica desde tu primer pedido una vez que Stella aprueba tu cuenta."
         />
         <BenefitCard 
           icon={<ShoppingBag size={24} />} 
           title="Inventario Inteligente" 
           desc="Acceso a nuestro modelo de consignación para mayoristas consolidados en ZMG." 
+          helpTitle="Consignación: ¿Qué es?"
+          helpMessage="Recibe mercancía física sin pagar de inmediato. Solo pagas por lo que vendes. Al llegar tu fecha de corte devuelves lo que no vendiste."
+          helpTip="La consignación es validada por el administrador. No está disponible para cuentas nuevas desde el inicio."
         />
         <BenefitCard 
           icon={<Sparkles size={24} />} 
           title="Exclusividad" 
           desc="Piezas de edición limitada y colecciones de autor que no encontrarás en otros lados." 
+          helpTitle="Piezas Exclusivas"
+          helpMessage="Como socia Stella accedes a ediciones limitadas y colecciones de autor antes que el público general. Ideal para diferenciarte de la competencia."
         />
       </div>
 
@@ -423,7 +456,17 @@ const secondaryButtonStyle: React.CSSProperties = {
   transition: STYLES.transition
 };
 
-function BenefitCard({ icon, title, desc }: { icon: React.ReactNode, title: string, desc: string }) {
+function BenefitCard({
+  icon, title, desc,
+  helpTitle, helpMessage, helpTip
+}: {
+  icon: React.ReactNode;
+  title: string;
+  desc: string;
+  helpTitle?: string;
+  helpMessage?: string;
+  helpTip?: string;
+}) {
   return (
     <div style={cardStyle} onMouseEnter={(e) => {
       e.currentTarget.style.transform = "translateY(-8px)";
@@ -432,7 +475,17 @@ function BenefitCard({ icon, title, desc }: { icon: React.ReactNode, title: stri
       e.currentTarget.style.transform = "translateY(0)";
       e.currentTarget.style.boxShadow = STYLES.shadowBase;
     }}>
-      <div style={{ color: STYLES.rose }}>{icon}</div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+        <div style={{ color: STYLES.rose }}>{icon}</div>
+        {helpTitle && helpMessage && (
+          <HelpTooltip
+            title={helpTitle}
+            message={helpMessage}
+            tip={helpTip}
+            position="bottom"
+          />
+        )}
+      </div>
       <h4 style={{ fontFamily: "var(--font-serif, 'Cormorant Garamond', serif)", fontSize: "1.3rem", color: STYLES.slateDeep, margin: 0 }}>{title}</h4>
       <p style={{ ...cardDescStyle, fontSize: "0.85rem" }}>{desc}</p>
     </div>
