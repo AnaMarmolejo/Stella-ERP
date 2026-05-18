@@ -246,7 +246,10 @@ function NotificationBell({ router, id_rol }: { router: any; id_rol: number }) {
                 style={{ color: ROSE }}
                 onClick={() => {
                   setIsOpen(false);
-                  router.push("/dashboard/cliente/notificaciones");
+                  filteredNotificaciones
+                    .filter(n => !n.leida)
+                    .forEach(n => marcarLeida(n.id));
+                  // router.push("/dashboard/cliente/notificaciones");
                 }}
               >
                 Ver todas
