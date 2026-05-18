@@ -28,7 +28,7 @@ export default function PedidosStats({ pedidos }: Props) {
         return (
           <div
             key={idx}
-            className="relative flex flex-col items-center sm:items-start gap-1 sm:gap-4 p-2.5 sm:p-5 lg:p-6 rounded-xl sm:rounded-2xl shadow-sm sm:shadow-md text-white overflow-hidden group transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+            className="relative flex flex-col items-center sm:items-start gap-1 sm:gap-3 p-2.5 sm:p-4 lg:p-5 rounded-xl sm:rounded-2xl shadow-sm sm:shadow-md text-white overflow-hidden group transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
             style={{
               background: `linear-gradient(to bottom right, ${item.bgStart}, ${item.bgEnd})`,
             }}

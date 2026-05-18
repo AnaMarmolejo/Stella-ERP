@@ -61,8 +61,8 @@ function PedidosPageContent() {
     <div className="flex h-screen overflow-hidden" style={{ background: "var(--beige)" }}>
       <SideBarMenu />
 
-      <main className="flex-1 px-3 sm:px-6 py-4 sm:py-8 overflow-y-auto" style={{ background: "var(--beige)" }}>
-        <div className="mx-auto max-w-[1440px] space-y-4 sm:space-y-8">
+      <main className="flex-1 px-3 sm:px-4 py-4 sm:py-6 overflow-y-auto" style={{ background: "var(--beige)" }}>
+        <div className="mx-auto max-w-[1366px] space-y-4 sm:space-y-6">
 
           {/* HEADER */}
           <header className="space-y-1">
@@ -101,7 +101,7 @@ function PedidosPageContent() {
           </header>
 
           <div 
-            className="relative rounded-3xl p-4 sm:p-8 md:p-10 space-y-4 sm:space-y-6 border"
+            className="relative rounded-3xl p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6 border"
             style={{
               background: "var(--white)",
               border: "1px solid var(--border-subtle)",

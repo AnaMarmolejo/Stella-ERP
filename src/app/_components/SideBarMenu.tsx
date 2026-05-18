@@ -123,7 +123,7 @@ export default function SidebarMenu() {
         <aside
           className="flex"
           style={{
-            width: 260,
+            width: 240,
             position: "fixed",
             top: 0,
             left: 0,
@@ -319,7 +319,7 @@ export default function SidebarMenu() {
       <aside
         className="hidden md:flex"
         style={{
-          width: 260,
+          width: 240,
           minHeight: "100vh",
           background: `linear-gradient(165deg, var(--charcoal) 0%, #3d4a5c 60%, #2d3748 100%)`,
           display: "flex",
@@ -434,8 +434,8 @@ function SidebarContent({
           <Image
             src={LogoM}
             alt="Stella Logo"
-            width={onClose ? 140 : 130}
-            height={onClose ? 50 : 130}
+            width={onClose ? 140 : 120}
+            height={onClose ? 50 : 120}
             style={{
               filter: "brightness(0) invert(1)",
               opacity: onClose ? 0.9 : 0.85,
@@ -512,7 +512,7 @@ function SidebarContent({
                   alignItems: "center",
                   justifyContent: "flex-start",
                   gap: 12,
-                  padding: "clamp(10px,1.1vw,13px) 14px",
+                  padding: "clamp(8px,1vw,12px) 12px",
                   borderRadius: 12,
                   background: active
                     ? ROSE

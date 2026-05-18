@@ -442,7 +442,7 @@ const statsData = [
 ];
 
 // ─── Shared padding ──────────────────────────────────────────────────────────
-const SP = "clamp(44px,5.5vw,68px) clamp(20px,5vw,52px)";
+const SP = "clamp(32px,4vw,54px) clamp(16px,4vw,44px)";
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export default function HomeClient() {

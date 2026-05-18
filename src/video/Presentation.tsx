@@ -132,14 +132,21 @@ const textGlow = "drop-shadow-[0_10px_20px_rgba(246,243,239,0.9)]";
 
 function DesktopMockup({ src, className = "" }: { src: string, className?: string }) {
   return (
-    <div className={`w-full aspect-[16/10] bg-white rounded-2xl border border-[#E2E8F0] flex flex-col overflow-hidden relative ${shadowPremium} ${className}`}>
+    <div className={`w-full max-h-[68vh] aspect-[16/10] bg-white rounded-2xl border border-[#E2E8F0] flex flex-col overflow-hidden relative ${shadowPremium} ${className}`}>
       <div className="h-6 bg-[#F8FAFC] border-b border-[#E2E8F0] flex items-center px-4 gap-2 shrink-0">
          <div className="w-2.5 h-2.5 rounded-full bg-gray-200" />
          <div className="w-2.5 h-2.5 rounded-full bg-gray-200" />
          <div className="w-2.5 h-2.5 rounded-full bg-gray-200" />
       </div>
-      <div className="flex-1 bg-white relative overflow-hidden">
-         <img src={src} className="absolute inset-0 w-full h-full object-cover object-top" alt="Desktop Screenshot" />
+      <div className="flex-1 bg-white relative overflow-hidden group">
+         <motion.img 
+            initial={{ y: 0 }}
+            animate={{ y: "-60%" }}
+            transition={{ duration: 15, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
+            src={src} 
+            className="absolute top-0 left-0 w-full h-auto" 
+            alt="Desktop Screenshot" 
+         />
       </div>
     </div>
   );
@@ -147,9 +154,16 @@ function DesktopMockup({ src, className = "" }: { src: string, className?: strin
 
 function TabletMockup({ src, className = "" }: { src: string, className?: string }) {
   return (
-    <div className={`w-full aspect-[4/3] bg-white rounded-3xl border-[12px] border-gray-100 flex flex-col overflow-hidden relative ${shadowPremium} ${className}`}>
+    <div className={`w-full max-h-[65vh] aspect-[4/3] bg-white rounded-3xl border-[12px] border-gray-100 flex flex-col overflow-hidden relative ${shadowPremium} ${className}`}>
       <div className="flex-1 bg-white relative overflow-hidden">
-         <img src={src} className="absolute inset-0 w-full h-full object-cover object-top" alt="Tablet Screenshot" />
+         <motion.img 
+            initial={{ y: 0 }}
+            animate={{ y: "-50%" }}
+            transition={{ duration: 12, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
+            src={src} 
+            className="absolute top-0 left-0 w-full h-auto" 
+            alt="Tablet Screenshot" 
+         />
       </div>
     </div>
   );
@@ -157,10 +171,17 @@ function TabletMockup({ src, className = "" }: { src: string, className?: string
 
 function PhoneMockup({ src, className = "" }: { src: string, className?: string }) {
   return (
-    <div className={`w-full aspect-[9/19] bg-white rounded-[2.5rem] border-[10px] border-gray-100 flex flex-col overflow-hidden relative ${shadowPremium} ${className}`}>
+    <div className={`w-full max-h-[62vh] aspect-[9/19] bg-white rounded-[2.5rem] border-[10px] border-gray-100 flex flex-col overflow-hidden relative ${shadowPremium} ${className}`}>
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[40%] h-4 bg-gray-100 rounded-b-xl z-20" />
       <div className="flex-1 bg-white relative overflow-hidden">
-         <img src={src} className="absolute inset-0 w-full h-full object-cover object-top" alt="Phone Screenshot" />
+         <motion.img 
+            initial={{ y: 0 }}
+            animate={{ y: "-70%" }}
+            transition={{ duration: 18, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
+            src={src} 
+            className="absolute top-0 left-0 w-full h-auto" 
+            alt="Phone Screenshot" 
+         />
       </div>
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-1/3 h-1 bg-gray-200 rounded-full z-20" />
     </div>
@@ -171,14 +192,14 @@ function PhoneMockup({ src, className = "" }: { src: string, className?: string 
 
 function HeroSlide() {
   return (
-    <div className="w-full h-full flex flex-col pt-12 relative px-12 md:px-24 z-10">
+    <div className="w-full h-full flex flex-col pt-6 relative px-12 md:px-24 z-10">
       <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[60vw] h-[30vh] bg-white/60 blur-[60px] rounded-[100%] -z-10 pointer-events-none" />
 
-      <div className="w-full flex flex-col items-center text-center h-[22%] justify-center shrink-0">
+      <div className="w-full flex flex-col items-center text-center h-[16%] justify-center shrink-0 mb-2">
          <motion.p variants={textVariants} initial="hidden" animate="show" className={`${brandPink} tracking-[0.3em] uppercase text-xs md:text-sm font-semibold mb-3 ${textGlow}`}>
             STELLA ERP · JOYERÍA ARTESANAL
          </motion.p>
-         <motion.h1 variants={textVariants} initial="hidden" animate="show" className={`text-6xl md:text-7xl font-light ${textDeepSlate} leading-tight ${textGlow}`} style={{ fontFamily: "var(--font-marcellus), serif" }}>
+         <motion.h1 variants={textVariants} initial="hidden" animate="show" className={`text-5xl md:text-6xl font-light ${textDeepSlate} leading-tight ${textGlow}`} style={{ fontFamily: "var(--font-marcellus), serif" }}>
             Gestión <span className={`${brandPink} font-bold italic`}>Inteligente</span>
          </motion.h1>
       </div>
@@ -188,7 +209,7 @@ function HeroSlide() {
         transition={{ duration: 0.8, ease: fluidEase, delay: 0.15 }}
         className="flex-1 w-full flex justify-center items-end pb-4"
       >
-        <DesktopMockup src="/video/capturas/01_dashboard_desktop.png" className="max-w-[1150px]" />
+        <DesktopMockup src="/video/capturas/01_dashboard_desktop.png" className="max-w-[1250px]" />
       </motion.div>
     </div>
   );
@@ -196,12 +217,12 @@ function HeroSlide() {
 
 function CampanasSlide() {
   return (
-    <div className="w-full h-full flex flex-col relative px-12 md:px-24 z-10 pt-10">
+    <div className="w-full h-full flex flex-col relative px-12 md:px-24 z-10 pt-4">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[60vh] bg-white/40 blur-[80px] rounded-[100%] -z-10 pointer-events-none" />
 
-      <div className="w-full flex justify-between items-center h-[15%] z-20 shrink-0">
+      <div className="w-full flex justify-between items-center h-[10%] z-20 shrink-0 mb-4">
          <div className="flex-1">
-            <motion.h2 variants={textVariants} initial="hidden" animate="show" className={`text-5xl font-light ${textDeepSlate} ${textGlow}`} style={{ fontFamily: "var(--font-marcellus), serif" }}>
+            <motion.h2 variants={textVariants} initial="hidden" animate="show" className={`text-4xl md:text-5xl font-light ${textDeepSlate} ${textGlow}`} style={{ fontFamily: "var(--font-marcellus), serif" }}>
                Campañas y <span className={`${brandPink} font-bold`}>Promociones</span>
             </motion.h2>
          </div>
@@ -239,24 +260,24 @@ function ConsignacionesSlide() {
   return (
     <div className="w-full h-full flex items-center justify-center relative px-12 md:px-24 z-10 perspective-1000">
       
-      <motion.div 
-         initial={{ x: "-20%", rotateY: 25, rotateX: 10, scale: 0.85, opacity: 0 }} 
-         animate={{ x: "-10%", rotateY: 15, rotateX: 5, scale: 1, opacity: 1 }} 
-         transition={{ duration: 1, ease: fluidEase, delay: 0.1 }} 
-         className="absolute w-[850px] z-10"
-      >
-         <TabletMockup src="/video/capturas/03_consignaciones_tablet.png" />
-      </motion.div>
+       <motion.div 
+          initial={{ x: "-30%", rotateY: 25, rotateX: 10, scale: 0.8, opacity: 0 }} 
+          animate={{ x: "-20%", rotateY: 15, rotateX: 5, scale: 1, opacity: 1 }} 
+          transition={{ duration: 1, ease: fluidEase, delay: 0.1 }} 
+          className="absolute w-[750px] lg:w-[950px] z-10"
+       >
+          <TabletMockup src="/video/capturas/03_consignaciones_tablet.png" />
+       </motion.div>
 
-      <motion.div 
-         initial={{ x: "20%", opacity: 0 }} 
-         animate={{ x: "15%", opacity: 1 }} 
-         transition={{ duration: 0.8, ease: fluidEase, delay: 0.3 }} 
-         className={`absolute right-[8%] xl:right-[12%] w-[480px] bg-white/70 backdrop-blur-2xl p-10 rounded-[2.5rem] border border-white/80 z-30 shadow-[0_40px_80px_rgba(63,76,89,0.2)]`}
-      >
-         <motion.h2 variants={textVariants} initial="hidden" animate="show" className={`text-5xl md:text-6xl font-light ${textDeepSlate} mb-6 leading-tight`} style={{ fontFamily: "var(--font-marcellus), serif" }}>
-            Consignaciones <br/><span className={`${brandPink} font-bold`}>Mayoristas</span>
-         </motion.h2>
+       <motion.div 
+          initial={{ x: "30%", opacity: 0 }} 
+          animate={{ x: "20%", opacity: 1 }} 
+          transition={{ duration: 0.8, ease: fluidEase, delay: 0.3 }} 
+          className={`absolute right-[2%] xl:right-[4%] w-[380px] lg:w-[460px] bg-white/70 backdrop-blur-2xl p-10 rounded-[2.5rem] border border-white/80 z-30 shadow-[0_40px_80px_rgba(63,76,89,0.2)]`}
+       >
+          <motion.h2 variants={textVariants} initial="hidden" animate="show" className={`text-4xl md:text-5xl font-light ${textDeepSlate} mb-4 leading-tight`} style={{ fontFamily: "var(--font-marcellus), serif" }}>
+             Consignaciones <br/><span className={`${brandPink} font-bold`}>Mayoristas</span>
+          </motion.h2>
          <motion.p variants={textVariants} initial="hidden" animate="show" className={`text-xl ${textDeepSlate}/80 font-light`}>
             Trazabilidad exacta de joyería de alto valor B2B con un control absoluto del inventario en tránsito.
          </motion.p>
@@ -271,21 +292,21 @@ function BOMSlide() {
     <div className="w-full h-full flex flex-col pt-12 relative px-12 md:px-24 z-10 perspective-1000">
       <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[60vw] h-[30vh] bg-white/60 blur-[60px] rounded-[100%] -z-10 pointer-events-none" />
 
-      <div className="w-full flex flex-col items-center text-center h-[20%] justify-center shrink-0">
-         <motion.h2 variants={textVariants} initial="hidden" animate="show" className={`text-5xl md:text-6xl font-light ${textDeepSlate} mb-2 ${textGlow}`} style={{ fontFamily: "var(--font-marcellus), serif" }}>
-            Administración <span className={`${brandPink} font-bold`}>BOM</span>
-         </motion.h2>
-         <motion.p variants={textVariants} initial="hidden" animate="show" className={`text-xl ${textDeepSlate}/80 font-light ${textGlow}`}>
-            Control milimétrico de costos y materiales.
-         </motion.p>
-      </div>
+       <div className="w-full flex flex-col items-center text-center h-[16%] justify-center shrink-0 mb-4">
+          <motion.h2 variants={textVariants} initial="hidden" animate="show" className={`text-4xl md:text-5xl font-light ${textDeepSlate} mb-2 ${textGlow}`} style={{ fontFamily: "var(--font-marcellus), serif" }}>
+             Administración <span className={`${brandPink} font-bold`}>BOM</span>
+          </motion.h2>
+          <motion.p variants={textVariants} initial="hidden" animate="show" className={`text-lg ${textDeepSlate}/80 font-light ${textGlow}`}>
+             Control milimétrico de costos y materiales.
+          </motion.p>
+       </div>
 
       <motion.div 
         initial={{ y: "15%", rotateX: 10, rotateZ: -2, opacity: 0, scale: 0.9 }} animate={{ y: "0%", rotateX: 0, rotateZ: 0, opacity: 1, scale: 1 }} 
         transition={{ duration: 0.8, ease: fluidEase, delay: 0.15 }}
         className="flex-1 w-full flex justify-center items-center pb-8"
       >
-        <DesktopMockup src="/video/capturas/04_bom_desktop.png" className="max-w-[1050px]" />
+        <DesktopMockup src="/video/capturas/04_bom_desktop.png" className="max-w-[1200px]" />
       </motion.div>
     </div>
   );
@@ -293,17 +314,17 @@ function BOMSlide() {
 
 function RolesSlide() {
   return (
-    <div className="w-full h-full flex flex-col pt-6 relative px-12 md:px-24 z-10">
+    <div className="w-full h-full flex flex-col pt-2 relative px-12 md:px-24 z-10">
       <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[60vw] h-[30vh] bg-white/60 blur-[60px] rounded-[100%] -z-10 pointer-events-none" />
 
-      <div className="w-full flex flex-col items-center text-center h-[15%] justify-center shrink-0">
-         <motion.h2 variants={textVariants} initial="hidden" animate="show" className={`text-5xl md:text-6xl font-light ${textDeepSlate} mb-2 ${textGlow}`} style={{ fontFamily: "var(--font-marcellus), serif" }}>
-            Plataforma para <span className={`${brandPink} font-bold italic`}>cada rol</span>
-         </motion.h2>
-      </div>
+      <div className="w-full flex flex-col items-center text-center h-[10%] justify-center shrink-0 mb-2">
+          <motion.h2 variants={textVariants} initial="hidden" animate="show" className={`text-4xl md:text-5xl font-light ${textDeepSlate} mb-2 ${textGlow}`} style={{ fontFamily: "var(--font-marcellus), serif" }}>
+             Plataforma para <span className={`${brandPink} font-bold italic`}>cada rol</span>
+          </motion.h2>
+       </div>
 
       {/* Uso de shrink-0 y w-[360px] para forzar tamaños MASIVOS e idénticos sin importar el ancho de la ventana */}
-      <div className="flex-1 w-full flex justify-center items-start gap-10 pt-6 pb-4 overflow-hidden">
+      <div className="flex-1 w-full flex justify-center items-start gap-10 pt-0 pb-4 overflow-hidden">
         <RolePhone title="Admin" delay={0.1} color={brandPink} image="05_rol_admin_mobile.png" />
         <RolePhone title="Mayorista" delay={0.2} color={`text-[${slateGrayHex}]`} image="05_rol_mayorista_mobile.png" />
         <RolePhone title="Cliente" delay={0.3} color={brandPink} image="05_rol_cliente_mobile.png" />
@@ -319,7 +340,7 @@ function RolePhone({ title, delay, color, image }: any) {
   };
 
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col items-center gap-2">
       <motion.div 
          initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} 
          transition={{ duration: 0.5, ease: fluidEase, delay: delay + 0.2 }}
@@ -330,10 +351,10 @@ function RolePhone({ title, delay, color, image }: any) {
          </h3>
       </motion.div>
 
-      <motion.div 
-        variants={phoneReveal} initial="hidden" animate="show"
-        className="w-[360px] shrink-0" // TAMAÑO ABSOLUTO GIGANTE (Mismo tamaño siempre)
-      >
+       <motion.div 
+         variants={phoneReveal} initial="hidden" animate="show"
+         className="w-[230px] lg:w-[280px] shrink-0" 
+       >
          <PhoneMockup src={`/video/capturas/${image}`} />
       </motion.div>
     </div>

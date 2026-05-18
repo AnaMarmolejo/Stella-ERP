@@ -25,7 +25,7 @@ export default function PedidosToolbar({
   ];
 
   return (
-    <div className="bg-white p-6 rounded-[2rem] border border-black/5 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 w-full">
+    <div className="bg-white p-4 rounded-[2rem] border border-black/5 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4 w-full">
       
       {/* 🔎 Búsqueda con Icono Premium */}
       <div className="relative w-full md:max-w-md group">
@@ -36,7 +36,7 @@ export default function PedidosToolbar({
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Busca por cliente, id o estado..."
-          className="w-full bg-[#F8FAFC] border-2 border-transparent pl-14 pr-5 py-4 rounded-2xl text-sm font-bold text-[#1E293B] placeholder:text-[#94A3B8] focus:outline-none focus:bg-white focus:border-[#B76E79]/20 transition-all font-sans"
+          className="w-full bg-[#F8FAFC] border-2 border-transparent pl-14 pr-5 py-3 rounded-2xl text-sm font-bold text-[#1E293B] placeholder:text-[#94A3B8] focus:outline-none focus:bg-white focus:border-[#B76E79]/20 transition-all font-sans"
         />
         <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
             <Settings2 className="h-5 w-5 text-[#94A3B8]/30 group-hover:rotate-90 transition-transform duration-500" />

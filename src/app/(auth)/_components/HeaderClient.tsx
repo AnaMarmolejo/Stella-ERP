@@ -486,7 +486,7 @@ export default function HeaderClient({ user: userProp }: HeaderClientProps) {
         }}
       >
         {/* ── TOP BAR ── */}
-        <div className="flex items-center justify-between px-4 md:px-8 py-3 gap-2">
+        <div className="flex items-center justify-between px-4 md:px-6 py-2 gap-2">
           {/* Menu / Spacer fixed width to help centering */}
           {/* Menu / Spacer fixed width to help centering */}
           <div className="flex items-center w-auto md:w-[260px] md:flex-shrink-0">
@@ -762,7 +762,7 @@ export default function HeaderClient({ user: userProp }: HeaderClientProps) {
 
         {/* ── NAV DESKTOP ── */}
         <nav
-          className="hidden md:flex justify-center flex-wrap gap-1 px-8 py-3"
+          className="hidden md:flex justify-center flex-wrap gap-1 px-4 py-2"
           style={{ borderTop: `1px solid ${BORDER}` }}
         >
           {navItems.map(item => {
@@ -775,8 +775,8 @@ export default function HeaderClient({ user: userProp }: HeaderClientProps) {
                 whileTap={{ scale: 0.97 }}
                 className="rounded-full cursor-pointer transition-colors duration-150 font-medium"
                 style={{
-                  padding: "8px 20px",
-                  fontSize: 14,
+                  padding: "6px 14px",
+                  fontSize: 13,
                   border: active
                     ? `1.5px solid ${ROSE}`
                     : "1.5px solid transparent",
@@ -898,6 +898,13 @@ export default function HeaderClient({ user: userProp }: HeaderClientProps) {
                               setMobileMenu(false);
                             }}
                           />
+<<<<<<< HEAD
+=======
+                          <NavBtn
+                            icon={<Heart size={18} />}
+                            label="Favoritos"
+                          />
+>>>>>>> b096784 (feat: implement dashboard orders module with stats, filtering, and tab navigation)
                         </>
                       )}
 
