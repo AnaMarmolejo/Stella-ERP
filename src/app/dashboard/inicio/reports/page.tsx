@@ -19,8 +19,10 @@ import AverageTicket from "./_components/AverageTicket";
 import CollectionGoal from "./_components/CollectionGoal";
 import SalesVsCollection from "./_components/SalesVsCollection";
 import FinancialSummary from "./_components/FinancialSummary";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Skeleton from "@/app/_components/ui/Skeleton";
+import { Info } from "lucide-react";
+import TourBubbleToggle from "./_components/TourBubbleToggle";
 
 import { createClient } from "@/utils/supabase/client";
 import { useAuth } from "@/lib/hooks/useAuth";
@@ -41,6 +43,7 @@ export default function ReportsPage() {
   const today = new Date();
   
   const [activeTab, setActiveTab] = useState<PeriodoTab>("MENSUAL");
+  const [isTourOpen, setIsTourOpen] = useState(false);
   const [startDate, setStartDate] = useState(() => {
     const d = new Date(today.getFullYear(), today.getMonth(), 1);
     return fmtDate(d);
@@ -325,19 +328,38 @@ export default function ReportsPage() {
     <div className="flex h-screen overflow-hidden" style={{ background: "var(--beige)" }}>
       <SidebarMenu />
 
-      <main className="flex-1 px-4 sm:px-6 py-6 sm:py-8 overflow-y-auto" style={{ background: "var(--beige)" }}>
+      <main className="flex-1 px-4 sm:px-6 py-6 sm:py-8 overflow-y-auto relative" style={{ background: "var(--beige)" }}>
+        {isMayorista && <TourBubbleToggle isOpen={isTourOpen} setIsOpen={setIsTourOpen} />}
         <motion.div 
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           className="mx-auto w-full 2xl:max-w-[1920px] space-y-8"
         >
 
-          <ReportFilters
-            activeTab={activeTab} onTabChange={handleTabChange}
-            startDate={startDate} endDate={endDate}
-            onStartDateChange={setStartDate} onEndDateChange={setEndDate}
-            onExport={exportToExcel}
-          />
+          <div className="space-y-3">
+            <AnimatePresence>
+              {isMayorista && isTourOpen && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+                  className="bg-white border border-[#b76e79]/30 rounded-xl p-4 shadow-sm"
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-8 h-8 rounded-full bg-[#b76e79] text-white flex items-center justify-center font-bold text-sm shadow-md shrink-0">1</div>
+                    <h3 className="m-0 text-slate-700 font-sans font-semibold text-lg">Filtros de Reporte</h3>
+                  </div>
+                  <div className="pl-11">
+                    <p className="text-sm text-slate-600 mb-0 mt-0 font-sans">Ajusta las fechas para analizar tu actividad durante un periodo específico. Usa el botón superior para exportar todo a Excel.</p>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <ReportFilters
+              activeTab={activeTab} onTabChange={handleTabChange}
+              startDate={startDate} endDate={endDate}
+              onStartDateChange={setStartDate} onEndDateChange={setEndDate}
+              onExport={exportToExcel}
+            />
+          </div>
 
           {!loadingData ? (
             <motion.div 
@@ -348,56 +370,106 @@ export default function ReportsPage() {
               }}
               style={{ display: "flex", flexDirection: "column", gap: 32 }}
             >
-              {/* Dynamic KPI Array Grid */}
-              <ReportKPIs kpis={kpiList} />
-
-              {/* Middle Row Charts */}
-              <div className="grid grid-cols-1 xl:grid-cols-[1.5fr_1fr] gap-4 sm:gap-6 w-full">
-                
-
-                <motion.div variants={{ hidden: { opacity: 0, x: -10 }, show: { opacity: 1, x: 0 } }} style={{ minWidth: 0 }}>
-                  <SalesAreaChart 
-                    ventas={ventasAprobadas.map(v => ({
-                      fecha: v.fecha ? (v.fecha instanceof Date ? v.fecha.toISOString() : v.fecha) : "",
-                      total: v.total || 0
-                    }))}
-                    title={isAdmin ? "Ingresos Globales" : "Mis Gastos / Inversión"}
-                    subtitle={`Periodo ${startDate} al ${endDate}`}
-                    totalLabel={isAdmin ? "Total Ingresado" : "Total Invertido"}
-                  />
-                </motion.div>
-                <motion.div variants={{ hidden: { opacity: 0, x: 10 }, show: { opacity: 1, x: 0 } }}>
-                  <TopProfitProducts productos={productosGlob} />
-                </motion.div>
+              <div className="space-y-3">
+                <AnimatePresence>
+                  {isMayorista && isTourOpen && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+                      className="bg-white border border-[#b76e79]/30 rounded-xl p-4 shadow-sm"
+                    >
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-8 h-8 rounded-full bg-[#b76e79] text-white flex items-center justify-center font-bold text-sm shadow-md shrink-0">2</div>
+                        <h3 className="m-0 text-slate-700 font-sans font-semibold text-lg">Indicadores Principales</h3>
+                      </div>
+                      <div className="pl-11">
+                        <p className="text-sm text-slate-600 mb-0 mt-0 font-sans">Revisa rápidamente el total de tus compras y gastos, tus deudas pendientes y el volumen de artículos movilizados.</p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                {/* Dynamic KPI Array Grid */}
+                <ReportKPIs kpis={kpiList} />
               </div>
 
-              {/* Charts Row - Responsive */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
-                {/* Left Column: Top Products & Average Ticket */}
-                <motion.div 
-                  variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }} 
-                  className="lg:col-span-1 space-y-6"
-                >
-                  <SalesByProductChart 
-                    products={topProductsArray}
-                    title={isAdmin ? "Top Productos Vendidos" : "Mis Productos Favoritos"}
-                    subtitle={isAdmin ? "Artículos de mayor salida en la tienda" : "Artículos que más has comprado"}
-                  />
-                  {isAdmin && (
-                    <AverageTicket 
-                      totalSales={ventasTotales} 
-                      orderCount={filteredVentas.length} 
-                    />
+              <div className="space-y-3">
+                <AnimatePresence>
+                  {isMayorista && isTourOpen && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+                      className="bg-white border border-[#b76e79]/30 rounded-xl p-4 shadow-sm"
+                    >
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-8 h-8 rounded-full bg-[#b76e79] text-white flex items-center justify-center font-bold text-sm shadow-md shrink-0">3</div>
+                        <h3 className="m-0 text-slate-700 font-sans font-semibold text-lg">Gráficos de Inversión y Productos</h3>
+                      </div>
+                      <div className="pl-11">
+                        <p className="text-sm text-slate-600 mb-0 mt-0 font-sans">Monitorea la curva de tus compras e inversión a lo largo del tiempo y visualiza los productos que te han generado mejores márgenes.</p>
+                      </div>
+                    </motion.div>
                   )}
-                </motion.div>
+                </AnimatePresence>
+                <div className="grid grid-cols-1 xl:grid-cols-[1.5fr_1fr] gap-4 sm:gap-6 w-full">
+                  <motion.div variants={{ hidden: { opacity: 0, x: -10 }, show: { opacity: 1, x: 0 } }} style={{ minWidth: 0 }}>
+                    <SalesAreaChart 
+                      ventas={ventasAprobadas.map(v => ({
+                        fecha: v.fecha ? (v.fecha instanceof Date ? v.fecha.toISOString() : v.fecha) : "",
+                        total: v.total || 0
+                      }))}
+                      title={isAdmin ? "Ingresos Globales" : "Mis Compras / Inversión"}
+                      subtitle={`Periodo ${startDate} al ${endDate}`}
+                      totalLabel={isAdmin ? "Total Ingresado" : "Total Invertido"}
+                    />
+                  </motion.div>
+                  <motion.div variants={{ hidden: { opacity: 0, x: 10 }, show: { opacity: 1, x: 0 } }}>
+                    <TopProfitProducts productos={productosGlob} />
+                  </motion.div>
+                </div>
+              </div>
 
-                {/* Right Column: Main Sales Table */}
-                <motion.div 
-                  variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }} 
-                  className="lg:col-span-2"
-                >
-                  <SalesTable ventas={filteredVentas} loading={loadingData} />
-                </motion.div>
+              <div className="space-y-3">
+                <AnimatePresence>
+                  {isMayorista && isTourOpen && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+                      className="bg-white border border-[#b76e79]/30 rounded-xl p-4 shadow-sm"
+                    >
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-8 h-8 rounded-full bg-[#b76e79] text-white flex items-center justify-center font-bold text-sm shadow-md shrink-0">4</div>
+                        <h3 className="m-0 text-slate-700 font-sans font-semibold text-lg">Rendimiento Detallado</h3>
+                      </div>
+                      <div className="pl-11">
+                        <p className="text-sm text-slate-600 mb-0 mt-0 font-sans">Explora los artículos de mayor rotación a tu favor y revisa el historial completo de compras línea por línea.</p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
+                  {/* Left Column: Top Products & Average Ticket */}
+                  <motion.div 
+                    variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }} 
+                    className="lg:col-span-1 space-y-6"
+                  >
+                    <SalesByProductChart 
+                      products={topProductsArray}
+                      title={isAdmin ? "Top Productos Vendidos" : "Mis Productos Favoritos"}
+                      subtitle={isAdmin ? "Artículos de mayor salida en la tienda" : "Artículos que más has comprado"}
+                    />
+                    {isAdmin && (
+                      <AverageTicket 
+                        totalSales={ventasTotales} 
+                        orderCount={filteredVentas.length} 
+                      />
+                    )}
+                  </motion.div>
+
+                  {/* Right Column: Main Sales Table */}
+                  <motion.div 
+                    variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }} 
+                    className="lg:col-span-2"
+                  >
+                    <SalesTable ventas={filteredVentas} loading={loadingData} />
+                  </motion.div>
+                </div>
               </div>
 
             {/* Bottom Section: Goals & Intelligence - Responsive */}

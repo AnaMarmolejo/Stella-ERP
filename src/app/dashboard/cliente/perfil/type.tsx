@@ -27,4 +27,5 @@ export interface UserStats {
   pedidosTotales: number;
   montoPendiente: number;
   puntosLealtad: number;
+  nivelLealtad: string;
 }

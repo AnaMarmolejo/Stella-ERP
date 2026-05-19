@@ -901,6 +901,10 @@ export default function HeaderClient({ user: userProp }: HeaderClientProps) {
                               setMobileMenu(false);
                             }}
                           />
+                          <NavBtn
+                            icon={<Heart size={18} />}
+                            label="Favoritos"
+                          />
                         </>
                       )}
 

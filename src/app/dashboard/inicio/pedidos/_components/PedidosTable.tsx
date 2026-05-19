@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Pedido } from "../type";
 import { X, ChevronRight, ShoppingBag, Clock, Truck, BadgeDollarSign } from "lucide-react";
+import { toast } from "sonner";
 import type { Usuario } from "@/lib/models";
 
 type Props = {
@@ -28,10 +29,15 @@ export default function PedidosTable({ pedidos, usuario, onStatusChange }: Props
       });
       if (resp.ok) {
         setSelected({ ...selected, estado: nuevoEstado as Pedido["estado"] });
+        toast.success("Estado actualizado y guardado exitosamente");
         if (onStatusChange) onStatusChange();
+      } else {
+        const data = await resp.json();
+        toast.error(data.error || "Error al actualizar estado");
       }
     } catch (err) {
       console.error("Error updating status:", err);
+      toast.error("Error de conexión al actualizar");
     } finally {
       setUpdating(false);
     }

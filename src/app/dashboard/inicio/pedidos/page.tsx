@@ -9,10 +9,11 @@ import NuevoPedido from "./_components/NuevoPedido";
 import { Pedido, PedidoEstado } from "./type";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { useSearchParams } from "next/navigation";
-import { Loader2, Plus, ClipboardList, Sparkles, X } from "lucide-react";
+import { Loader2, Plus, ClipboardList, Sparkles, X, Info } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Suspense } from "react";
 import Skeleton from "@/app/_components/ui/Skeleton";
+import TourBubbleToggle from "./_components/TourBubbleToggle";
 
 function PedidosPageContent() {
   const { usuario } = useAuth();
@@ -23,6 +24,8 @@ function PedidosPageContent() {
   const [filtro, setFiltro] = useState<PedidoEstado | "TODOS">("TODOS");
   const [search, setSearch] = useState("");
   const [showImportBanner, setShowImportBanner] = useState(false);
+  const [isTourOpen, setIsTourOpen] = useState(false);
+  const isWholesaler = usuario?.id_rol === 3;
 
   const cargarPedidos = async () => {
     setLoading(true);
@@ -62,6 +65,7 @@ function PedidosPageContent() {
       <SideBarMenu />
 
       <main className="flex-1 px-3 sm:px-4 py-4 sm:py-6 overflow-y-auto" style={{ background: "var(--beige)" }}>
+        {isWholesaler && <TourBubbleToggle isOpen={isTourOpen} setIsOpen={setIsTourOpen} />}
         <div className="mx-auto max-w-[1366px] space-y-4 sm:space-y-6">
 
           {/* HEADER */}
@@ -163,29 +167,109 @@ function PedidosPageContent() {
                 >
                   {activeTab === "LISTA" ? (
                     <div className="space-y-4 sm:space-y-6">
-                      <PedidosStats pedidos={pedidosFiltrados} />
+                      <div className="space-y-3">
+                        <AnimatePresence>
+                          {isWholesaler && isTourOpen && (
+                            <motion.div 
+                              initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+                              className="bg-white border border-[#b76e79]/30 rounded-xl p-4 shadow-sm mb-2"
+                            >
+                              <div className="flex items-center gap-3 mb-2">
+                                <div className="w-8 h-8 rounded-full bg-[#b76e79] text-white flex items-center justify-center font-bold text-sm shadow-md shrink-0">1</div>
+                                <h3 className="m-0 text-slate-700 font-sans font-semibold text-lg">Resumen de Pedidos</h3>
+                              </div>
+                              <div className="pl-11">
+                                <p className="text-sm text-slate-600 mb-0 mt-0 font-sans">Observa el estado general de tus pedidos: cuántos están en tránsito, finalizados o cancelados.</p>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                        <PedidosStats pedidos={pedidosFiltrados} />
+                      </div>
                       
-                      <PedidosToolbar
-                        filtro={filtro}
-                        setFiltro={setFiltro}
-                        search={search}
-                        setSearch={setSearch}
-                      />
+                      <div className="space-y-3">
+                        <AnimatePresence>
+                          {isWholesaler && isTourOpen && (
+                            <motion.div 
+                              initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+                              className="bg-white border border-[#b76e79]/30 rounded-xl p-4 shadow-sm mb-2"
+                            >
+                              <div className="flex items-center gap-3 mb-2">
+                                <div className="w-8 h-8 rounded-full bg-[#b76e79] text-white flex items-center justify-center font-bold text-sm shadow-md shrink-0">2</div>
+                                <h3 className="m-0 text-slate-700 font-sans font-semibold text-lg">Búsqueda y Filtros</h3>
+                              </div>
+                              <div className="pl-11">
+                                <p className="text-sm text-slate-600 mb-0 mt-0 font-sans">Filtra la lista de abajo por estado o busca un pedido en específico utilizando su número de ID.</p>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                        <PedidosToolbar
+                          filtro={filtro}
+                          setFiltro={setFiltro}
+                          search={search}
+                          setSearch={setSearch}
+                        />
+                      </div>
       
-                      <PedidosTable 
-                        pedidos={pedidosFiltrados} 
-                        usuario={usuario}
-                        onStatusChange={cargarPedidos}
-                      />
+                      <div className="space-y-3">
+                        <AnimatePresence>
+                          {isWholesaler && isTourOpen && (
+                            <motion.div 
+                              initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+                              className="bg-white border border-[#b76e79]/30 rounded-xl p-4 shadow-sm mb-2"
+                            >
+                              <div className="flex items-center gap-3 mb-2">
+                                <div className="w-8 h-8 rounded-full bg-[#b76e79] text-white flex items-center justify-center font-bold text-sm shadow-md shrink-0">3</div>
+                                <h3 className="m-0 text-slate-700 font-sans font-semibold text-lg">Historial de Pedidos</h3>
+                              </div>
+                              <div className="pl-11">
+                                <p className="text-sm text-slate-600 mb-2 mt-0 font-sans">Visualiza el historial detallado de todo lo que has solicitado.</p>
+                                <div className="bg-slate-50 p-2 rounded-md border border-slate-200 flex gap-2 items-start">
+                                  <Info size={14} className="text-slate-500 shrink-0 mt-0.5" />
+                                  <p className="text-[12px] text-slate-600 m-0 leading-tight font-sans"><strong>Nota:</strong> Cuando tu pedido esté "En espera de pago", aquí es donde debes subir tu comprobante de depósito. Cuando esté "Finalizado", podrás descargar tu nota de remisión.</p>
+                                </div>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                        <PedidosTable 
+                          pedidos={pedidosFiltrados} 
+                          usuario={usuario}
+                          onStatusChange={cargarPedidos}
+                        />
+                      </div>
                     </div>
                   ) : (
-                    <NuevoPedido 
-                      usuarioId={usuario?.id as unknown as string | number} 
-                      onSuccess={() => {
-                        setActiveTab("LISTA");
-                        cargarPedidos();
-                      }} 
-                    />
+                    <div className="space-y-3">
+                      <AnimatePresence>
+                        {isWholesaler && isTourOpen && (
+                          <motion.div 
+                            initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+                            className="bg-white border border-[#b76e79]/30 rounded-xl p-4 shadow-sm mb-2"
+                          >
+                            <div className="flex items-center gap-3 mb-2">
+                              <div className="w-8 h-8 rounded-full bg-[#b76e79] text-white flex items-center justify-center font-bold text-sm shadow-md shrink-0">1</div>
+                              <h3 className="m-0 text-slate-700 font-sans font-semibold text-lg">Levantar Pedido</h3>
+                            </div>
+                            <div className="pl-11">
+                              <p className="text-sm text-slate-600 mb-2 mt-0 font-sans">Agrega los productos que deseas adquirir desde el catálogo base, define las cantidades y levanta el pedido formal.</p>
+                              <div className="bg-slate-50 p-2 rounded-md border border-slate-200 flex gap-2 items-start">
+                                <Info size={14} className="text-slate-500 shrink-0 mt-0.5" />
+                                <p className="text-[12px] text-slate-600 m-0 leading-tight font-sans"><strong>Recordatorio:</strong> Al levantar el pedido, los productos se descontarán de nuestro inventario principal en cuanto tu comprobante de pago sea validado por nosotros.</p>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                      <NuevoPedido 
+                        usuarioId={usuario?.id as unknown as string | number} 
+                        onSuccess={() => {
+                          setActiveTab("LISTA");
+                          cargarPedidos();
+                        }} 
+                      />
+                    </div>
                   )}
                 </motion.div>
               </AnimatePresence>

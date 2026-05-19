@@ -15,6 +15,7 @@ import { motion } from "framer-motion";
 import { ProductoCard } from "@/app/dashboard/cliente/types";
 import { obtenerProductosMayoreo } from "@/app/dashboard/cliente/actions";
 import { jsPDF } from "jspdf";
+import HelpTooltip from "./HelpTooltip";
 
 interface Props {
   isOpen: boolean;
@@ -499,12 +500,20 @@ export default function WholesaleCatalogModal({ isOpen, onClose }: Props) {
               Ajusta tus márgenes y genera tu catálogo personalizado.
             </p>
           </div>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-slate-100 rounded-full transition-colors"
-          >
-            <X size={24} color={STYLES.slate} />
-          </button>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <HelpTooltip
+              title="¿Cómo funciona este modal?"
+              message="Aquí puedes configurar el precio sugerido de venta para tus clientes. Define tu margen de ganancia y el sistema calculará automáticamente cuánto deberías cobrar por cada pieza."
+              tip="El PDF generado incluirá los precios ya con tu margen aplicado. Es confidencial: está hecho solo para distribuidoras Stella."
+              position="bottom"
+            />
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-slate-100 rounded-full transition-colors"
+            >
+              <X size={24} color={STYLES.slate} />
+            </button>
+          </div>
         </div>
 
         {/* Contenido */}
@@ -524,7 +533,9 @@ export default function WholesaleCatalogModal({ isOpen, onClose }: Props) {
           }}>
             <div style={{ flex: 1, minWidth: 200 }}>
               <label style={{
-                display: "block",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
                 fontSize: "0.75rem",
                 fontWeight: 600,
                 color: STYLES.slate,
@@ -533,6 +544,12 @@ export default function WholesaleCatalogModal({ isOpen, onClose }: Props) {
                 letterSpacing: "0.05em",
               }}>
                 Margen de Ganancia
+                <HelpTooltip
+                  title="Margen de ganancia"
+                  message="Define cuánto quieres ganar sobre tu costo de socio. En % sumas un porcentaje (ej. 30% sobre $100 = $130). En $ sumas una cantidad fija (ej. $50 sobre $100 = $150)."
+                  tip="El margen sugerido para mayoristas Stella es entre 25% y 40% dependiendo del tipo de pieza y tu mercado."
+                  position="bottom"
+                />
               </label>
               <div style={{ display: "flex", gap: 8 }}>
                 <div style={{
@@ -642,8 +659,27 @@ export default function WholesaleCatalogModal({ isOpen, onClose }: Props) {
                   <th style={thStyle}>Producto</th>
                   <th style={thStyle}>Categoría</th>
                   <th style={thStyle}>Material</th>
-                  <th style={thStyle}>Costo Socio</th>
-                  <th style={thStyle}>P. Sugerido</th>
+                  <th style={thStyle}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      Costo Socio
+                      <HelpTooltip
+                        title="Costo Socio"
+                        message="Es el precio exclusivo que tú pagas como mayorista Stella. Ya incluye tu 25% de descuento aplicado automáticamente."
+                        position="bottom"
+                      />
+                    </div>
+                  </th>
+                  <th style={thStyle}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      P. Sugerido
+                      <HelpTooltip
+                        title="Precio Sugerido de Venta"
+                        message="Es el precio que verán tus clientes en el catálogo PDF. Se calcula sumando tu margen de ganancia al Costo Socio."
+                        tip="Ejemplo: Costo Socio $200 + 30% margen = $260 para tu cliente."
+                        position="bottom"
+                      />
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody>

@@ -38,7 +38,7 @@ export interface IProducto {
 export interface OpcionDTO {
   id?: number;
   nombre: string;
-  tipo: "select" | "multi" | "text" | "color" | "bubbles";
+  tipo: "select" | "multi" | "text" | "color" | "bubbles" | "number";
   obligatorio: boolean;
   valores: { valor: string; precio_extra?: number; stock?: number }[];
 }

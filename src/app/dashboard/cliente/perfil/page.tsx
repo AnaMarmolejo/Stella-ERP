@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { createClient } from "@utils/supabase/client";
+import { LoyaltyService } from "@/lib/services/LoyaltyService";
 import HeaderClient from "@/app/(auth)/_components/HeaderClient";
 import Footer from "@/app/(auth)/_components/Footer";
 import ProfileHeader from "./_components/ProfileHeader";
@@ -17,7 +18,8 @@ export default function ProfilePage() {
   const [statsData, setStatsData] = useState<UserStats>({
     pedidosTotales: 0,
     montoPendiente: 0,
-    puntosLealtad: 0
+    puntosLealtad: 0,
+    nivelLealtad: "Cargando..."
   });
 
   useEffect(() => {
@@ -49,6 +51,11 @@ export default function ProfilePage() {
 
         const montoPendiente = cpcData?.reduce((acc, curr) => acc + (Number(curr.monto_pendiente) || 0), 0) || 0;
 
+        // 4. Obtener nivel de lealtad real del cliente
+        const loyaltyService = new LoyaltyService(supabase);
+        const { perfil: loyaltyPerfil } = await loyaltyService.obtenerPerfilLealtad(usuario.id as unknown as number);
+        const nivelLealtad = loyaltyPerfil?.nivel_actual?.name || "Stella Bronce";
+
         // Lógica de sanitización de datos
         const dbCorreo = usuario.correo || (usuario as any).email || "";
         const dbNombre = clienteData?.nombre || usuario.nombre || "";
@@ -70,7 +77,8 @@ export default function ProfilePage() {
         setStatsData({
           pedidosTotales: ventasData?.length || 0,
           montoPendiente: montoPendiente,
-          puntosLealtad: Math.floor((ventasData?.reduce((acc, v) => acc + (Number(v.total) || 0), 0) || 0) / 10) // 1 punto por cada 10 pesos
+          puntosLealtad: Math.floor((ventasData?.reduce((acc, v) => acc + (Number(v.total) || 0), 0) || 0) / 10), // 1 punto por cada 10 pesos
+          nivelLealtad
         });
 
       } catch (error) {

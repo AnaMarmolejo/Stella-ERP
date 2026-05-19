@@ -7,6 +7,7 @@ import RecentOrders      from "./_components/RecentOrders";
 import StockAlerts       from "./_components/StockAlerts";
 import SideWidgets       from "./_components/SideWidgets";
 import AIPredictionsWidget from "./_components/AIPredictionsWidget";
+import WholesaleTourBubble from "./_components/WholesaleTourBubble";
 
 import { useAuth } from "@/lib/hooks/useAuth";
 import { ShoppingBag } from "lucide-react";
@@ -37,6 +38,7 @@ export default function InicioPage() {
         overflowX: "hidden",
         background: "var(--beige)",
       }}>
+        {isWholesaler && <WholesaleTourBubble />}
         <div style={{
           padding: "clamp(14px, 2vw, 24px) clamp(14px, 2.5vw, 24px)",
           maxWidth: 1400,

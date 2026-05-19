@@ -129,7 +129,7 @@ export class PedidoService {
 
       const { error } = await this.client
         .from("pedidos")
-        .update({ estado: nuevoEstado, updated_at: new Date().toISOString() })
+        .update({ estado: nuevoEstado })
         .eq("id", id);
       
       if (error) return { success: false, error: error.message };

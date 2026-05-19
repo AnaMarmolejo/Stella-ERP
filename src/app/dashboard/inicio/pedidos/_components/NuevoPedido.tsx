@@ -257,12 +257,16 @@ export default function NuevoPedido({ usuarioId, onSuccess }: NuevoPedidoProps) 
                                     <Sparkles size={8} /> Personalizable
                                 </span>
                             )}
+                            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${p.stock_actual && p.stock_actual > 0 ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-500'}`}>
+                                {p.stock_actual && p.stock_actual > 0 ? `${p.stock_actual} en stock` : 'Agotado'}
+                            </span>
                         </div>
                       </div>
                     </div>
                     <button 
                       onClick={() => agregarAlCarrito(p)}
-                      className="p-3 bg-[#F6F4EF] text-[#B76E79] rounded-2xl hover:bg-[#B76E79] hover:text-white transition-all shadow-sm hover:rotate-90 duration-300"
+                      disabled={p.stock_actual === 0}
+                      className={`p-3 rounded-2xl transition-all shadow-sm duration-300 flex items-center justify-center shrink-0 ${p.stock_actual === 0 ? 'bg-slate-100 text-slate-300 cursor-not-allowed' : 'bg-[#F6F4EF] text-[#B76E79] hover:bg-[#B76E79] hover:text-white hover:rotate-90'}`}
                     >
                       <Plus size={22} />
                     </button>
@@ -509,7 +513,17 @@ export default function NuevoPedido({ usuarioId, onSuccess }: NuevoPedidoProps) 
                         />
                       )}
 
-                      {(op.tipo === "multi" || op.tipo === "color") && (
+                      {op.tipo === "number" && (
+                        <input 
+                          type="number"
+                          value={configuracionActual[op.nombre] || ""}
+                          onChange={(e) => setConfiguracionActual({...configuracionActual, [op.nombre]: e.target.value})}
+                          className="w-full bg-[#f8f9fa] border-2 border-transparent rounded-2xl px-5 py-4 text-sm font-medium focus:bg-white focus:border-[#B76E79]/20 outline-none transition text-[#708090]"
+                          placeholder="0"
+                        />
+                      )}
+
+                      {(op.tipo === "multi" || op.tipo === "color" || op.tipo === "bubbles") && (
                         <div className="flex flex-wrap gap-3">
                           {op.valores?.map((v, vIdx) => {
                              const hasPipe = v.valor?.includes('|');
