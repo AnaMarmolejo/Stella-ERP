@@ -1,31 +1,30 @@
 "use client";
 
 import { Suspense } from "react";
-import HeaderClient          from "@/app/(auth)/_components/HeaderClient";
-import HeroSection           from "./_components/HeroSection";            // <-- RECUPERAMOS EL VIEJO HERO INMERSIVO
-import TrustStrip            from "./_components/TrustStrip";             // Garantías
-import CategoriesSection     from "./_components/CategoriesSection";      // Más de catálogo (Filtros)
-import ProductCenterCarousel from "./_components/ProductCenterCarousel";  // Carrusel central destacado
-import QuoteSimple           from "./_components/QuoteSimple";            // Conexión de marca (Slogan Beige)
-import BestSellersSection    from "./_components/BestSellersSection";     // Prueba social (Lo más vendido)
+import HeaderClient from "@/app/(auth)/_components/HeaderClient";
+import HeroSection from "./_components/HeroSection"; // <-- RECUPERAMOS EL VIEJO HERO INMERSIVO
+import TrustStrip from "./_components/TrustStrip"; // Garantías
+import CategoriesSection from "./_components/CategoriesSection"; // Más de catálogo (Filtros)
+import ProductCenterCarousel from "./_components/ProductCenterCarousel"; // Carrusel central destacado
+import QuoteSimple from "./_components/QuoteSimple"; // Conexión de marca (Slogan Beige)
+import BestSellersSection from "./_components/BestSellersSection"; // Prueba social (Lo más vendido)
 import AlternatingCollections from "./_components/AlternatingCollections"; // Editorial + Productos
-import ReviewsSection        from "./_components/ReviewsSection";         // Confianza final
-import NewsletterSection     from "./_components/NewsletterSection";      // Lead capture
-import Footer                from "@auth/_components/Footer";
-import { useAuth }           from "@/lib/hooks/useAuth";
-
+import ReviewsSection from "./_components/ReviewsSection"; // Confianza final
+import NewsletterSection from "./_components/NewsletterSection"; // Lead capture
+import Footer from "@auth/_components/Footer";
+import { useAuth } from "@/lib/hooks/useAuth";
 
 export default function ClientDashboard() {
   const { usuario } = useAuth();
 
   return (
-    <div style={{ background: "#f6f4ef", minHeight: "100vh" }}>
+    <div
+      style={{ background: "#f6f4ef", minHeight: "100vh", overflowX: "hidden" }}
+    >
       {/* 1. NAVEGACIÓN */}
       <Suspense fallback={<div style={{ height: 60 }} />}>
         <HeaderClient user={usuario} />
       </Suspense>
-
-
 
       {/* 2. ATRACCIÓN: El Hero inmersivo que más te gustaba */}
       <HeroSection />

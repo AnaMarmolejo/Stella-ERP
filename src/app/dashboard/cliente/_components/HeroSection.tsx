@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import HeroStella from "@assets/HomePagePicture.jpeg"
+import HeroStella from "@assets/HomePagePicture.jpeg";
 
 interface HeroConfig {
   imageUrl: string;
@@ -51,8 +51,22 @@ function ProductPill({ product }: { product: ProductoBasic }) {
       }}
     >
       {product.url_imagen && (
-        <div style={{ width: 32, height: 32, borderRadius: 8, overflow: "hidden", flexShrink: 0 }}>
-          <Image src={HeroStella} alt={product.nombre} width={32} height={32} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
+        <div
+          style={{
+            width: 32,
+            height: 32,
+            borderRadius: 8,
+            overflow: "hidden",
+            flexShrink: 0,
+          }}
+        >
+          <Image
+            src={HeroStella}
+            alt={product.nombre}
+            width={32}
+            height={32}
+            style={{ objectFit: "cover", width: "100%", height: "100%" }}
+          />
         </div>
       )}
       <div>
@@ -905,7 +919,8 @@ export default function HeroSection({ idRol }: HeroSectionProps) {
                                 color: selected ? "#4a5568" : "#708090",
                                 overflow: "hidden",
                                 textOverflow: "ellipsis",
-                                whiteSpace: "nowrap",
+                                overflowWrap: "anywhere",
+                                wordBreak: "break-word",
                                 margin: 0,
                               }}
                             >

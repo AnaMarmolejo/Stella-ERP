@@ -58,8 +58,14 @@ export default function ProductCard({
           {/* Sheen line */}
           <div
             style={{
-              position: "absolute", top: 0, left: 0, right: 0, height: 1, zIndex: 2,
-              background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent)",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 1,
+              zIndex: 2,
+              background:
+                "linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent)",
             }}
           />
 
@@ -79,7 +85,8 @@ export default function ProductCard({
           {/* Overlay */}
           <div
             style={{
-              position: "absolute", inset: 0,
+              position: "absolute",
+              inset: 0,
               background: "rgba(74,85,104,0.04)",
               opacity: hovered ? 1 : 0,
               transition: "opacity 0.22s ease",
@@ -87,9 +94,26 @@ export default function ProductCard({
           />
 
           {/* Sparkle icon at bottom right matching the spec */}
-          <div style={{ position: "absolute", bottom: 12, right: 12, zIndex: 10, opacity: 0.8 }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="white" />
+          <div
+            style={{
+              position: "absolute",
+              bottom: 12,
+              right: 12,
+              zIndex: 10,
+              opacity: 0.8,
+            }}
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"
+                fill="white"
+              />
             </svg>
           </div>
         </div>
@@ -112,7 +136,13 @@ export default function ProductCard({
             </p>
           )}
 
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-end",
+            }}
+          >
             <h3
               style={{
                 fontFamily: "var(--font-marcellus), 'Marcellus', serif",
@@ -120,18 +150,26 @@ export default function ProductCard({
                 fontWeight: 400,
                 color: hovered ? "#4a5568" : "#2d3748",
                 margin: 0,
-                lineHeight: 1,
+                lineHeight: 1.1,
                 transition: "color 0.18s ease",
-                maxWidth: "65%",
-                whiteSpace: "nowrap",
+                maxWidth: "100%",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
+                overflowWrap: "anywhere",
+                wordBreak: "break-word",
               }}
             >
               {name}
             </h3>
 
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4 }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-end",
+                gap: 4,
+              }}
+            >
               {/* Stars */}
               {rating && (
                 <div style={{ display: "flex", gap: 1 }}>
@@ -140,8 +178,9 @@ export default function ProductCard({
                       key={i}
                       style={{
                         fontSize: "0.55rem",
-                        color: i < rating ? "#b76e79" : "rgba(112,128,144,0.25)",
-                        lineHeight: 1
+                        color:
+                          i < rating ? "#b76e79" : "rgba(112,128,144,0.25)",
+                        lineHeight: 1,
                       }}
                     >
                       ★
@@ -159,7 +198,7 @@ export default function ProductCard({
                   color: "#4a5568",
                   margin: 0,
                   lineHeight: 1,
-                  letterSpacing: "0.02em"
+                  letterSpacing: "0.02em",
                 }}
               >
                 ${price.toLocaleString("en-US", { minimumFractionDigits: 2 })}
