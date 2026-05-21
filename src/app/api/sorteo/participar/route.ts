@@ -9,7 +9,10 @@ export async function POST(req: Request) {
     const { id_sorteo, nombre, correo, telefono, preferencia } = body;
 
     if (!id_sorteo || !nombre || !correo) {
-      return NextResponse.json({ error: "Faltan campos obligatorios" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Faltan campos obligatorios" },
+        { status: 400 }
+      );
     }
 
     const supabase = await createClient();
@@ -25,18 +28,26 @@ export async function POST(req: Request) {
       correo,
       telefono,
       preferencia,
-      ip
+      ip,
     });
 
     if (error) {
       if (alreadyExists) {
-        return NextResponse.json({ error, alreadyExists: true }, { status: 409 });
+        return NextResponse.json(
+          { error, alreadyExists: true },
+          { status: 409 }
+        );
       }
+      console.error("Sorteo participar error:", error);
       return NextResponse.json({ error }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, data });
   } catch (error) {
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    console.error("Sorteo participar exception:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }
